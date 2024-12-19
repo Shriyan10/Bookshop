@@ -1,0 +1,13 @@
+{
+  "name": "bookshop/bookshop",
+  "type": "project",
+  "require": {
+    "latte/latte": "^3.0",
+    "ext-mysqli": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}
