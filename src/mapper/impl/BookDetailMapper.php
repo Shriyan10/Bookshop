@@ -8,7 +8,7 @@ use App\model\BookDetail;
 class BookDetailMapper implements RowMapper
 {
 
-    public function map($row)
+    public function map($row): BookDetail
     {
         return new BookDetail(
             $row["id"],
