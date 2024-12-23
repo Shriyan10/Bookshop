@@ -9,6 +9,7 @@ class BookDetail
     public $publisher;
     public $isbn;
     public $price;
+    public $imageUrl;
 
     /**
      * @param $id
@@ -17,8 +18,9 @@ class BookDetail
      * @param $publisher
      * @param $isbn
      * @param $price
+     * @param $imageUrl
      */
-    public function __construct($id, $title, $author, $publisher, $isbn, $price)
+    public function __construct($id, $title, $author, $publisher, $isbn, $price, $imageUrl)
     {
         $this->id = $id;
         $this->title = $title;
@@ -26,6 +28,7 @@ class BookDetail
         $this->publisher = $publisher;
         $this->isbn = $isbn;
         $this->price = $price;
+        $this->imageUrl = $imageUrl;
     }
 
 

@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Book Details</h1>
+    {foreach $bookDetails as $bookDetail}
+    <div class="row-box">
+        <a href="details/{$bookDetail->id}">
+            <img src="{$bookDetail->imageUrl}" alt="Mountain">
+            <p class="item-title">{$bookDetail->title}</p>
+        </a>
+        <p class="item-price">Price: Rs.{$bookDetail->price}</p>
+        <div class="item-button">
+            <button>+</button>
+            <a href="checkout.php" class="buy">Buy</a>
+        </div>
+    </div>
+
+
+    {/foreach}
+
+{*        <tr>*}
+{*            <td>{$bookDetail->id}</td>*}
+{*            <td>{$bookDetail->title}</td>*}
+{*            <td>{$bookDetail->author}</td>*}
+{*            <td>{$bookDetail->publisher}</td>*}
+{*            <td>{$bookDetail->isbn}</td>*}
+{*            <td>{$bookDetail->price}</td>*}
+{*        </tr>*}
+
+{*    </table>*}
+
+</body>
+</html>
