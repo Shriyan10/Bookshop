@@ -14,4 +14,4 @@ $params = [
 ];
 
 // render to output
-$latte->render('templates\book_details.latte', $params);
+$latte->render('templates\book_list.latte', $params);

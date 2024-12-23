@@ -16,7 +16,8 @@ class BookDetailMapper implements RowMapper
             $row["author"],
             $row["publisher"],
             $row["isbn"],
-            $row["price"]
+            $row["price"],
+            $row["image_url"]
         );
     }
 }

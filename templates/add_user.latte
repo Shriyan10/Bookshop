@@ -1,12 +1,55 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/styles.css">
     <title>Document</title>
 </head>
 <body>
+
+
+
 <h1>Add User</h1>
+
+<form>
+    <div>
+        <label for="first_name">First Name</label>
+        <input type="text" id="first-name" placeholder="Enter first name">
+
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last-name" placeholder="Enter last name">
+    </div>
+
+    <div>
+        <label for="email">Email</label>
+        <input type="text" id="email" placeholder="Enter email">
+    </div>
+
+    <div>
+        <label for="password">Password</label>
+        <input type="text" id="password" min="8" placeholder="Enter password">
+    </div>
+
+    <div>
+        <input type="radio" name="select" id="admin-type">
+        <label for="admin-type">Admin</label>
+
+        <input type="radio" name="select" id="user-type">
+        <label for="user-type">User</label>
+    </div>
+
+    <div>
+        <label for="address">Address</label>
+        <input type="text" id="address" placeholder="Enter address">
+    </div>
+
+    <div>
+        <label for="contact-no">Contact No</label>
+        <input type="text" id="contact-no" placeholder="Enter contact no">
+    </div>
+
+</form>
+
 </body>
 </html>
