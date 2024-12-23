@@ -7,7 +7,7 @@ use App\Model\Role;
 
 class RoleMapper implements RowMapper {
 
-    public function map($row)
+    public function map($row): Role
     {
         return new Role(
             $row["id"],
