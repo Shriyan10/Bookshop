@@ -6,6 +6,20 @@ use mysqli;
 
 class Database
 {
+    public function queryAll($query, $mapper)
+    {
+        $connection = $this->connect();
+        $result = $connection->query($query);
+        $objects = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $object = $mapper->map($row);
+                array_push($objects, $object);
+            }
+        }
+        return $objects;
+    }
+
     public function connect()
     {
         $servername = "localhost";
@@ -23,22 +37,11 @@ class Database
         return $conn;
     }
 
-    public function queryAll($query, $mapper){
+    public function insert(string $query, array $params)
+    {
+        $query = sprintf($query, ...$params);
         $connection = $this->connect();
-        $result = $connection->query($query);
-        $objects = array();
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $object = $mapper->map($row);
-                array_push($objects, $object);
-            }
-        }
-        return $objects;
-    }
-
-    public function insert(string $query){
-        $connection = $this->connect();
-      return $connection->query($query);
+        return $connection->query($query);
     }
 }
 

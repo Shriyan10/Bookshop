@@ -13,11 +13,11 @@ class BookDetailMapper implements RowMapper
         return new BookDetail(
             $row["id"],
             $row["title"],
-            $row["image_url"],
             $row["author"],
             $row["publisher"],
             $row["isbn"],
-            $row["price"]
+            $row["price"],
+            $row["image_url"]
         );
     }
 }
