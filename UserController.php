@@ -8,7 +8,7 @@ $latte = new Latte\Engine;
 
 $database = new Database();
 
-$users = $database -> queryAll("SELECT * FROM users", new UserMapper());
+$users = $database -> queryAll("SELECT u.id, u.contact_no, u.first_name, u.last_name, u.email, u.password, u.address, r.name as role from users u INNER JOIN roles r ON u.role_id = r.id", new UserMapper());
 
 $params = [
     'users' => $users,
