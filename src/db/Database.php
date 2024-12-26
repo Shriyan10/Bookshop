@@ -35,5 +35,10 @@ class Database
         }
         return $objects;
     }
+
+    public function insert(string $query){
+        $connection = $this->connect();
+      return $connection->query($query);
+    }
 }
 

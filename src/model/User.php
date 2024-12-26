@@ -3,8 +3,8 @@
 namespace App\model;
 class User
 {
-    public $id;
-    public $firstName;
+    public int $id;
+    public string $firstName;
     public $lastName;
     public $email;
     public $password;
