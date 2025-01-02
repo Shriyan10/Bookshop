@@ -1,15 +1,21 @@
 <?php
+global $database;
 require 'vendor/autoload.php';
 
 use App\Db\Database;
+use App\mapper\impl\BookDetailMapper;
 use App\model\BookDetail;
 
 $latte = new Latte\Engine;
+$database = new Database();
+
+$query = "SELECT * FROM book_details WHERE id=".$_GET['bookId'];
+$bookDetail = $database->queryOne($query, new BookDetailMapper());
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $bookDetail = new BookDetail(
-            null,
+            $_GET['bookId'],
             $_POST['title'] ?? null,
             $_POST['author'] ?? null,
             $_POST['publisher'] ?? null,
@@ -17,17 +23,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['price'] ?? null,
             $_POST['imageUrl'] ?? null
         );
-        $database = new Database();
 
         $result = $database->query(
-            "INSERT INTO book_details(title, image_url, author, publisher, isbn, price) VALUES('%s','%s','%s','%s', '%s', %d)",
+            "UPDATE book_details SET title='%s', image_url='%s', author='%s', publisher='%s', isbn='%s', price=%d where id=%d",
             [
                 $bookDetail->getTitle(),
                 $bookDetail->getImageUrl(),
                 $bookDetail->getAuthor(),
                 $bookDetail->getPublisher(),
                 $bookDetail->getIsbn(),
-                $bookDetail->getPrice()
+                $bookDetail->getPrice(),
+                $bookDetail->getId()
             ],
         );
         if ($result) {
@@ -38,6 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$params = [];
+$params = [
+    'bookDetail' => $bookDetail
+];
+
 // render to output
-$latte->render('templates\add_book.latte', $params);
+$latte->render('templates\edit_book.latte', $params);

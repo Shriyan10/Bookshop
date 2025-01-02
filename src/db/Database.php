@@ -20,6 +20,18 @@ class Database
         return $objects;
     }
 
+    public function queryOne($query, $mapper)
+    {
+        $connection = $this->connect();
+        $result = $connection->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                return $mapper->map($row);
+            }
+        }
+        return null;
+    }
+
     public function connect()
     {
         $servername = "localhost";
@@ -37,7 +49,7 @@ class Database
         return $conn;
     }
 
-    public function insert(string $query, array $params)
+    public function query(string $query, array $params)
     {
         $query = sprintf($query, ...$params);
         $connection = $this->connect();

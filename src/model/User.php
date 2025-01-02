@@ -7,7 +7,7 @@ class User
     public string $firstName;
     public string $lastName;
     public string $email;
-    public string $password;
+    public string|null $password;
     public int|string $roleId;
     public string $address;
     public int $contactNo;
@@ -22,7 +22,7 @@ class User
      * @param string $password
      * @param int $roleId
      */
-    public function __construct(int|null $id,  string $firstName, string $lastName,  string $email, string $password, int|string $roleId, string $address, int $contactNo)
+    public function __construct(int|null $id,  string $firstName, string $lastName,  string $email, string|null $password, int|string $roleId, string $address, int $contactNo)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -94,7 +94,7 @@ class User
         $this->lastName = $lastName;
     }
 
-    public function getPassword(): string
+    public function getPassword(): string|null
     {
         return $this->password;
     }

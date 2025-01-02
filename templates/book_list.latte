@@ -19,21 +19,23 @@
             <button>+</button>
             <a href="checkout.php" class="buy">Buy</a>
         </div>
+        <div>
+            <form method="POST">
+                <input type="hidden" name="type" value="EDIT" />
+                <input type="hidden" name="bookId" value="{$bookDetail->id}" />
+                <button>Edit</button>
+            </form>
+            <form method="POST">
+                <input type="hidden" name="type" value="DELETE" />
+                <input type="hidden" name="bookId" value="{$bookDetail->id}" />
+                <button>Delete</button>
+            </form>
+        </div>
     </div>
 
 
     {/foreach}
 
-{*        <tr>*}
-{*            <td>{$bookDetail->id}</td>*}
-{*            <td>{$bookDetail->title}</td>*}
-{*            <td>{$bookDetail->author}</td>*}
-{*            <td>{$bookDetail->publisher}</td>*}
-{*            <td>{$bookDetail->isbn}</td>*}
-{*            <td>{$bookDetail->price}</td>*}
-{*        </tr>*}
-
-{*    </table>*}
 
 </body>
 </html>

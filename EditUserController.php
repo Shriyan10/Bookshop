@@ -3,20 +3,24 @@ require 'vendor/autoload.php';
 
 use App\Db\Database;
 use App\mapper\impl\RoleMapper;
+use App\mapper\impl\UserMapper;
 use App\model\User;
 
 $latte = new Latte\Engine;
 $database = new Database();
 $roles = $database -> queryAll("SELECT * FROM roles", new RoleMapper());
 
+$query = "SELECT * FROM users WHERE id=".$_GET['userId'];
+$user = $database->queryOne($query, new UserMapper());
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $user = new User(
-            null,
+            $_GET['userId'],
             $_POST['firstName'] ?? null,
             $_POST['lastName'] ?? null,
             $_POST['email'] ?? null,
-            $_POST['password'] ?? null,
+            null,
             $_POST['roleId'] ?? null,
             $_POST['address'] ?? null,
             $_POST['contactNo'] ?? null
@@ -24,15 +28,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         $result = $database->query(
-            "INSERT INTO users(first_name, last_name, email, password, role_id, address, contact_no) VALUES('%s','%s','%s','%s', %d, '%s', %d)",
+            "UPDATE users SET first_name='%s', last_name='%s', email='%s', role_id=%d, address='%s', contact_no=%d where id=%d",
             [
                 $user->getFirstName(),
                 $user->getLastName(),
                 $user->getEmail(),
-                $user->getPassword(),
                 $user->getRoleId(),
                 $user->getAddress(),
-                $user->getContactNo()
+                $user->getContactNo(),
+                $user->getId()
             ],
         );
         if ($result) {
@@ -43,7 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$params = ['roles' => $roles];
+$params = [
+    'roles' => $roles,
+    'user' => $user
+];
 
 // render to output
-$latte->render('templates\add_user.latte', $params);
+$latte->render('templates\edit_user.latte', $params);
