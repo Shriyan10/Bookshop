@@ -12,6 +12,7 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Actions</th>
         </tr>
 
         {foreach $roles as $role}
@@ -19,6 +20,18 @@
         <tr>
             <td>{$role->id}</td>
             <td>{$role->name}</td>
+            <td>
+                <form method="POST">
+                    <input type="hidden" name="type" value="EDIT" />
+                    <input type="hidden" name="roleId" value="{$role->id}" />
+                    <button>Edit</button>
+                </form>
+                <form method="POST">
+                    <input type="hidden" name="type" value="DELETE" />
+                    <input type="hidden" name="roleId" value="{$role->id}" />
+                    <button>Delete</button>
+                </form>
+            </td>
         </tr>
 
         {/foreach}
