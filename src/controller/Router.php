@@ -49,20 +49,6 @@ class Router
         }
 
 
-        if ($this->endsWith($path, 'users')) {
-            $userController->getAllUsers();
-        } else if (str_contains($path, 'users/edit?userId=')) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $userController->updateUser($_GET['userId']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $userController->getUser($_GET['userId']);
-            }
-        }
-        else if (str_contains($path, 'users/delete?userId=')) {
-            $userController->deleteUser($_GET['userId']);
-        }
-    }
-
     function endsWith($string, $endString): bool
     {
         $len = strlen($endString);
