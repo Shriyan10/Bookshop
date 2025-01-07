@@ -37,24 +37,24 @@ class Router
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $userController->getUser($_GET['userId']);
             }
-        }
-        else if (str_contains($path, 'users/delete?userId=')) {
+        } else if (str_contains($path, 'users/delete?userId=')) {
             $userController->deleteUser($_GET['userId']);
-        }else if (str_contains($path, 'roles/delete?roleId=')) {
+        } else if (str_contains($path, 'roles/delete?roleId=')) {
             $roleController->deleteRole($_GET['roleId']);
-        }else if ($this->endsWith($path, '404')) {
-            $this -> latte->render('templates\404.latte', []);
-        }else {
-            $this -> latte->render('templates\404.latte', []);
+        } else if ($this->endsWith($path, '404')) {
+            $this->latte->render('templates\404.latte', []);
+        } else {
+            $this->latte->render('templates\404.latte', []);
         }
 
 
-    function endsWith($string, $endString): bool
-    {
-        $len = strlen($endString);
-        if ($len == 0) {
-            return true;
+        function endsWith($string, $endString): bool
+        {
+            $len = strlen($endString);
+            if ($len == 0) {
+                return true;
+            }
+            return (substr($string, -$len) === $endString);
         }
-        return (substr($string, -$len) === $endString);
     }
 }

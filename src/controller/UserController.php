@@ -20,7 +20,6 @@ class UserController
 
 function getAllUsers(): void
 {
-    global $latte;
     $database = new Database();
     $query = "SELECT * FROM users";
 
@@ -48,7 +47,7 @@ function getAllUsers(): void
     ];
 
 // render to output
-    $latte->render('templates\users\users.latte', $params);
+    $this -> $latte->render('templates\users\users.latte', $params);
 }
 
 
