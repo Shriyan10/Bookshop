@@ -80,7 +80,7 @@ class UserController
                 ],
             );
             if ($result) {
-                header("Location: http://localhost/bookshop/users");
+                header("Location: http://localhost/bookshop/users/");
             }
         } catch (Exception $e) {
             var_dump($e);
@@ -94,7 +94,7 @@ class UserController
             $database = new Database();
             $result = $database->query("DELETE FROM users where id=%d", [$userId]);
             if ($result) {
-                header("Location: http://localhost/bookshop/users");
+                header("Location: http://localhost/bookshop/users/");
             }
         } catch (Exception $e) {
             var_dump($e);
@@ -145,7 +145,7 @@ class UserController
             );
 
             if ($result) {
-                header("Location: http://localhost/bookshop/users");
+                header("Location: http://localhost/bookshop/users/");
             }
         } catch (Exception $e) {
             var_dump($e);

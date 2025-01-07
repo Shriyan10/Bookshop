@@ -19,11 +19,6 @@ class Router
 
     function route(string $path): void
     {
-        // controllers
-
-        $userController = new UserController($this->latte);
-
-
         // home
         if ($this->endsWith($path, 'bookshop/')) {
             echo "<h1>Your in the home page</h1>";
@@ -35,23 +30,8 @@ class Router
         }
 
         // users
-        else if ($this->endsWith($path, 'users')) {
-            $userController->getAllUsers();
-        }else if ($this->endsWith($path, 'users/save')) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $userController->saveUser();
-            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $userController->saveUserPage();
-            }
-        }
-        else if (str_contains($path, 'users/edit?userId=')) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $userController->updateUser($_GET['userId']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $userController->getUser($_GET['userId']);
-            }
-        } else if (str_contains($path, 'users/delete?userId=')) {
-            $userController->deleteUser($_GET['userId']);
+        elseif (str_contains($path, 'bookshop/users/')) {
+            $this -> user($path);
         }
 
         // 404 page
@@ -83,6 +63,30 @@ class Router
             $roleController->deleteRole($_GET['roleId']);
         }
     }
+
+    function user(string $path): void
+    {
+        $userController = new UserController($this->latte);
+    if ($this->endsWith($path, 'users/')) {
+        $userController->getAllUsers();
+    }else if ($this->endsWith($path, '/save')) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userController->saveUser();
+        } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userController->saveUserPage();
+        }
+    }
+    else if (str_contains($path, '/edit?userId=')) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userController->updateUser($_GET['userId']);
+        } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userController->getUser($_GET['userId']);
+        }
+    } else if (str_contains($path, '/delete?userId=')) {
+        $userController->deleteUser($_GET['userId']);
+    }
+    }
+
 
     function endsWith($string, $endString): bool
     {
