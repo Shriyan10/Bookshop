@@ -30,7 +30,7 @@ class Router
         // roles
         elseif ($this->endsWith($path, 'roles')) {
             $roleController->getAllRoles();
-        } else if (str_contains($path, 'roles/save')) {
+        } else if ($this->endsWith($path, 'roles/save')) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $roleController->saveRole();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
