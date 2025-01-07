@@ -14,11 +14,7 @@
             <td>{$role->id}</td>
             <td>{$role->name}</td>
             <td>
-                <form method="POST">
-                    <input type="hidden" name="type" value="EDIT" />
-                    <input type="hidden" name="roleId" value="{$role->id}" />
-                    <button>Edit</button>
-                </form>
+               <a href="roles/edit?roleId={$role->id}">Edit</a>
                 <form method="POST">
                     <input type="hidden" name="type" value="DELETE" />
                     <input type="hidden" name="roleId" value="{$role->id}" />
