@@ -39,4 +39,4 @@ $params = [
 ];
 
 // render to output
-$latte->render('templates\edit_role.latte', $params);
+$latte->render('templates\roles\edit_role.latte', $params);

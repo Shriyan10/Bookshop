@@ -49,4 +49,4 @@ $params = [
 ];
 
 // render to output
-$latte->render('templates\edit_book.latte', $params);
+$latte->render('templates\books\edit_book.latte', $params);

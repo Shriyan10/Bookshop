@@ -40,4 +40,4 @@ $params = [
 ];
 
 // render to output
-$latte->render('templates\users.latte', $params);
+$latte->render('templates\users\users.latte', $params);

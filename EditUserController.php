@@ -53,4 +53,4 @@ $params = [
 ];
 
 // render to output
-$latte->render('templates\edit_user.latte', $params);
+$latte->render('templates\users\edit_user.latte', $params);

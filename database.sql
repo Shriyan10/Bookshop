@@ -6,7 +6,8 @@ create table book_details
     author    varchar(200) null,
     publisher varchar(200) null,
     isbn      varchar(20)  null,
-    price     int(10)      null
+    price     int(10)      null,
+    image_url varchar(255) null
 );
 
 create table books

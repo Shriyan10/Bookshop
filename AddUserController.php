@@ -46,4 +46,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $params = ['roles' => $roles];
 
 // render to output
-$latte->render('templates\add_user.latte', $params);
+$latte->render('templates\users\add_user.latte', $params);

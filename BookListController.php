@@ -31,4 +31,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // render to output
-$latte->render('templates\book_list.latte', $params);
+$latte->render('templates\books\book_list.latte', $params);

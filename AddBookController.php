@@ -40,4 +40,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $params = [];
 // render to output
-$latte->render('templates\add_book.latte', $params);
+$latte->render('templates\books\add_book.latte', $params);

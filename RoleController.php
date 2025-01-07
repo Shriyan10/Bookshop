@@ -31,4 +31,4 @@ $params = [
 ];
 
 // render to output
-$latte->render('templates\roles.latte', $params);
+$latte->render('templates\roles\roles.latte', $params);
