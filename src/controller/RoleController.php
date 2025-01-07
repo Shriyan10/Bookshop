@@ -71,7 +71,7 @@ class RoleController {
                 ],
             );
             if ($result) {
-                header("Location: http://localhost/bookshop/roles");
+                header("Location: http://localhost/bookshop/roles/");
             }
         } catch (Exception $e) {
             var_dump($e);
@@ -84,7 +84,7 @@ class RoleController {
             $database = new Database();
             $result = $database->query("DELETE FROM roles where id=%d", [$roleId]);
             if ($result) {
-                header("Location: http://localhost/bookshop/roles");
+                header("Location: http://localhost/bookshop/roles/");
             }
         } catch (Exception $e) {
             var_dump($e);
@@ -119,7 +119,7 @@ class RoleController {
             );
 
             if ($result) {
-                header("Location: http://localhost/bookshop/roles");
+                header("Location: http://localhost/bookshop/roles/");
             }
 
         } catch (Exception $e) {

@@ -20,7 +20,7 @@ class Router
     function route(string $path): void
     {
         // controllers
-        $roleController = new RoleController($this->latte);
+
         $userController = new UserController($this->latte);
 
 
@@ -30,22 +30,8 @@ class Router
         }
 
         // roles
-        elseif ($this->endsWith($path, 'roles')) {
-            $roleController->getAllRoles();
-        } else if ($this->endsWith($path, 'roles/save')) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $roleController->saveRole();
-            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $roleController->saveRolePage();
-            }
-        } else if (str_contains($path, 'roles/edit?roleId=')) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $roleController->updateRole($_GET['roleId']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $roleController->getRole($_GET['roleId']);
-            }
-        } else if (str_contains($path, 'roles/delete?roleId=')) {
-            $roleController->deleteRole($_GET['roleId']);
+        elseif (str_contains($path, 'bookshop/roles/')) {
+           $this -> role($path);
         }
 
         // users
@@ -73,6 +59,28 @@ class Router
             $this->latte->render('templates\404.latte', []);
         } else {
             $this->latte->render('templates\404.latte', []);
+        }
+    }
+
+    function role(string $path): void
+    {
+        $roleController = new RoleController($this->latte);
+        if ($this->endsWith($path, '/roles/')) {
+            $roleController->getAllRoles();
+        } else if (str_contains($path, '/save')) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $roleController->saveRole();
+            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $roleController->saveRolePage();
+            }
+        } else if (str_contains($path, '/edit?roleId=')) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $roleController->updateRole($_GET['roleId']);
+            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $roleController->getRole($_GET['roleId']);
+            }
+        } else if (str_contains($path, '/delete?roleId=')) {
+            $roleController->deleteRole($_GET['roleId']);
         }
     }
 
