@@ -3,6 +3,7 @@
 namespace App\controller;
 
 use App\Db\Database;
+use App\mapper\impl\RoleMapper;
 use App\mapper\impl\UserMapper;
 use App\model\User;
 use Exception;
@@ -40,9 +41,11 @@ class UserController
 
         $query = "SELECT * FROM users WHERE id=" . $userId;
         $user = $database->queryOne($query, new UserMapper());
+        $roles = $database -> queryAll("SELECT * FROM roles", new RoleMapper());
 
         $params = [
-            'user' => $user
+            'user' => $user,
+            'roles' => $roles
         ];
 
         // render to output
@@ -98,5 +101,57 @@ class UserController
             header("Location: http://localhost/bookshop/404");
         }
     }
+
+    function saveUserPage(): void
+    {
+        $database = new Database();
+
+        $roles = $database -> queryAll("SELECT * FROM roles", new RoleMapper());
+
+        $params = [
+            'roles' => $roles
+        ];
+
+        // render to output
+        $this->latte->render('templates\users\add_user.latte', $params);
+    }
+
+    function saveUser(): void
+    {
+        try {
+            $database = new Database();
+            $user = new User(
+                null,
+                $_POST['firstName'] ?? null,
+                $_POST['lastName'] ?? null,
+                $_POST['email'] ?? null,
+                $_POST['password'] ?? null,
+                $_POST['roleId'] ?? null,
+                $_POST['address'] ?? null,
+                $_POST['contactNo'] ?? null
+            );
+
+            $result = $database->query(
+                "INSERT INTO users(first_name, last_name, email, password, role_id, address, contact_no) VALUES('%s','%s','%s','%s', %d, '%s', %d)",
+                [
+                    $user->getFirstName(),
+                    $user->getLastName(),
+                    $user->getEmail(),
+                    $user->getPassword(),
+                    $user->getRoleId(),
+                    $user->getAddress(),
+                    $user->getContactNo()
+                ],
+            );
+
+            if ($result) {
+                header("Location: http://localhost/bookshop/users");
+            }
+        } catch (Exception $e) {
+            var_dump($e);
+            header("Location: http://localhost/bookshop/404");
+        }
+    }
+
 
 }

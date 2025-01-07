@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: http://localhost/bookshop/BookListController.php");
         }elseif(strcmp("EDIT", $type) == 0){
 
-            header("Location: http://localhost/bookshop/EditBookController.php?bookId=" . $_POST['bookId']);
+            header("Location: http://localhost/bookshop/EditBookDetailController.php?bookId=" . $_POST['bookId']);
         }
     } catch (Exception $e) {
         var_dump($e);

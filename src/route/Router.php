@@ -1,8 +1,10 @@
 <?php
 
-namespace App\controller;
+namespace App\route;
 
 
+use App\controller\RoleController;
+use App\controller\UserController;
 use Latte\Engine;
 
 class Router
@@ -49,7 +51,14 @@ class Router
         // users
         else if ($this->endsWith($path, 'users')) {
             $userController->getAllUsers();
-        } else if (str_contains($path, 'users/edit?userId=')) {
+        }else if ($this->endsWith($path, 'users/save')) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $userController->saveUser();
+            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $userController->saveUserPage();
+            }
+        }
+        else if (str_contains($path, 'users/edit?userId=')) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $userController->updateUser($_GET['userId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {

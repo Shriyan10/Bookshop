@@ -94,10 +94,7 @@ class RoleController {
 
     function saveRolePage(): void {
         try {
-            $database = new Database();
-            $roles = $database -> queryAll("SELECT * FROM roles", new RoleMapper());
-            $params = ['roles' => $roles];
-            $this -> latte->render('templates\roles\add_role.latte', $params);
+            $this -> latte->render('templates\roles\add_role.latte', []);
         } catch (Exception $e) {
             var_dump($e);
             header("Location: http://localhost/bookshop/404");
