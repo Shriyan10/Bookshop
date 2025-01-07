@@ -17,15 +17,17 @@ class Router
 
     function route(string $path): void
     {
+        // controllers
         $roleController = new RoleController($this->latte);
         $userController = new UserController($this->latte);
 
+
+        // home
         if ($this->endsWith($path, 'bookshop/')) {
             echo "<h1>Your in the home page</h1>";
         }
 
         // roles
-
         elseif ($this->endsWith($path, 'roles')) {
             $roleController->getAllRoles();
         } else if (str_contains($path, 'roles/save')) {
@@ -73,5 +75,4 @@ class Router
         }
         return (substr($string, -$len) === $endString);
     }
-
 }
