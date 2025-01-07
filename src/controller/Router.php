@@ -46,7 +46,7 @@ class Router
         } else {
             $this->latte->render('templates\404.latte', []);
         }
-
+    }
 
         function endsWith($string, $endString): bool
         {
@@ -56,5 +56,5 @@ class Router
             }
             return (substr($string, -$len) === $endString);
         }
-    }
+
 }
