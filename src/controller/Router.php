@@ -48,13 +48,13 @@ class Router
         }
     }
 
-        function endsWith($string, $endString): bool
-        {
-            $len = strlen($endString);
-            if ($len == 0) {
-                return true;
-            }
-            return (substr($string, -$len) === $endString);
+    function endsWith($string, $endString): bool
+    {
+        $len = strlen($endString);
+        if ($len == 0) {
+            return true;
         }
+        return (substr($string, -$len) === $endString);
+    }
 
 }

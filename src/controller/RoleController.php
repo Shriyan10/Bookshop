@@ -22,7 +22,6 @@ class RoleController {
         $database = new Database();
         $query = "SELECT * FROM roles";
 
-        $route = new Router();
 
         $roles = $database -> queryAll($query, new RoleMapper());
 
