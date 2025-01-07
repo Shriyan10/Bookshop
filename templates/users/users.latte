@@ -28,16 +28,8 @@
             <td>{$user->address}</td>
             <td>{$user->contactNo}</td>
             <td>
-                <form method="POST">
-                    <input type="hidden" name="type" value="EDIT" />
-                    <input type="hidden" name="userId" value="{$user->id}" />
-                    <button>Edit</button>
-                </form>
-                <form method="POST">
-                    <input type="hidden" name="type" value="DELETE" />
-                    <input type="hidden" name="userId" value="{$user->id}" />
-                    <button>Delete</button>
-                </form>
+                <a href="roles/edit?userId={$user->id}">Edit</a>
+                <a href="roles/delete?userId={$user->id}">Delete</a>
             </td>
         </tr>
 

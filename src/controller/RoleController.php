@@ -10,10 +10,15 @@ use Latte\Engine;
 
 class RoleController {
 
+    private Engine $latte;
+
+    public function __construct(Engine $latte)
+    {
+        $this->latte = $latte;
+    }
+
     function getAllRoles(): void
     {
-        $latte = new Engine;
-
         $database = new Database();
         $query = "SELECT * FROM roles";
 
@@ -40,44 +45,56 @@ class RoleController {
             'roles_heading' => 'Roles'
         ];
 
-// render to output
-        $latte->render('templates\roles\roles.latte', $params);
+        $this -> latte->render('templates\roles\roles.latte', $params);
     }
 
     function getRole(int $roleId): void
     {
-        $latte = new Engine;
         $database = new Database();
 
         $query = "SELECT * FROM roles WHERE id=".$roleId;
         $role = $database->queryOne($query, new RoleMapper());
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            try {
-                $role = new Role(
-                    $_GET['roleId'],
-                    $_POST['roleName'] ?? null,
-                );
-
-                $result = $database->query(
-                    "UPDATE roles SET name='%s' where id=%d",
-                    [
-                        $role->getName(),
-                        $role->getId()
-                    ],
-                );
-                if ($result) {
-                    header("Location: http://localhost/bookshop/roles");
-                }
-            } catch (Exception $e) {
-                var_dump($e);
-            }
-        }
 
         $params = [
             'role' => $role
         ];
 
         // render to output
-        $latte->render('templates\roles\edit_role.latte', $params);
+        $this -> latte->render('templates\roles\edit_role.latte', $params);
+    }
+
+    function updateRole(int $roleId): void{
+        try {
+            $role = new Role(
+                $roleId,
+                $_POST['roleName'] ?? null,
+            );
+            $database = new Database();
+            $result = $database->query(
+                "UPDATE roles SET name='%s' where id=%d",
+                [
+                    $role->getName(),
+                    $role->getId()
+                ],
+            );
+            if ($result) {
+                header("Location: http://localhost/bookshop/roles");
+            }
+        } catch (Exception $e) {
+            var_dump($e);
+            header("Location: http://localhost/bookshop/roles");
+        }
+    }
+
+    function deleteRole(int $roleId): void{
+        try {
+            $database = new Database();
+            $result = $database->query("DELETE FROM roles where id=%d", [$roleId]);
+            if ($result) {
+                header("Location: http://localhost/bookshop/roles");
+            }
+        } catch (Exception $e) {
+            var_dump($e);
+        }
     }
 }
