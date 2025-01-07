@@ -24,30 +24,13 @@ class UserController
         $database = new Database();
         $query = "SELECT * FROM users";
 
-
         $users = $database->queryAll($query, new UserMapper());
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            try {
-                $type = $_POST['type'];
-                if (strcmp("DELETE", $type) == 0) {
-                    $database->query("DELETE FROM users where id='%s'", [$_POST['userId']]);
-                    header("Location: http://localhost/bookshop/users");
-                } elseif (strcmp("EDIT", $type) == 0) {
-                    header("Location: http://localhost/bookshop/EditUserController.php?userId=" . $_POST['userId']);
-                }
-            } catch (Exception $e) {
-                var_dump($e);
-            }
-        }
-
         $params = [
-            'users' => $users,
-            'users_heading' => 'Users'
+            'users' => $users
         ];
 
-// render to output
-        $this->$latte->render('templates\users\users.latte', $params);
+        $this->latte->render('templates\users\users.latte', $params);
     }
 
 
@@ -71,7 +54,7 @@ class UserController
     {
         try {
             $user = new User(
-                $_GET['userId'],
+                $userId,
                 $_POST['firstName'] ?? null,
                 $_POST['lastName'] ?? null,
                 $_POST['email'] ?? null,
@@ -112,6 +95,7 @@ class UserController
             }
         } catch (Exception $e) {
             var_dump($e);
+            header("Location: http://localhost/bookshop/404");
         }
     }
 
