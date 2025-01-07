@@ -19,31 +19,41 @@ class RoleController {
 
     function getAllRoles(): void
     {
-        $database = new Database();
-        $query = "SELECT * FROM roles";
+        try {
+            $database = new Database();
+            $query = "SELECT * FROM roles";
 
-        $roles = $database -> queryAll($query, new RoleMapper());
+            $roles = $database -> queryAll($query, new RoleMapper());
 
-        $params = [
-            'roles' => $roles
-        ];
+            $params = [
+                'roles' => $roles
+            ];
 
-        $this -> latte->render('templates\roles\roles.latte', $params);
+            $this -> latte->render('templates\roles\roles.latte', $params);
+        } catch (Exception $e) {
+            var_dump($e);
+            header("Location: http://localhost/bookshop/404");
+        }
     }
 
     function getRole(int $roleId): void
     {
-        $database = new Database();
+        try{
+            $database = new Database();
 
-        $query = "SELECT * FROM roles WHERE id=".$roleId;
-        $role = $database->queryOne($query, new RoleMapper());
+            $query = "SELECT * FROM roles WHERE id=".$roleId;
+            $role = $database->queryOne($query, new RoleMapper());
 
-        $params = [
-            'role' => $role
-        ];
+            $params = [
+                'role' => $role
+            ];
 
-        // render to output
-        $this -> latte->render('templates\roles\edit_role.latte', $params);
+            // render to output
+            $this -> latte->render('templates\roles\edit_role.latte', $params);
+        } catch (Exception $e) {
+            var_dump($e);
+            header("Location: http://localhost/bookshop/404");
+        }
     }
 
     function updateRole(int $roleId): void{
