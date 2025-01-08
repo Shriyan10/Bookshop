@@ -4,7 +4,7 @@
 <h1>Roles</h1>
 
 <div>
-    <a href="roles/save">Add Role</a>
+    <a href="/bookshop/roles/save">Add Role</a>
 </div>
 
 <table border=1>
@@ -20,8 +20,8 @@
             <td>{$role->id}</td>
             <td>{$role->name}</td>
             <td>
-                <a href="roles/edit?roleId={$role->id}">Edit</a>
-                <a href="roles/delete?roleId={$role->id}">Delete</a>
+                <a href="/bookshop/roles/edit?roleId={$role->id}">Edit</a>
+                <a href="/bookshop/roles/delete?roleId={$role->id}">Delete</a>
             </td>
         </tr>
 

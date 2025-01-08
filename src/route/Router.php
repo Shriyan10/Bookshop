@@ -26,7 +26,7 @@ class Router
         }
 
         // roles
-        elseif (str_contains($path, 'bookshop/roles/')) {
+        elseif (str_contains($path, 'bookshop/roles')) {
            $this -> role($path);
         }
 
@@ -56,21 +56,21 @@ class Router
     function role(string $path): void
     {
         $roleController = new RoleController($this->latte);
-        if ($this->endsWith($path, '/roles/')) {
+        if (preg_match('#^/bookshop/roles/?$#', $path)) {
             $roleController->getAllRoles();
-        } else if (str_contains($path, '/save')) {
+        } else if (preg_match('#^/bookshop/roles/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $roleController->saveRole();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $roleController->saveRolePage();
             }
-        } else if (str_contains($path, '/edit?roleId=')) {
+        } else if (preg_match('#^/bookshop/roles/edit\?roleId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $roleController->updateRole($_GET['roleId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $roleController->getRole($_GET['roleId']);
             }
-        } else if (str_contains($path, '/delete?roleId=')) {
+        } else if (preg_match('#^/bookshop/roles/delete\?roleId=\d+$#', $path)) {
             $roleController->deleteRole($_GET['roleId']);
         }
     }
@@ -78,22 +78,22 @@ class Router
     function user(string $path): void
     {
         $userController = new UserController($this->latte);
-    if ($this->endsWith($path, '/users/')) {
+    if (preg_match('#^/bookshop/users/?$#', $path)) {
         $userController->getAllUsers();
-    }else if ($this->endsWith($path, '/save')) {
+    }else if (preg_match('#^/bookshop/users/save/?$#', $path)) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userController->saveUser();
         } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $userController->saveUserPage();
         }
     }
-    else if (str_contains($path, '/edit?userId=')) {
+    else if (preg_match('#^/bookshop/users/edit\?userId=\d+$#', $path)) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userController->updateUser($_GET['userId']);
         } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $userController->getUser($_GET['userId']);
         }
-    } else if (str_contains($path, '/delete?userId=')) {
+    } else if (preg_match('#^/bookshop/users/delete\?userId=\d+$#', $path)) {
         $userController->deleteUser($_GET['userId']);
     }
     }
@@ -102,22 +102,22 @@ class Router
     function bookDetail(string $path): void
     {
         $bookDetailController = new BookDetailController($this->latte);
-        if ($this->endsWith($path, '/book-details/')) {
+        if (preg_match('#^/bookshop/book-details/?$#', $path)) {
             $bookDetailController->getAllBookDetails();
-        }else if ($this->endsWith($path, '/save')) {
+        }else if (preg_match('#^/bookshop/book-details/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->saveBookDetails();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->saveBookDetailsPage();
             }
         }
-        else if (str_contains($path, '/edit?bookDetailId=')) {
+        else if (preg_match('#^/bookshop/book-details/edit\?bookDetailId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->updateBookDetails($_GET['bookDetailId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->getBookDetails($_GET['bookDetailId']);
             }
-        } else if (str_contains($path, '/delete?bookDetailId=')) {
+        } else if (preg_match('#^/bookshop/book-details/delete\?bookDetailId=\d+$#', $path)) {
             $bookDetailController->deleteBookDetails($_GET['bookDetailId']);
         }
     }

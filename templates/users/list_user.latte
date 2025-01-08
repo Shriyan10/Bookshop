@@ -4,7 +4,7 @@
 <h1>Users</h1>
 
 <div>
-    <a href="users/save">Add User</a>
+    <a href="/bookshop/users/save">Add User</a>
 </div>
 
 {if count($users) > 0}
@@ -35,8 +35,8 @@
                 <td>{$user->address}</td>
                 <td>{$user->contactNo}</td>
                 <td>
-                    <a href="users/edit?userId={$user->id}">Edit</a>
-                    <a href="users/delete?userId={$user->id}">Delete</a>
+                    <a href="/bookshop/users/edit?userId={$user->id}">Edit</a>
+                    <a href="/bookshop/users/delete?userId={$user->id}">Delete</a>
                 </td>
             </tr>
 

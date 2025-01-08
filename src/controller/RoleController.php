@@ -32,7 +32,7 @@ class RoleController {
             $this -> latte->render('templates\roles\list_role.latte', $params);
         } catch (Exception $e) {
             var_dump($e);
-//            header("Location: http://localhost/bookshop/500");
+            header("Location: http://localhost/bookshop/500");
         }
     }
 
@@ -119,12 +119,12 @@ class RoleController {
             );
 
             if ($result) {
-                header("Location: http://localhost/bookshop/roles/");
+                header("Location: http://localhost/bookshop/roles");
             }
 
         } catch (Exception $e) {
             var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+            header("Location: http://localhost/bookshop/500");
         }
     }
 }
