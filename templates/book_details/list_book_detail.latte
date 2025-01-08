@@ -2,6 +2,7 @@
 
 <body>
     <h1>Book Details</h1>
+    <a href="/bookshop/book-details/save">Add Book</a>
     {foreach $bookDetails as $bookDetail}
     <div class="row-box">
         <a href="details/{$bookDetail->id}">
@@ -14,16 +15,8 @@
             <a href="checkout.php" class="buy">Buy</a>
         </div>
         <div>
-            <form method="POST">
-                <input type="hidden" name="type" value="EDIT" />
-                <input type="hidden" name="bookId" value="{$bookDetail->id}" />
-                <button>Edit</button>
-            </form>
-            <form method="POST">
-                <input type="hidden" name="type" value="DELETE" />
-                <input type="hidden" name="bookId" value="{$bookDetail->id}" />
-                <button>Delete</button>
-            </form>
+            <a href="/bookshop/book-details/edit?bookDetailId={$bookDetail->id}">Edit</a>
+            <a href="/bookshop/book-details/delete?bookDetailId={$bookDetail->id}">Delete</a>
         </div>
     </div>
 

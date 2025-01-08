@@ -36,7 +36,7 @@ class Database
     {
         $servername = "localhost";
         $username = "root";
-        $password = "";
+        $password = "root12345";
         $database = "book_shop";
         $port = 3306;
 

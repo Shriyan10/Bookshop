@@ -31,7 +31,7 @@ class UserController
             'users' => $users
         ];
 
-        $this->latte->render('templates\users\users.latte', $params);
+        $this->latte->render('templates\users\list_user.latte', $params);
     }
 
 
@@ -149,7 +149,7 @@ class UserController
             }
         } catch (Exception $e) {
             var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+            header("Location: http://localhost/bookshop/500");
         }
     }
 

@@ -1,0 +1,50 @@
+{include '../common/headers.latte'}
+
+<body>
+<h1>Users</h1>
+
+<div>
+    <a href="users/save">Add User</a>
+</div>
+
+{if count($users) > 0}
+
+    <table border=1>
+        <tr>
+            <th>Id</th>
+            <th>First name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Address</th>
+            <th>Contact no</th>
+            <th>Actions</th>
+        </tr>
+
+
+        {foreach $users as $user}
+
+            <tr>
+                <td>{$user->id}</td>
+                <td>{$user->firstName}</td>
+                <td>{$user->lastName}</td>
+                <td>{$user->email}</td>
+                <td>{$user->password}</td>
+                <td>{$user->roleId}</td>
+                <td>{$user->address}</td>
+                <td>{$user->contactNo}</td>
+                <td>
+                    <a href="users/edit?userId={$user->id}">Edit</a>
+                    <a href="users/delete?userId={$user->id}">Delete</a>
+                </td>
+            </tr>
+
+        {/foreach}
+    </table>
+{else}
+    <p>User list is empty.</p>
+{/if}
+
+</body>
+</html>

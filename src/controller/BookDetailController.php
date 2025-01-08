@@ -21,32 +21,40 @@ class BookDetailController
 
     function getAllBookDetails(): void
     {
-        $database = new Database();
-        $query = "SELECT * FROM book_details";
+        try {
+            $database = new Database();
+            $query = "SELECT * FROM book_details";
 
-        $bookDetails = $database->queryAll($query, new BookDetailMapper());
+            $bookDetails = $database->queryAll($query, new BookDetailMapper());
 
-        $params = [
-            'bookDetails' => $bookDetails,
-        ];
+            $params = [
+                'bookDetails' => $bookDetails,
+            ];
 
-        $this->latte->render('templates\books\book_list.latte', $params);
+            $this->latte->render('templates\book_details\list_book_detail.latte', $params);
+        } catch (Exception $e) {
+            var_dump($e);
+            header("Location: http://localhost/bookshop/500");
+        }
     }
 
-    function getBookDetails(int $bookId): void
+    function getBookDetails(int $bookDetailId): void
     {
-        $database = new Database();
+        try {
+            $database = new Database();
 
-        $query = "SELECT * FROM book_details WHERE id=" . $bookId;
-        $bookDetail = $database->queryOne($query, new BookDetailMapper());
-        $bookDetails = $database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
+            $query = "SELECT * FROM book_details WHERE id=" . $bookDetailId;
+            $bookDetail = $database->queryOne($query, new BookDetailMapper());
 
-        $params = [
-            'bookDetail' => $bookDetail,
-        ];
+            $params = [
+                'bookDetail' => $bookDetail,
+            ];
 
-        // render to output
-        $this->latte->render('templates\users\edit_book.latte', $params);
+            $this->latte->render('templates\book_details\edit_book_detail.latte', $params);
+        } catch (Exception $e) {
+            var_dump($e);
+            header("Location: http://localhost/bookshop/500");
+        }
     }
 
 
@@ -76,11 +84,11 @@ class BookDetailController
                 ],
             );
             if ($result) {
-                header("Location: http://localhost/bookshop/BookListController.php");
+                header("Location: http://localhost/bookshop/book-details/");
             }
         } catch (Exception $e) {
             var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+            header("Location: http://localhost/bookshop/500");
         }
     }
 
@@ -91,26 +99,31 @@ class BookDetailController
             $database = new Database();
             $result = $database->query("DELETE FROM book_details where id=%d", [$bookId]);
             if ($result) {
-                header("Location: http://localhost/bookshop/books/");
+                header("Location: http://localhost/bookshop/book-details/");
             }
         } catch (Exception $e) {
             var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+            header("Location: http://localhost/bookshop/500");
         }
     }
 
     function saveBookDetailsPage(): void
     {
-        $database = new Database();
+        try {
+            $database = new Database();
 
-        $bookDetails = $database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
+            $bookDetails = $database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
 
-        $params = [
-            'bookDetails' => $bookDetails
-        ];
+            $params = [
+                'bookDetails' => $bookDetails
+            ];
 
-        // render to output
-        $this->latte->render('templates\books\add_book.latte', $params);
+            // render to output
+            $this->latte->render('templates\book_details\add_book_detail.latte', $params);
+        } catch (Exception $e) {
+            var_dump($e);
+            header("Location: http://localhost/bookshop/500");
+        }
     }
 
 
@@ -140,11 +153,11 @@ class BookDetailController
                 ],
             );
             if ($result) {
-                header("Location: http://localhost/bookshop/books/");
+                header("Location: http://localhost/bookshop/book-details/");
             }
         } catch (Exception $e) {
             var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+            header("Location: http://localhost/bookshop/500");
         }
     }
 }

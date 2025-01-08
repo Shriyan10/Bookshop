@@ -22,7 +22,7 @@ class Router
     {
         // home
         if ($this->endsWith($path, 'bookshop/')) {
-            echo "<h1>Your in the home page</h1>";
+            $this->latte->render('templates\home.latte', []);
         }
 
         // roles
@@ -35,9 +35,14 @@ class Router
             $this->user($path);
         }
 
-        //books
-        elseif (str_contains($path, 'bookshop/books/')) {
-            $this->book($path);
+        //book-details
+        elseif (str_contains($path, 'bookshop/book-details/')) {
+            $this->bookDetail($path);
+        }
+
+        // 404 page
+        else if ($this->endsWith($path, '500')) {
+            $this->latte->render('templates\500.latte', []);
         }
 
         // 404 page
@@ -94,10 +99,10 @@ class Router
     }
 
 
-    function book(string $path): void
+    function bookDetail(string $path): void
     {
         $bookDetailController = new BookDetailController($this->latte);
-        if ($this->endsWith($path, '/books/')) {
+        if ($this->endsWith($path, '/book-details/')) {
             $bookDetailController->getAllBookDetails();
         }else if ($this->endsWith($path, '/save')) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -106,14 +111,14 @@ class Router
                 $bookDetailController->saveBookDetailsPage();
             }
         }
-        else if (str_contains($path, '/edit?bookId=')) {
+        else if (str_contains($path, '/edit?bookDetailId=')) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $bookDetailController->updateBookDetails($_GET['bookId']);
+                $bookDetailController->updateBookDetails($_GET['bookDetailId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $bookDetailController->getBookDetails($_GET['bookId']);
+                $bookDetailController->getBookDetails($_GET['bookDetailId']);
             }
-        } else if (str_contains($path, '/delete?bookId=')) {
-            $bookDetailController->deleteBookDetails($_GET['bookId']);
+        } else if (str_contains($path, '/delete?bookDetailId=')) {
+            $bookDetailController->deleteBookDetails($_GET['bookDetailId']);
         }
     }
 

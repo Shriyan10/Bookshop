@@ -29,10 +29,10 @@ class RoleController {
                 'roles' => $roles
             ];
 
-            $this -> latte->render('templates\roles\roles.latte', $params);
+            $this -> latte->render('templates\roles\list_role.latte', $params);
         } catch (Exception $e) {
             var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+//            header("Location: http://localhost/bookshop/500");
         }
     }
 
