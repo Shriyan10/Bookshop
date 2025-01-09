@@ -119,6 +119,8 @@ class Router
             }
         } else if (preg_match('#^/bookshop/book-details/delete\?bookDetailId=\d+$#', $path)) {
             $bookDetailController->deleteBookDetails($_GET['bookDetailId']);
+        } else if (preg_match('#^/bookshop/book-details/view\?bookDetailId=\d+$#', $path)) {
+            $bookDetailController->statistics($_GET['bookDetailId']);
         }
     }
 

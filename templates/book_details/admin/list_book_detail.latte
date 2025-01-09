@@ -1,0 +1,49 @@
+{include '../../common/headers.latte'}
+
+<body>
+<h1>Book Details</h1>
+
+<div>
+    <a href="/bookshop/book-details/save">Add Book Detail</a>
+</div>
+
+{if count($bookDetails) > 0}
+
+    <table border=1>
+        <tr>
+            <th>Id</th>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>ISBN</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+
+
+        {foreach $bookDetails as $bookDetail}
+
+            <tr>
+                <td>{$bookDetail->id}</td>
+                <td><img width=50 height=50 src="{$bookDetail->imageUrl}"></td>
+                <td>{$bookDetail->title}</td>
+                <td>{$bookDetail->author}</td>
+                <td>{$bookDetail->publisher}</td>
+                <td>{$bookDetail->isbn}</td>
+                <td>{$bookDetail->price}</td>
+                <td>
+                    <a href="/bookshop/book-details/edit?bookDetailId={$bookDetail->id}">Edit</a>
+                    <a href="/bookshop/book-details/delete?bookDetailId={$bookDetail->id}">Delete</a>
+                    <a href="/bookshop/book-details/view?bookDetailId={$bookDetail->id}">View</a>
+                </td>
+            </tr>
+
+        {/foreach}
+    </table>
+{else}
+    <p>Book Detail list is empty.</p>
+{/if}
+
+</body>
+</html>

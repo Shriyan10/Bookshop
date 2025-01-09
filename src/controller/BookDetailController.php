@@ -4,7 +4,9 @@ namespace App\controller;
 
 
 use App\Db\Database;
+use App\dto\BookDetailStatistics;
 use App\mapper\impl\BookDetailMapper;
+use App\mapper\impl\BookDetailStatsMapper;
 use App\model\BookDetail;
 use Exception;
 use Latte\Engine;
@@ -31,7 +33,7 @@ class BookDetailController
                 'bookDetails' => $bookDetails,
             ];
 
-            $this->latte->render('templates\book_details\list_book_detail.latte', $params);
+            $this->latte->render('templates\book_details\admin\list_book_detail.latte', $params);
         } catch (Exception $e) {
             var_dump($e);
             header("Location: http://localhost/bookshop/500");
@@ -50,7 +52,7 @@ class BookDetailController
                 'bookDetail' => $bookDetail,
             ];
 
-            $this->latte->render('templates\book_details\edit_book_detail.latte', $params);
+            $this->latte->render('templates\book_details\admin\edit_book_detail.latte', $params);
         } catch (Exception $e) {
             var_dump($e);
             header("Location: http://localhost/bookshop/500");
@@ -119,7 +121,7 @@ class BookDetailController
             ];
 
             // render to output
-            $this->latte->render('templates\book_details\add_book_detail.latte', $params);
+            $this->latte->render('templates\book_details\admin\add_book_detail.latte', $params);
         } catch (Exception $e) {
             var_dump($e);
             header("Location: http://localhost/bookshop/500");
@@ -155,6 +157,32 @@ class BookDetailController
             if ($result) {
                 header("Location: http://localhost/bookshop/book-details/");
             }
+        } catch (Exception $e) {
+            var_dump($e);
+            header("Location: http://localhost/bookshop/500");
+        }
+    }
+
+    function statistics(int $bookDetailId): void
+    {
+        try {
+            $database = new Database();
+
+            $statistics = $database->queryOne(
+"select title,
+       (select count(*) from books where book_detail_id = " . $bookDetailId . " and status = 'SOLD') as sold,
+       (select count(*) from books where book_detail_id =" . $bookDetailId . " and status = 'DAMAGED') as damaged,
+       (select count(*) from books where book_detail_id = " . $bookDetailId . " and status = 'AVAILABLE') as available
+        from book_details
+        where id =" . $bookDetailId,
+                new BookDetailStatsMapper());
+
+            $params = [
+                'statistics' => $statistics
+            ];
+
+            // render to output
+            $this->latte->render('templates\book_details\admin\statistics_book_detail.latte', $params);
         } catch (Exception $e) {
             var_dump($e);
             header("Location: http://localhost/bookshop/500");
