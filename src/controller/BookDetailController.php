@@ -6,6 +6,7 @@ namespace App\controller;
 use App\Db\Database;
 use App\mapper\impl\BookDetailMapper;
 use App\mapper\impl\BookDetailStatsMapper;
+use App\mapper\impl\BookMapper;
 use App\model\BookDetail;
 use Exception;
 use Latte\Engine;
@@ -167,14 +168,17 @@ class BookDetailController
         try {
             $database = new Database();
 
-            $statistics = $database->queryOne(
-                "select title,
+            $sql = "select title,
        (select count(*) from books where book_detail_id = " . $bookDetailId . " and status = 'SOLD') as sold,
        (select count(*) from books where book_detail_id =" . $bookDetailId . " and status = 'DAMAGED') as damaged,
        (select count(*) from books where book_detail_id = " . $bookDetailId . " and status = 'AVAILABLE') as available
         from book_details
-        where id =" . $bookDetailId,
+        where id =" . $bookDetailId;
+
+            $statistics = $database->queryOne(
+                $sql,
                 new BookDetailStatsMapper());
+
             $statistics->id = $bookDetailId;
             $params = [
                 'statistics' => $statistics
@@ -221,7 +225,36 @@ class BookDetailController
 
         } catch (Exception $e) {
             var_dump($e);
-//            header("Location: http://localhost/bookshop/500");
+            header("Location: http://localhost/bookshop/500");
         }
+    }
+
+    function getBookByBookDetailId(int $bookDetailId): void
+    {
+        $database = new Database();
+
+        $bookDetail = $database->queryOne("SELECT * FROM book_details WHERE id=" . $bookDetailId, new BookDetailMapper());
+
+        $books = $database->queryAll("select * from books where book_detail_id=". $bookDetailId , new BookMapper());
+
+        $params = [
+            'books' => $books,
+            'bookDetail' => $bookDetail
+        ];
+        $this->latte->render('templates\book_details\admin\list_book_inventory.latte', $params);
+
+    }
+
+    function getBookByBookDetailIdAndId(int $bookDetailId, int $bookId): void
+    {
+        $database = new Database();
+        $bookDetail = $database->queryOne("SELECT * FROM book_details WHERE id=" . $bookDetailId, new BookDetailMapper());
+        $books = $database->queryAll("select * from books where book_detail_id=". $bookDetailId . " and id=". $bookId , new BookMapper());
+
+        $params = [
+            'books' => $books,
+            'bookDetail' => $bookDetail
+        ];
+        $this->latte->render('templates\book_details\admin\list_book_inventory.latte', $params);
     }
 }

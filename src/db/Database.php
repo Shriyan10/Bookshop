@@ -2,11 +2,12 @@
 
 namespace App\db;
 
+use App\mapper\RowMapper;
 use mysqli;
 
 class Database
 {
-    public function queryAll($query, $mapper)
+    public function queryAll(string $query, RowMapper $mapper)
     {
         $connection = $this->connect();
         $result = $connection->query($query);
@@ -20,7 +21,7 @@ class Database
         return $objects;
     }
 
-    public function queryOne($query, $mapper)
+    public function queryOne(string $query, RowMapper $mapper)
     {
         $connection = $this->connect();
         $result = $connection->query($query);

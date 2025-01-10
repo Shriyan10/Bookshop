@@ -3,6 +3,6 @@
 use App\route\Router;
 
 require 'vendor/autoload.php';
-
-(new Router())->route($_SERVER['REQUEST_URI']);
+$uri = $_SERVER['REQUEST_URI'];
+(new Router())->route($uri);
 
