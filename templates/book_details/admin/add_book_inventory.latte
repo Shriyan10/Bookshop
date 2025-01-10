@@ -1,0 +1,19 @@
+{include '../../common/headers.latte'}
+
+<body>
+<form method="post" action="/bookshop/book-details/inventory/save">
+    <label for="name">Name</label>
+    <select name="bookDetailId" id="books">
+        {foreach $bookDetails as $bookDetail}
+            <option {if $bookDetail -> id ==$selectedBookDetailId }selected{/if} value="{$bookDetail -> id}">{$bookDetail -> title}</option>
+        {/foreach}
+    </select>
+
+    <label for="quantity">Quantity</label>
+    <input type="number" id="quantity" name="quantity">
+
+    <button>Add Books</button>
+</form>
+
+</body>
+</html>

@@ -121,7 +121,14 @@ class Router
             $bookDetailController->deleteBookDetails($_GET['bookDetailId']);
         } else if (preg_match('#^/bookshop/book-details/view\?bookDetailId=\d+$#', $path)) {
             $bookDetailController->statistics($_GET['bookDetailId']);
+        }  else if (preg_match('#^/bookshop/book-details/inventory\?bookDetailId=\d+$#', $path)) {
+            $bookDetailController->saveBookPage($_GET['bookDetailId']);
+        }else if (preg_match('#^/bookshop/book-details/inventory/save/?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $bookDetailController->saveBook();
+            }
         }
+
     }
 
 

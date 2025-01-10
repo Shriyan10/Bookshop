@@ -3,6 +3,7 @@
 namespace App\dto;
 class BookDetailStatistics
 {
+    public int $id;
     public string $title;
     public int $sold;
     public int $available;
@@ -17,6 +18,16 @@ class BookDetailStatistics
     public function setAvailable(int $available): void
     {
         $this->available = $available;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     public function getDamaged(): int

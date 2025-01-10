@@ -2,11 +2,11 @@
 
 <body>
 <h1>Book Details Statistics</h1>
-<a href="">Edit</a>
-<div>{$statistics->title}</div>
-<div>{$statistics->available}</div>
-<div>{$statistics->sold}</div>
-<div>{$statistics->damaged}</div>
+<a href="/bookshop/book-details/inventory?bookDetailId={$statistics->id}">Add Books</a>
+<div>Title:{$statistics->title}</div>
+<div>Available:{$statistics->available}</div>
+<div>Sold:{$statistics->sold}</div>
+<div>Damaged:{$statistics->damaged}</div>
 
 
 </body>

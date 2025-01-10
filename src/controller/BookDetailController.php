@@ -4,7 +4,6 @@ namespace App\controller;
 
 
 use App\Db\Database;
-use App\dto\BookDetailStatistics;
 use App\mapper\impl\BookDetailMapper;
 use App\mapper\impl\BookDetailStatsMapper;
 use App\model\BookDetail;
@@ -169,14 +168,14 @@ class BookDetailController
             $database = new Database();
 
             $statistics = $database->queryOne(
-"select title,
+                "select title,
        (select count(*) from books where book_detail_id = " . $bookDetailId . " and status = 'SOLD') as sold,
        (select count(*) from books where book_detail_id =" . $bookDetailId . " and status = 'DAMAGED') as damaged,
        (select count(*) from books where book_detail_id = " . $bookDetailId . " and status = 'AVAILABLE') as available
         from book_details
         where id =" . $bookDetailId,
                 new BookDetailStatsMapper());
-
+            $statistics->id = $bookDetailId;
             $params = [
                 'statistics' => $statistics
             ];
@@ -186,6 +185,43 @@ class BookDetailController
         } catch (Exception $e) {
             var_dump($e);
             header("Location: http://localhost/bookshop/500");
+        }
+    }
+
+    function saveBookPage(int $bookDetailId): void
+    {
+        $database = new Database();
+
+        $bookDetails = $database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
+
+        $params = [
+            'bookDetails' => $bookDetails,
+            'selectedBookDetailId' => $bookDetailId
+        ];
+
+        // render to output
+        $this->latte->render('templates\book_details\admin\add_book_inventory.latte', $params);
+    }
+
+    function saveBook(): void
+    {
+        try {
+            $database = new Database();
+
+            $bookDetailId = $_POST['bookDetailId'] ?? null;
+            $quantity = $_POST['quantity'] ?? null;
+
+            $sql = "INSERT INTO books(book_detail_id) VALUES (%d)";
+
+            for ($i = 0; $i < $quantity; $i++) {
+                $database->query($sql, [$bookDetailId]);
+            }
+
+            header("Location: http://localhost/bookshop/book-details/");
+
+        } catch (Exception $e) {
+            var_dump($e);
+//            header("Location: http://localhost/bookshop/500");
         }
     }
 }

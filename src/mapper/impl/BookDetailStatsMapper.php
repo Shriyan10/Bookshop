@@ -13,10 +13,7 @@ class BookDetailStatsMapper implements RowMapper
 
 
         $bookDetailStatistics =  new BookDetailStatistics();
-//        $row["title"],
-//            $row["available"],
-//            $row["sold"],
-//            $row["damaged"],
+
 
         $bookDetailStatistics->title = $row["title"];
         $bookDetailStatistics->available = $row["available"];
