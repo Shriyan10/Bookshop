@@ -2,7 +2,7 @@
 
 namespace App\mapper\impl;
 
-use App\dto\BookDetailStatistics;
+use App\projection\BookDetailStatistics;
 use App\mapper\RowMapper;
 
 class BookDetailStatsMapper implements RowMapper

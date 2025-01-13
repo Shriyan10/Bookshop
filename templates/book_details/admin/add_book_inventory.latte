@@ -3,7 +3,7 @@
 <body>
 <form method="post">
     <label for="name">Name</label>
-    <select name="bookDetailId" id="books">
+    <select name="bookDetailId" id="books" {ifset $selectedBookDetailId} readonly {/ifset}>
         {foreach $bookDetails as $bookDetail}
             <option {if $bookDetail -> id ==$selectedBookDetailId }selected{/if} value="{$bookDetail -> id}">{$bookDetail -> title}</option>
         {/foreach}

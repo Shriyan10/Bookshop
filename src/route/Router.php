@@ -131,6 +131,19 @@ class Router
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->saveBookPage($_GET['bookDetailId']);
             }
+        }  else if (preg_match('#^/bookshop/book-details/inventory/save?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $bookDetailController->saveBook();
+            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $bookDetailController->saveBookPage(null);
+            }
+        }else if (preg_match('#^/bookshop/book-details/inventory/?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $bookDetailController->getBookDetailInventoryByBookDetailId($_POST['bookDetailId'], $_POST['date']);
+            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $bookDetailController->getBookDetailInventory();
+            }
+
         }
 
     }
