@@ -20,8 +20,8 @@
             <td>{$book->id}</td>
             <td>{$book->status}</td>
             <td>
-                <a href="">Edit</a>
-                <a href="">Delete</a>
+                <a href="/bookshop/book-details/inventory/update?bookId={$book->id}">Edit</a>
+                <a href="/bookshop/book-details/inventory/delete?bookId={$book->id}&redirect={$deleteRedirect}">Delete</a>
             </td>
         </tr>
     {/foreach}

@@ -1,0 +1,19 @@
+{include '../../common/headers.latte'}
+
+<body>
+<label for="name">Name</label>
+<h1>{$bookDetail->title}</h1>
+
+<form method="post">
+    <select name="status">
+        {foreach $bookStatusList as $bookStatus}
+            <option value="{$bookStatus}">{$bookStatus}</option>
+        {/foreach}
+    </select>
+
+    <button>Update</button>
+</form>
+
+
+</body>
+</html>

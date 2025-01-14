@@ -215,7 +215,6 @@ class BookDetailController
 
             $bookDetailId = $_POST['bookDetailId'] ?? null;
             $quantity = $_POST['quantity'] ?? null;
-            var_dump([$bookDetailId, $quantity]);
             $sql = "INSERT INTO books(book_detail_id) VALUES (%d)";
             for ($i = 0; $i < $quantity; $i++) {
 
@@ -240,7 +239,8 @@ class BookDetailController
 
         $params = [
             'books' => $books,
-            'bookDetail' => $bookDetail
+            'bookDetail' => $bookDetail,
+            'deleteRedirect' => '/bookshop/book-details/inventory?bookDetailId=' . $bookDetailId
         ];
         $this->latte->render('templates\book_details\admin\list_book_inventory.latte', $params);
 
@@ -259,26 +259,71 @@ class BookDetailController
         $this->latte->render('templates\book_details\admin\list_book_inventory.latte', $params);
     }
 
-    function getBookDetailInventoryByBookDetailId(int $bookDetailId, string $createdDate): void
+    function getBookDetailInventoryByBookDetailId(int|null $bookDetailId, string|null $createdDate, int|null|string $bookId): void
     {
         if ($bookDetailId === -1) {
-            $this->getBookDetailInventory();
-            return;
+            $bookDetailId = null;
         }
 
         $database = new Database();
         $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from books b INNER JOIN book_details bd ON b.book_detail_id=bd.id";
 
-        if ($bookDetailId > 0) {
-            $sql .= " where bd.id = " . $bookDetailId;
-            if (strlen($createdDate) !== 0) {
-                $sql .= " and DATE(b.created_date) = DATE('" . $createdDate . "')";
+        $isFilterPresent = false;
+
+        $isBookDetailIdFilterPresent = false;
+        $isBookIdFilterPresent = false;
+        $isCreatedDateFilterPresent = false;
+
+        if (strlen($bookDetailId)) {
+            $isFilterPresent = true;
+            $isBookDetailIdFilterPresent = true;
+        }
+
+        if (strlen($createdDate) !== 0) {
+            $isFilterPresent = true;
+            $isCreatedDateFilterPresent = true;
+        }
+
+        if (strlen($bookId) !== 0) {
+            $isFilterPresent = true;
+            $isBookIdFilterPresent = true;
+        }
+
+        if ($isFilterPresent) {
+            $sql .= " WHERE ";
+
+            $filterStart = false;
+
+            if ($isBookDetailIdFilterPresent) {
+                if ($bookDetailId > 0) {
+                    $sql .= "bd.id = " . $bookDetailId;
+                    $filterStart = true;
+                }
             }
-        } else {
-            if (strlen($createdDate) !== 0) {
-                $sql .= " where DATE(b.created_date) = DATE('" . $createdDate . "')";
+
+            if ($isCreatedDateFilterPresent) {
+
+                if ($filterStart) {
+                    $sql .= " AND ";
+                }
+
+                $sql .= "DATE(b.created_date) = DATE('" . $createdDate . "')";
+                $filterStart = true;
+
+            }
+
+            if ($isBookIdFilterPresent) {
+
+                if ($filterStart) {
+                    $sql .= " AND ";
+                }
+
+                if ($bookId > 0) {
+                    $sql .= "b.id = " . $bookId;
+                }
             }
         }
+
         $books = $database->queryAll($sql, new BookReportMapper());
         $bookDetails = $database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
 
@@ -298,9 +343,45 @@ class BookDetailController
         $bookDetails = $database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
         $params = [
             'books' => $books,
-            'bookDetails' => $bookDetails
+            'bookDetails' => $bookDetails,
+            'deleteRedirect' => '/bookshop/book-details/inventory'
         ];
         $this->latte->render('templates\book_details\admin\list_book_detail_inventory.latte', $params);
 
+    }
+
+    function updateBookDetailInventoryPage(int $bookId): void
+    {
+        $database = new Database();
+        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from books b INNER JOIN book_details bd ON b.book_detail_id=bd.id where b.id=" . $bookId;
+        $bookDetail = $database->queryOne($sql, new BookReportMapper());
+        $bookStatusList = ["AVAILABLE", "SOLD", "DAMAGED"];
+        $params = [
+            'bookStatusList' => $bookStatusList,
+            'bookDetail' => $bookDetail
+        ];
+        $this->latte->render('templates\book_details\admin\update_book_inventory.latte', $params);
+
+    }
+
+    function updateBookDetailInventory(int $bookId): void
+    {
+        $database = new Database();
+        $sql = "UPDATE books SET status='%s' WHERE id=%d";
+        $result = $database->query($sql, [$_POST['status'], $bookId]);
+        if ($result) {
+            header("Location: http://localhost/bookshop/book-details/inventory");
+        }
+    }
+
+    function deleteBookDetailInventory(int $bookId, string $redirectUrl): void
+    {
+        $database = new Database();
+        $sql = "DELETE FROM books WHERE id=%d";
+        $result = $database->query($sql, [$bookId]);
+
+        if ($result) {
+            header("Location: http://localhost" . $redirectUrl);
+        }
     }
 }

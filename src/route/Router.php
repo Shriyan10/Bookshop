@@ -124,27 +124,34 @@ class Router
                 $bookDetailController->getBookByBookDetailId($_GET['bookDetailId']);
             }
         } else if (preg_match('#^/bookshop/book-details/inventory\?bookId=\d+$#', $path)) {
-            $bookDetailController->getBookByBookDetailIdAndId( $_GET['bookId']);
+            $bookDetailController->getBookByBookDetailIdAndId($_GET['bookId']);
         } else if (preg_match('#^/bookshop/book-details/inventory/save\?bookDetailId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->saveBook();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->saveBookPage($_GET['bookDetailId']);
             }
-        }  else if (preg_match('#^/bookshop/book-details/inventory/save?$#', $path)) {
+        } else if (preg_match('#^/bookshop/book-details/inventory/save?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->saveBook();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->saveBookPage(null);
             }
-        }else if (preg_match('#^/bookshop/book-details/inventory/?$#', $path)) {
+        } else if (preg_match('#^/bookshop/book-details/inventory/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $bookDetailController->getBookDetailInventoryByBookDetailId($_POST['bookDetailId'], $_POST['date']);
+                $bookDetailController->getBookDetailInventoryByBookDetailId($_POST['bookDetailId'], $_POST['date'], $_POST['bookId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->getBookDetailInventory();
             }
 
+        } else if (preg_match('#^/bookshop/book-details/inventory/update\?bookId=\d+$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $bookDetailController->updateBookDetailInventory($_GET['bookId']);
+            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $bookDetailController->updateBookDetailInventoryPage($_GET['bookId']);
+            }
+        } else if (preg_match('#^/bookshop/book-details/inventory/delete\?bookId=\d+&redirect=.*$#', $path)) {
+            $bookDetailController->deleteBookDetailInventory($_GET['bookId'], $_GET['redirect']);
         }
-
     }
 }
