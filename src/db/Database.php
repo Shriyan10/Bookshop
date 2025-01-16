@@ -21,18 +21,6 @@ class Database
         return $objects;
     }
 
-    public function queryOne(string $query, RowMapper $mapper)
-    {
-        $connection = $this->connect();
-        $result = $connection->query($query);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                return $mapper->map($row);
-            }
-        }
-        return null;
-    }
-
     public function connect()
     {
         $servername = "localhost";
@@ -55,6 +43,26 @@ class Database
         $query = sprintf($query, ...$params);
         $connection = $this->connect();
         return $connection->query($query);
+    }
+
+    public function count(string $query): int
+    {
+        $connection = $this->connect();
+        $result = $connection->query($query);
+        $data = $result->fetch_assoc();
+        return (int) $data['count'];
+    }
+
+    public function queryOne(string $query, RowMapper $mapper)
+    {
+        $connection = $this->connect();
+        $result = $connection->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                return $mapper->map($row);
+            }
+        }
+        return null;
     }
 }
 

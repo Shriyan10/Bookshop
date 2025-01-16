@@ -22,18 +22,20 @@ class BookDetailController
     }
 
 
-    function getAllBookDetails(): void
+    function getAllBookDetails(int $start = 1, int $limit = 3): void
     {
         try {
             $database = new Database();
-            $query = "SELECT * FROM book_details";
-
+            $offset = ($start - 1) * $limit;
+            $query = "SELECT * FROM book_details LIMIT " . $limit . " OFFSET " . $offset;
             $bookDetails = $database->queryAll($query, new BookDetailMapper());
-
+            $total= $database->count("SELECT COUNT(*) as count FROM book_details");
             $params = [
                 'bookDetails' => $bookDetails,
+                'start' => $start,
+                'limit' => $limit,
+                'total' => $total
             ];
-
             $this->latte->render('templates\book_details\admin\list_book_detail.latte', $params);
         } catch (Exception $e) {
             var_dump($e);

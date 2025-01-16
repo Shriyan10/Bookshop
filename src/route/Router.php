@@ -101,6 +101,8 @@ class Router
         $bookDetailController = new BookDetailController($this->latte);
         if (preg_match('#^/bookshop/book-details/?$#', $path)) {
             $bookDetailController->getAllBookDetails();
+        } elseif (preg_match('#^/bookshop/book-details\?start=\d+&limit=\d+$#', $path)) {
+            $bookDetailController->getAllBookDetails($_GET['start'], $_GET['limit']);
         } else if (preg_match('#^/bookshop/book-details/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->saveBookDetails();

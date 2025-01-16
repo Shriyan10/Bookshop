@@ -9,7 +9,14 @@
 
 {if count($bookDetails) > 0}
 
-    <table border=1>
+    <form class="row g-3 align-items-center">
+        <div class="col-auto">
+            <input type="text" id="searchBooks" class="form-control" placeholder="Search Books by title, aithor, publisher, isbn" />
+            <button type="submit" class="btn btn-dark">Search</button>
+        </div>
+    </form>
+
+    <table  class="table table-hover">
         <tr>
             <th>Id</th>
             <th>Image</th>
@@ -43,6 +50,23 @@
 
         {/foreach}
     </table>
+
+    <form>
+
+        <ul class="pagination">
+            {for $i = 1; $i <= round($total / $limit); $i++}
+                <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/bookshop/book-details?start={$i}&limit={$limit}">{$i}</a></li>
+            {/for}
+
+        </ul>
+
+
+        <select>
+            <option>5</option>
+            <option>10</option>
+            <option>15</option>
+        </select>
+    </form>
 {else}
     <p>Book Detail list is empty.</p>
 {/if}
