@@ -79,6 +79,8 @@ class Router
         $userController = new UserController($this->latte);
         if (preg_match('#^/bookshop/users/?$#', $path)) {
             $userController->getAllUsers();
+        }elseif (preg_match('#^/bookshop/users\?start=\d+&limit=\d+$#', $path)) {
+            $userController->getAllUsers($_GET['start'], $_GET['limit']);
         } else if (preg_match('#^/bookshop/users/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $userController->saveUser();
@@ -125,7 +127,9 @@ class Router
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->getBookByBookDetailId($_GET['bookDetailId']);
             }
-        } else if (preg_match('#^/bookshop/book-details/inventory\?bookId=\d+$#', $path)) {
+        }else if (preg_match('#^/bookshop/book-details/inventory\?bookDetailId=\d+&start=\d+&limit=\d+$#', $path)) {
+            $bookDetailController->getBookByBookDetailId($_GET['bookDetailId'],$_GET['start'], $_GET['limit']);
+        }else if (preg_match('#^/bookshop/book-details/inventory\?bookId=\d+$#', $path)) {
             $bookDetailController->getBookByBookDetailIdAndId($_GET['bookId']);
         } else if (preg_match('#^/bookshop/book-details/inventory/save\?bookDetailId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -142,11 +146,14 @@ class Router
         } else if (preg_match('#^/bookshop/book-details/inventory/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->getBookDetailInventoryByBookDetailId($_POST['bookDetailId'], $_POST['date'], $_POST['bookId']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            }  else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->getBookDetailInventory();
             }
-
-        } else if (preg_match('#^/bookshop/book-details/inventory/update\?bookId=\d+$#', $path)) {
+        } else if (preg_match('#^/bookshop/book-details/inventory\?start=\d+&limit=\d+$#', $path)) {
+            $bookDetailController->getBookDetailInventory($_GET['start'], $_GET['limit']);
+        }else if (preg_match('#^/bookshop/book-details/inventory\?start=\d+&limit=\d+$#', $path)) {
+            $bookDetailController->getBookDetailInventoryByBookDetailId($_POST['bookDetailId'], $_POST['date'], $_POST['bookId'], $_GET['start'], $_GET['limit']);
+        }else if (preg_match('#^/bookshop/book-details/inventory/update\?bookId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->updateBookDetailInventory($_GET['bookId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {

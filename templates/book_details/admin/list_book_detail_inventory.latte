@@ -39,6 +39,15 @@
     {/foreach}
 </table>
 
+<form>
+
+    <ul class="pagination">
+        {for $i = 1; $i <= round($total / $limit); $i++}
+            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/bookshop/book-details/inventory?start={$i}&limit={$limit}">{$i}</a></li>
+        {/for}
+
+    </ul>
+</form>
 
 </body>
 </html>

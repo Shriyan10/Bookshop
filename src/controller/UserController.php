@@ -20,15 +20,19 @@ class UserController
     }
 
 
-    function getAllUsers(): void
+    function getAllUsers(int $start = 1, int $limit = 5): void
     {
         $database = new Database();
-        $query = "SELECT * FROM users";
-
+        $offset = ($start - 1) * $limit;
+        $query = "SELECT * FROM users LIMIT " . $limit . " OFFSET " . $offset;
         $users = $database->queryAll($query, new UserMapper());
+        $total = $database->count("SELECT COUNT(*) as count FROM users");
 
         $params = [
-            'users' => $users
+            'users' => $users,
+            'start' => $start,
+            'limit' => $limit,
+            'total' => $total
         ];
 
         $this->latte->render('templates\users\list_user.latte', $params);
@@ -41,7 +45,7 @@ class UserController
 
         $query = "SELECT * FROM users WHERE id=" . $userId;
         $user = $database->queryOne($query, new UserMapper());
-        $roles = $database -> queryAll("SELECT * FROM roles", new RoleMapper());
+        $roles = $database->queryAll("SELECT * FROM roles", new RoleMapper());
 
         $params = [
             'user' => $user,
@@ -106,7 +110,7 @@ class UserController
     {
         $database = new Database();
 
-        $roles = $database -> queryAll("SELECT * FROM roles", new RoleMapper());
+        $roles = $database->queryAll("SELECT * FROM roles", new RoleMapper());
 
         $params = [
             'roles' => $roles

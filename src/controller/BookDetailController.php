@@ -231,18 +231,22 @@ class BookDetailController
         }
     }
 
-    function getBookByBookDetailId(int $bookDetailId): void
+    function getBookByBookDetailId(int $bookDetailId, int $start = 1, int $limit = 5): void
     {
         $database = new Database();
-
+        $offset = ($start - 1) * $limit;
+        $query = "SELECT * FROM books WHERE book_detail_id=" . $bookDetailId. " LIMIT " . $limit . " OFFSET " . $offset;
+        $books = $database->queryAll($query, new BookMapper());
         $bookDetail = $database->queryOne("SELECT * FROM book_details WHERE id=" . $bookDetailId, new BookDetailMapper());
-
-        $books = $database->queryAll("select * from books where book_detail_id=" . $bookDetailId, new BookMapper());
+        $total= $database->count("SELECT COUNT(*) as count FROM books");
 
         $params = [
             'books' => $books,
             'bookDetail' => $bookDetail,
-            'deleteRedirect' => '/bookshop/book-details/inventory?bookDetailId=' . $bookDetailId
+            'deleteRedirect' => '/bookshop/book-details/inventory?bookDetailId=' . $bookDetailId,
+            'start' => $start,
+            'limit' => $limit,
+            'total' => $total
         ];
         $this->latte->render('templates\book_details\admin\list_book_inventory.latte', $params);
 
@@ -261,15 +265,16 @@ class BookDetailController
         $this->latte->render('templates\book_details\admin\list_book_inventory.latte', $params);
     }
 
-    function getBookDetailInventoryByBookDetailId(int|null $bookDetailId, string|null $createdDate, int|null|string $bookId): void
+    function getBookDetailInventoryByBookDetailId(int|null $bookDetailId, string|null $createdDate, int|null|string $bookId, int $start = 1, int $limit = 5): void
     {
         if ($bookDetailId === -1) {
             $bookDetailId = null;
         }
 
         $database = new Database();
+        $offset = ($start - 1) * $limit;
         $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from books b INNER JOIN book_details bd ON b.book_detail_id=bd.id";
-
+        $countSql = "SELECT COUNT(*) as count FROM books";
         $isFilterPresent = false;
 
         $isBookDetailIdFilterPresent = false;
@@ -293,12 +298,14 @@ class BookDetailController
 
         if ($isFilterPresent) {
             $sql .= " WHERE ";
+            $countSql .= " WHERE ";
 
             $filterStart = false;
 
             if ($isBookDetailIdFilterPresent) {
                 if ($bookDetailId > 0) {
                     $sql .= "bd.id = " . $bookDetailId;
+                    $countSql .= "book_detail_id = " . $bookDetailId;
                     $filterStart = true;
                 }
             }
@@ -307,9 +314,11 @@ class BookDetailController
 
                 if ($filterStart) {
                     $sql .= " AND ";
+                    $countSql .= " AND ";
                 }
 
                 $sql .= "DATE(b.created_date) = DATE('" . $createdDate . "')";
+                $countSql .= "DATE(created_date) = DATE('" . $createdDate . "')";
                 $filterStart = true;
 
             }
@@ -318,35 +327,47 @@ class BookDetailController
 
                 if ($filterStart) {
                     $sql .= " AND ";
+                    $countSql .= " AND ";
                 }
 
                 if ($bookId > 0) {
                     $sql .= "b.id = " . $bookId;
+                    $countSql .= "id = " . $bookId;
                 }
             }
         }
+        $sql .= " LIMIT "  . $limit . " OFFSET " . $offset;
+
 
         $books = $database->queryAll($sql, new BookReportMapper());
         $bookDetails = $database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
-
+        $total= $database->count($countSql);
         $params = [
             'books' => $books,
-            'bookDetails' => $bookDetails
+            'bookDetails' => $bookDetails,
+            'start' => $start,
+            'limit' => $limit,
+            'total' => $total
         ];
         $this->latte->render('templates\book_details\admin\list_book_detail_inventory.latte', $params);
 
     }
 
-    function getBookDetailInventory(): void
+    function getBookDetailInventory(int $start = 1, int $limit = 5): void
     {
         $database = new Database();
-
-        $books = $database->queryAll("select b.id,  bd.title, b.status, b.created_date, b.updated_date from books b INNER JOIN book_details bd ON b.book_detail_id=bd.id;", new BookReportMapper());
+        $offset = ($start - 1) * $limit;
+        $query = "SELECT b.id,  bd.title, b.status, b.created_date, b.updated_date FROM books b INNER JOIN book_details bd ON b.book_detail_id=bd.id LIMIT " . $limit . " OFFSET " . $offset;
+        $books = $database->queryAll($query, new BookReportMapper());
         $bookDetails = $database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
+        $total= $database->count("SELECT COUNT(*) as count FROM books");
         $params = [
             'books' => $books,
             'bookDetails' => $bookDetails,
-            'deleteRedirect' => '/bookshop/book-details/inventory'
+            'deleteRedirect' => '/bookshop/book-details/inventory',
+            'start' => $start,
+            'limit' => $limit,
+            'total' => $total
         ];
         $this->latte->render('templates\book_details\admin\list_book_detail_inventory.latte', $params);
 

@@ -42,6 +42,23 @@
 
         {/foreach}
     </table>
+
+    <form>
+
+        <ul class="pagination">
+            {for $i = 1; $i <= round($total / $limit); $i++}
+                <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/bookshop/users?start={$i}&limit={$limit}">{$i}</a></li>
+            {/for}
+
+        </ul>
+
+        <select>
+            <option>5</option>
+            <option>10</option>
+            <option>15</option>
+        </select>
+    </form>
+
 {else}
     <p>User list is empty.</p>
 {/if}
