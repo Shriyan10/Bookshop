@@ -47,7 +47,7 @@ class BookController
             $this->latte->render('templates\book_details\customer\list_books.latte', $params);
         } catch (Exception $e) {
             var_dump($e);
-//            header("Location: http://localhost/bookshop/500");
+            header("Location: http://localhost/bookshop/500");
         }
     }
 }

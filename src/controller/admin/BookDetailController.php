@@ -22,24 +22,37 @@ class BookDetailController
     }
 
 
-    function getAllBookDetails(int $start = 1, int $limit = 3): void
+    function getAllBookDetails(int $start, int $limit, string $search): void
     {
         try {
             $database = new Database();
             $offset = ($start - 1) * $limit;
-            $query = "SELECT * FROM book_details LIMIT " . $limit . " OFFSET " . $offset;
+
+            $query = "";
+            $countQuery = "";
+
+            if (strlen($search)>0){
+                $query =  "SELECT * FROM book_details WHERE title LIKE '%$search%' LIMIT " . $limit . " OFFSET " . $offset;
+                $countQuery = "SELECT COUNT(*) as count FROM book_details WHERE title LIKE '%$search%'";
+            }else {
+                $query = "SELECT * FROM book_details LIMIT " . $limit . " OFFSET " . $offset;
+                $countQuery = "SELECT COUNT(*) as count FROM book_details";
+            }
+
             $bookDetails = $database->queryAll($query, new BookDetailMapper());
-            $total= $database->count("SELECT COUNT(*) as count FROM book_details");
+            $total = $database->count($countQuery);
+
             $params = [
                 'bookDetails' => $bookDetails,
                 'start' => $start,
                 'limit' => $limit,
-                'total' => $total
+                'total' => $total,
+                'search' => $search
             ];
             $this->latte->render('templates\book_details\admin\list_book_detail.latte', $params);
         } catch (Exception $e) {
             var_dump($e);
-            header("Location: http://localhost/bookshop/500");
+//            header("Location: http://localhost/bookshop/500");
         }
     }
 
