@@ -1,6 +1,6 @@
 <?php
 
-namespace App\controller;
+namespace App\controller\admin;
 
 use App\Db\Database;
 use App\mapper\impl\RoleMapper;

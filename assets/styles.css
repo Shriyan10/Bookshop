@@ -46,4 +46,7 @@ button{
     margin: 10px 20px;
 }
 
+.row{
+    display: flex;
+}
 

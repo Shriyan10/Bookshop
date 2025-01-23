@@ -1,0 +1,35 @@
+{include '../../common/headers.latte'}
+
+<body>
+<form method="post">
+    <input type="text" name="search">
+    <button>Search</button>
+</form>
+
+{foreach $bookDetails as $bookDetail}
+    <div class="row-box">
+        <a href="details/{$bookDetail->id}">
+            <img src="{$bookDetail->imageUrl}" alt="Mountain">
+            <p class="item-title">{$bookDetail->title}</p>
+        </a>
+        <p class="item-price">Price: Rs.{$bookDetail->price}</p>
+        <div class="item-button">
+            <a href="" class="cart">Add to Cart</a>
+            <a href="" class="buy">Buy</a>
+        </div>
+    </div>
+{/foreach}
+
+<form>
+    <ul class="pagination">
+        {for $i = 1; $i <= round($total / $limit); $i++}
+            <li class="page-item {if $start === $i}active{/if}"><a class="page-link"
+                                                                   href="/bookshop/books?start={$i}&limit={$limit}&search={$search}">{$i}</a>
+            </li>
+        {/for}
+    </ul>
+</form>
+
+
+</body>
+</html>
