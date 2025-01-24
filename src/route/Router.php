@@ -23,7 +23,8 @@ class Router
     {
         // home
         if ($this->endsWith($path, 'bookshop/')) {
-            $this->latte->render('templates\home.latte', []);
+
+            $this->book($path);
         } // roles
         elseif (str_contains($path, 'bookshop/roles')) {
             $this->role($path);
@@ -35,6 +36,7 @@ class Router
             $this->bookDetail($path);
         } //books
         elseif (str_contains($path, 'bookshop/books')) {
+
             $this->book($path);
         }// 404 page
         else if ($this->endsWith($path, '500')) {
@@ -192,31 +194,35 @@ class Router
     function book(string $path): void
     {
         $bookController = new BookController($this->latte);
-        if (preg_match('#^/bookshop/books/?(?:\?.*)?$#', $path)) {
+        if (preg_match('#^/bookshop/books/?(?:\?.*)?$#', $path) || preg_match('#^/bookshop/$#', $path)) {
 
             $start = 1;
             $limit = 3;
             $search = "";
 
-            if(isset($_GET['start'])){
+            if (isset($_GET['start'])) {
                 $start = $_GET['start'];
             }
 
-            if(isset($_GET['limit'])){
+            if (isset($_GET['limit'])) {
                 $limit = $_GET['limit'];
             }
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if(isset($_POST['search'])){
+                if (isset($_POST['search'])) {
                     $search = $_POST['search'];
                 }
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                if(isset($_GET['search'])){
+                if (isset($_GET['search'])) {
                     $search = $_GET['search'];
                 }
             }
 
             $bookController->getAllBooks($start, $limit, $search);
+        } elseif (preg_match('#^/bookshop/books/detail\?id=\d+$#', $path)) {
+            $bookController->getBookDetail($_GET['id']);
         }
     }
+
+
 }

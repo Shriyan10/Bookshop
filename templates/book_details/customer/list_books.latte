@@ -1,24 +1,27 @@
 {include '../../common/headers.latte'}
 
 <body>
+<div class="container-fluid">
 <form method="post">
     <input type="text" name="search">
     <button>Search</button>
 </form>
 
+<div class="row">
 {foreach $bookDetails as $bookDetail}
-    <div class="row-box">
-        <a href="details/{$bookDetail->id}">
-            <img src="{$bookDetail->imageUrl}" alt="Mountain">
-            <p class="item-title">{$bookDetail->title}</p>
+    <div class="col-6 col-sm-3">
+        <a href="/bookshop/books/detail?id={$bookDetail->id}">
+            <img alt={$bookDetail->title} src="{$bookDetail->imageUrl}">
+            <span>{$bookDetail->title}</span>
         </a>
         <p class="item-price">Price: Rs.{$bookDetail->price}</p>
         <div class="item-button">
-            <a href="" class="cart">Add to Cart</a>
-            <a href="" class="buy">Buy</a>
+            <a href="javascript:void(0)" class="cart">Add to Cart</a>
+            <a href="javascript:void(0)" class="buy">Buy</a>
         </div>
     </div>
 {/foreach}
+</div>
 
 <form>
     <ul class="pagination">
@@ -30,6 +33,6 @@
     </ul>
 </form>
 
-
+</div>
 </body>
 </html>

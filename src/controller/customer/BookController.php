@@ -17,7 +17,7 @@ class BookController
     }
 
 
-    function getAllBooks(int $start, int $limit,string $search): void
+    function getAllBooks(int $start, int $limit, string $search): void
     {
         try {
             $database = new Database();
@@ -26,10 +26,10 @@ class BookController
             $query = "";
             $countQuery = "";
 
-            if(strlen($search)>0){
-                $query =  "SELECT * FROM book_details WHERE title LIKE '%$search%' LIMIT " . $limit . " OFFSET " . $offset;
+            if (strlen($search) > 0) {
+                $query = "SELECT * FROM book_details WHERE title LIKE '%$search%' LIMIT " . $limit . " OFFSET " . $offset;
                 $countQuery = "SELECT COUNT(*) as count FROM book_details WHERE title LIKE '%$search%'";
-            }else{
+            } else {
                 $query = "SELECT * FROM book_details LIMIT " . $limit . " OFFSET " . $offset;
                 $countQuery = "SELECT COUNT(*) as count FROM book_details";
             }
@@ -48,6 +48,28 @@ class BookController
         } catch (Exception $e) {
             var_dump($e);
             header("Location: http://localhost/bookshop/500");
+        }
+    }
+
+    function getBookDetail(int $bookDetailId): void
+    {
+
+        try {
+            $database = new Database();
+
+            $query = "SELECT * FROM book_details where id=" . $bookDetailId;
+            $bookDetail = $database->queryOne($query, new BookDetailMapper());
+
+            $params = [
+                'bookDetail' => $bookDetail
+            ];
+
+
+
+            $this->latte->render('templates\book_details\customer\book_details.latte', $params);
+        } catch (Exception $e) {
+            var_dump($e);
+//            header("Location: http://localhost/bookshop/500");
         }
     }
 }
