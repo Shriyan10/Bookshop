@@ -1,6 +1,8 @@
 <?php
+
 namespace App\controller\admin;
 
+use App\controller\BaseController;
 use App\Db\Database;
 use App\mapper\impl\RoleMapper;
 use App\model\Role;
@@ -8,62 +10,58 @@ use Exception;
 use Latte\Engine;
 
 
-class RoleController {
+class RoleController extends BaseController
+{
 
-    private Engine $latte;
-
-    public function __construct(Engine $latte)
+    public function __construct(Engine $latte, Database $database)
     {
-        $this->latte = $latte;
+        parent::__construct($latte, $database);
     }
 
     function getAllRoles(): void
     {
         try {
-            $database = new Database();
             $query = "SELECT * FROM roles";
 
-            $roles = $database -> queryAll($query, new RoleMapper());
+            $roles = $this->database->queryAll($query, new RoleMapper());
 
             $params = [
                 'roles' => $roles
             ];
 
-            $this -> latte->render('templates\roles\list_role.latte', $params);
+            $this->render('roles\list_role', $params);
         } catch (Exception $e) {
-            var_dump($e);
-            header("Location: http://localhost/bookshop/500");
+            $this->redirect("500");
         }
     }
 
     function getRole(int $roleId): void
     {
-        try{
-            $database = new Database();
+        try {
 
-            $query = "SELECT * FROM roles WHERE id=".$roleId;
-            $role = $database->queryOne($query, new RoleMapper());
+            $query = "SELECT * FROM roles WHERE id=" . $roleId;
+            $role = $this->database->queryOne($query, new RoleMapper());
 
             $params = [
                 'role' => $role
             ];
 
             // render to output
-            $this -> latte->render('templates\roles\edit_role.latte', $params);
+            $this->render('roles\edit_role', $params);
         } catch (Exception $e) {
-            var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+            $this->redirect("500");
         }
     }
 
-    function updateRole(int $roleId): void{
+    function updateRole(int $roleId): void
+    {
         try {
             $role = new Role(
                 $roleId,
                 $_POST['roleName'] ?? null,
             );
             $database = new Database();
-            $result = $database->query(
+            $result = $this->database->query(
                 "UPDATE roles SET name='%s' where id=%d",
                 [
                     $role->getName(),
@@ -74,44 +72,41 @@ class RoleController {
                 header("Location: http://localhost/bookshop/roles/");
             }
         } catch (Exception $e) {
-            var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+            $this->redirect("500");
         }
     }
 
-    function deleteRole(int $roleId): void{
+    function deleteRole(int $roleId): void
+    {
         try {
-            $database = new Database();
-            $result = $database->query("DELETE FROM roles where id=%d", [$roleId]);
+            $result = $this->database->query("DELETE FROM roles where id=%d", [$roleId]);
             if ($result) {
                 header("Location: http://localhost/bookshop/roles/");
             }
         } catch (Exception $e) {
-            var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+            $this->redirect("500");
         }
     }
 
-    function saveRolePage(): void {
+    function saveRolePage(): void
+    {
         try {
-            $this -> latte->render('templates\roles\add_role.latte', []);
+            $this->render('roles\add_role');
         } catch (Exception $e) {
-            var_dump($e);
-            header("Location: http://localhost/bookshop/404");
+            $this->redirect("500");
         }
     }
 
     function saveRole(): void
     {
         try {
-            $database = new Database();
 
             $role = new Role(
                 null,
                 $_POST['name'] ?? null
             );
 
-            $result = $database->query(
+            $result = $this->database->query(
                 "INSERT INTO roles(name) VALUES('%s')",
                 [
                     $role->getName(),
@@ -119,12 +114,11 @@ class RoleController {
             );
 
             if ($result) {
-                header("Location: http://localhost/bookshop/roles");
+                $this->redirect("roles");
             }
 
         } catch (Exception $e) {
-            var_dump($e);
-            header("Location: http://localhost/bookshop/500");
+            $this->redirect("500");
         }
     }
 }

@@ -2,26 +2,24 @@
 
 namespace App\controller\customer;
 
+use App\controller\BaseController;
 use App\db\Database;
 use App\mapper\impl\BookDetailMapper;
 use Exception;
 use Latte\Engine;
 
-class BookController
+class BookController extends BaseController
 {
-    private Engine $latte;
 
-    public function __construct(Engine $latte)
+    public function __construct(Engine $latte, Database $database)
     {
-        $this->latte = $latte;
+        parent::__construct($latte, $database);
     }
-
 
     function getAllBooks(int $start, int $limit, string $search): void
     {
         try {
-            $database = new Database();
-            $offset = ($start - 1) * $limit;
+            $offset = $this->offset($start, $limit);
 
             $query = "";
             $countQuery = "";
@@ -34,8 +32,8 @@ class BookController
                 $countQuery = "SELECT COUNT(*) as count FROM book_details";
             }
 
-            $bookDetails = $database->queryAll($query, new BookDetailMapper());
-            $total = $database->count($countQuery);
+            $bookDetails = $this->database->queryAll($query, new BookDetailMapper());
+            $total = $this->database->count($countQuery);
 
             $params = [
                 "bookDetails" => $bookDetails,
@@ -44,10 +42,10 @@ class BookController
                 "total" => $total,
                 "search" => $search
             ];
-            $this->latte->render('templates\book_details\customer\list_books.latte', $params);
+
+            $this->render('book_details\customer\list_books', $params);
         } catch (Exception $e) {
-            var_dump($e);
-            header("Location: http://localhost/bookshop/500");
+            $this->redirect("500");
         }
     }
 
@@ -55,21 +53,21 @@ class BookController
     {
 
         try {
-            $database = new Database();
 
-            $query = "SELECT * FROM book_details where id=" . $bookDetailId;
-            $bookDetail = $database->queryOne($query, new BookDetailMapper());
+            $query = "SELECT * FROM book_details WHERE id=" . $bookDetailId;
+            $bookDetail = $this->database->queryOne($query, new BookDetailMapper());
+            $count = "SELECT count(*) as count FROM books WHERE book_detail_id=" . $bookDetailId;
+            $totalBooks = $this->database->count($count);
 
             $params = [
-                'bookDetail' => $bookDetail
+                'bookDetail' => $bookDetail,
+                'totalBooks' => $totalBooks
             ];
 
-
-
-            $this->latte->render('templates\book_details\customer\book_details.latte', $params);
+            $this->render('book_details\customer\book_details', $params);
         } catch (Exception $e) {
             var_dump($e);
-//            header("Location: http://localhost/bookshop/500");
+            $this->redirect("500");
         }
     }
 }

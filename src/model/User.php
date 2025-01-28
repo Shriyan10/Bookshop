@@ -22,7 +22,7 @@ class User
      * @param string $password
      * @param int $roleId
      */
-    public function __construct(int|null $id,  string $firstName, string $lastName,  string $email, string|null $password, int|string $roleId, string $address, int $contactNo)
+    public function __construct(int|null $id, string $firstName, string $lastName, string $email, string|null $password, int|string $roleId, string $address, int $contactNo)
     {
         $this->id = $id;
         $this->firstName = $firstName;

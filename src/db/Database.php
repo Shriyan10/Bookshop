@@ -7,20 +7,6 @@ use mysqli;
 
 class Database
 {
-    public function queryAll(string $query, RowMapper $mapper)
-    {
-        $connection = $this->connect();
-        $result = $connection->query($query);
-        $objects = array();
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $object = $mapper->map($row);
-                array_push($objects, $object);
-            }
-        }
-        return $objects;
-    }
-
     public function connect()
     {
         $servername = "localhost";
@@ -38,19 +24,18 @@ class Database
         return $conn;
     }
 
-    public function query(string $query, array $params)
-    {
-        $query = sprintf($query, ...$params);
-        $connection = $this->connect();
-        return $connection->query($query);
-    }
-
-    public function count(string $query): int
+    public function queryAll(string $query, RowMapper $mapper)
     {
         $connection = $this->connect();
         $result = $connection->query($query);
-        $data = $result->fetch_assoc();
-        return (int) $data['count'];
+        $objects = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $object = $mapper->map($row);
+                array_push($objects, $object);
+            }
+        }
+        return $objects;
     }
 
     public function queryOne(string $query, RowMapper $mapper)
@@ -64,5 +49,22 @@ class Database
         }
         return null;
     }
+
+    public function query(string $query, array $params)
+    {
+        $query = sprintf($query, ...$params);
+        $connection = $this->connect();
+        return $connection->query($query);
+    }
+
+    public function count(string $query): int
+    {
+        $connection = $this->connect();
+        $result = $connection->query($query);
+        $data = $result->fetch_assoc();
+        return (int)$data['count'];
+    }
+
+
 }
 

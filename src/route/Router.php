@@ -6,26 +6,35 @@ namespace App\route;
 use App\controller\admin\BookDetailController;
 use App\controller\admin\RoleController;
 use App\controller\admin\UserController;
+use App\controller\AuthenticationController;
+use App\controller\BaseController;
 use App\controller\customer\BookController;
+use App\db\Database;
 use Latte\Engine;
 
-class Router
+class Router extends BaseController
 {
-    private Engine $latte;
-
-    public function __construct()
+    public function __construct(Engine $latte, Database $database)
     {
-        $this->latte = new Engine();
+        parent::__construct($latte, $database);
     }
-
 
     function route(string $path): void
     {
         // home
         if ($this->endsWith($path, 'bookshop/')) {
-
             $this->book($path);
-        } // roles
+        } elseif ($this->endswith($path, 'bookshop/login')) {
+            $authenticationController = new AuthenticationController($this->latte, $this->database);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $authenticationController->login($_POST['email'], $_POST['password']);
+            } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $authenticationController->loginPage();
+            }
+        } elseif ($this->endsWith($path, 'bookshop/logout')) {
+            $authenticationController = new AuthenticationController($this->latte, $this->database);
+            $authenticationController->logOut();
+        }// roles
         elseif (str_contains($path, 'bookshop/roles')) {
             $this->role($path);
         } // users
@@ -36,16 +45,15 @@ class Router
             $this->bookDetail($path);
         } //books
         elseif (str_contains($path, 'bookshop/books')) {
-
             $this->book($path);
-        }// 404 page
+        } // 500 page
         else if ($this->endsWith($path, '500')) {
-            $this->latte->render('templates\500.latte', []);
+            $this->render('500');
         } // 404 page
         else if ($this->endsWith($path, '404')) {
-            $this->latte->render('templates\404.latte', []);
+            $this->render('404');
         } else {
-            $this->latte->render('templates\404.latte', []);
+            $this->render('404');
         }
     }
 
@@ -60,7 +68,7 @@ class Router
 
     function role(string $path): void
     {
-        $roleController = new RoleController($this->latte);
+        $roleController = new RoleController($this->latte, $this->database);
         if (preg_match('#^/bookshop/roles/?$#', $path)) {
             $roleController->getAllRoles();
         } else if (preg_match('#^/bookshop/roles/save/?$#', $path)) {
@@ -82,11 +90,32 @@ class Router
 
     function user(string $path): void
     {
-        $userController = new UserController($this->latte);
-        if (preg_match('#^/bookshop/users/?$#', $path)) {
-            $userController->getAllUsers();
-        } elseif (preg_match('#^/bookshop/users\?start=\d+&limit=\d+$#', $path)) {
-            $userController->getAllUsers($_GET['start'], $_GET['limit']);
+        $userController = new UserController($this->latte, $this->database);
+        if (preg_match('#^/bookshop/users/?(?:\?.*)?$#', $path)) {
+
+            $start = 1;
+            $limit = 5;
+            $search = "";
+
+            if (isset($_GET['start'])) {
+                $start = $_GET['start'];
+            }
+
+            if (isset($_GET['limit'])) {
+                $limit = $_GET['limit'];
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if (isset($_POST['search'])) {
+                    $search = $_POST['search'];
+                }
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                if (isset($_GET['search'])) {
+                    $search = $_GET['search'];
+                }
+            }
+
+            $userController->getAllUsers($start, $limit, $search);
         } else if (preg_match('#^/bookshop/users/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $userController->saveUser();
@@ -106,7 +135,7 @@ class Router
 
     function bookDetail(string $path): void
     {
-        $bookDetailController = new BookDetailController($this->latte);
+        $bookDetailController = new BookDetailController($this->latte, $this->database);
         if (preg_match('#^/bookshop/book-details/?(?:\?.*)?$#', $path)) {
 
             $start = 1;
@@ -193,7 +222,7 @@ class Router
 
     function book(string $path): void
     {
-        $bookController = new BookController($this->latte);
+        $bookController = new BookController($this->latte, $this->database);
         if (preg_match('#^/bookshop/books/?(?:\?.*)?$#', $path) || preg_match('#^/bookshop/$#', $path)) {
 
             $start = 1;
@@ -223,6 +252,4 @@ class Router
             $bookController->getBookDetail($_GET['id']);
         }
     }
-
-
 }

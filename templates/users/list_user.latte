@@ -3,6 +3,11 @@
 <body>
 <h1>Users</h1>
 
+<form method="post">
+    <input type="text" name="search">
+    <button>Search</button>
+</form>
+
 <div>
     <a href="/bookshop/users/save">Add User</a>
 </div>
@@ -15,7 +20,6 @@
             <th>First name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>Password</th>
             <th>Role</th>
             <th>Address</th>
             <th>Contact no</th>
@@ -30,7 +34,6 @@
                 <td>{$user->firstName}</td>
                 <td>{$user->lastName}</td>
                 <td>{$user->email}</td>
-                <td>{$user->password}</td>
                 <td>{$user->roleId}</td>
                 <td>{$user->address}</td>
                 <td>{$user->contactNo}</td>
