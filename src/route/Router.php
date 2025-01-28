@@ -9,6 +9,7 @@ use App\controller\admin\UserController;
 use App\controller\AuthenticationController;
 use App\controller\BaseController;
 use App\controller\customer\BookController;
+use App\controller\customer\CartController;
 use App\db\Database;
 use Latte\Engine;
 
@@ -34,7 +35,14 @@ class Router extends BaseController
         } elseif ($this->endsWith($path, 'bookshop/logout')) {
             $authenticationController = new AuthenticationController($this->latte, $this->database);
             $authenticationController->logOut();
-        }// roles
+        }
+        elseif ($this->endswith($path, 'bookshop/customer/cart')) {
+            $cartController = new CartController($this->latte, $this->database);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $cartController->add([$_POST['bookDetailId'] => $_POST['quantity']]);
+            }
+        }
+        // roles
         elseif (str_contains($path, 'bookshop/roles')) {
             $this->role($path);
         } // users

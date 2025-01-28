@@ -16,7 +16,13 @@
         </a>
         <p class="item-price">Price: Rs.{$bookDetail->price}</p>
         <div class="item-button">
-            <a href="javascript:void(0)" class="cart">Add to Cart</a>
+            <form action="/bookshop/customer/cart" method="post">
+                <input type="hidden" value="{$bookDetail->id}" name="bookDetailId">
+                <label for="">Quantity</label>
+                <input type="number" value="1" name="quantity">
+                <button type="submit">Add to Cart</button>
+            </form>
+
             <a href="javascript:void(0)" class="buy">Buy</a>
         </div>
     </div>

@@ -50,7 +50,7 @@
                         </li>
                     {else}
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="/bookshop/cart">Cart</a>
+                            <a class="nav-link" href="/bookshop/cart">Cart - {$quantity}</a>
                         </li>
                     {/if}
 
@@ -62,8 +62,14 @@
                         <a class="nav-link" href="/bookshop/login">Login</a>
                     </li>
                     <li class="nav-item p-3">
-                        <a class="nav-link" href="/bookshop/cart">Cart</a>
+                        <a class="nav-link position-relative" href="/bookshop/cart">Cart
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {$quantity}
+                        </span>
+                        </a>
                     </li>
+
+
                 {/if}
 
 

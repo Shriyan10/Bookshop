@@ -30,6 +30,18 @@ class BaseController
             $params['LOGGED_IN_USER'] = null;
         }
 
+        $quantity = 0;
+
+        if(isset($_SESSION["cart"])){
+            $cart = $_SESSION["cart"];
+
+            foreach ($cart as $key => $value) {
+                $quantity += $value;
+            }
+        }
+
+        $params["quantity"] =$quantity;
+
         $this->latte->render("templates/" . $view . ".latte", $params);
     }
 
