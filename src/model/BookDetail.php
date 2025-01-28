@@ -11,15 +11,6 @@ class BookDetail
     public int $price;
     public string $imageUrl;
 
-    /**
-     * @param int|null $id
-     * @param string $title
-     * @param string $author
-     * @param string $publisher
-     * @param string $isbn
-     * @param int $price
-     * @param string $imageUrl
-     */
     public function __construct(int|null $id, string $title, string $author, string $publisher, string $isbn, int $price, string $imageUrl)
     {
         $this->id = $id;

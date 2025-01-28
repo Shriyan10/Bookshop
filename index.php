@@ -2,6 +2,7 @@
 
 use App\db\Database;
 use App\route\Router;
+use Dotenv\Dotenv;
 use Latte\Engine;
 
 require 'vendor/autoload.php';
@@ -11,8 +12,8 @@ $database = new Database();
 $router = new Router($latte, $database);
 $uri = $_SERVER['REQUEST_URI'];
 
-error_log("path: ".$uri);
-error_log("path: ". preg_match('#^/?(.*)?$#', $uri));
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 session_start();
 $router->route($uri);

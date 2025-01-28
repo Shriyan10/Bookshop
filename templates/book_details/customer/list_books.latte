@@ -16,7 +16,7 @@
         </a>
         <p class="item-price">Price: Rs.{$bookDetail->price}</p>
         <div class="item-button">
-            <form action="/customer/cart" method="post">
+            <form action="/cart" method="post">
                 <input type="hidden" value="{$bookDetail->id}" name="bookDetailId">
                 <label for="">Quantity</label>
                 <input type="number" value="1" name="quantity">

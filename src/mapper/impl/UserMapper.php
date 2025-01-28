@@ -3,7 +3,7 @@
 namespace App\mapper\impl;
 
 use App\mapper\RowMapper;
-use App\Model\User;
+use App\model\User;
 
 class UserMapper implements RowMapper
 {

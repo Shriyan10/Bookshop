@@ -9,11 +9,11 @@ class Database
 {
     public function connect()
     {
-        $servername = "127.0.0.1";
-        $username = "root";
-        $password = "Root@12345";
-        $database = "book_shop";
-        $port = 3306;
+        $servername = $_ENV['DATABASE_URL'];
+        $username = $_ENV['DATABASE_USERNAME'];
+        $password = $_ENV['DATABASE_PASSWORD'];
+        $database = $_ENV['DATABASE_NAME'];
+        $port = $_ENV['DATABASE_PORT'];
 
         $conn = new mysqli($servername, $username, $password, $database, $port);
 
