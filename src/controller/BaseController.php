@@ -50,7 +50,7 @@ class BaseController
 
     function redirect(string $url=""): void
     {
-        header("Location: http://localhost/bookshop/".$url);
+        header("Location: http://localhost:9900/".$url);
     }
 
     function offset(int $start = 1, int $limit = 5): int{

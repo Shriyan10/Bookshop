@@ -9,9 +9,9 @@ class Database
 {
     public function connect()
     {
-        $servername = "localhost";
+        $servername = "127.0.0.1";
         $username = "root";
-        $password = "root12345";
+        $password = "Root@12345";
         $database = "book_shop";
         $port = 3306;
 

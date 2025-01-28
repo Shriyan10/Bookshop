@@ -34,8 +34,11 @@ class AuthenticationController extends BaseController
 
     function logOut(): void
     {
-        session_unset();
-        session_destroy();
+        if (isset($_SESSION['user'])) {
+            session_unset();
+            session_destroy();
+        }
+
         $this->redirect();
     }
 

@@ -46,7 +46,7 @@ class BookDetailController extends BaseController
                 'total' => $total,
                 'search' => $search
             ];
-            $this->render('book_details\admin\list_book_detail', $params);
+            $this->render('book_details/admin/list_book_detail', $params);
         } catch (Exception $e) {
             $this->redirect('500');
         }
@@ -62,7 +62,7 @@ class BookDetailController extends BaseController
                 'bookDetail' => $bookDetail,
             ];
 
-            $this->render('book_details\admin\edit_book_detail', $params);
+            $this->render('book_details/admin/edit_book_detail', $params);
         } catch (Exception $e) {
             $this->redirect("500");
         }
@@ -125,7 +125,7 @@ class BookDetailController extends BaseController
             ];
 
             // render to output
-            $this->render('book_details\admin\add_book_detail', $params);
+            $this->render('book_details/admin/add_book_detail', $params);
         } catch (Exception $e) {
             var_dump($e);
             $this->redirect("500");
@@ -186,7 +186,7 @@ class BookDetailController extends BaseController
             ];
 
             // render to output
-            $this->render('book_details\admin\statistics_book_detail', $params);
+            $this->render('book_details/admin/statistics_book_detail', $params);
         } catch (Exception $e) {
             $this->redirect("500");
         }
@@ -202,7 +202,7 @@ class BookDetailController extends BaseController
         ];
 
         // render to output
-        $this->render('book_details\admin\add_book_inventory', $params);
+        $this->render('book_details/admin/add_book_inventory', $params);
     }
 
     function saveBook(): void
@@ -239,7 +239,7 @@ class BookDetailController extends BaseController
             'limit' => $limit,
             'total' => $total
         ];
-        $this->render('book_details\admin\list_book_inventory', $params);
+        $this->render('book_details/admin/list_book_inventory', $params);
     }
 
     function getBookByBookDetailIdAndId(int $bookDetailId, int $bookId): void
@@ -251,7 +251,7 @@ class BookDetailController extends BaseController
             'books' => $books,
             'bookDetail' => $bookDetail
         ];
-        $this->render('book_details\admin\list_book_inventory', $params);
+        $this->render('book_details/admin/list_book_inventory', $params);
     }
 
     function getBookDetailInventoryByBookDetailId(int|null $bookDetailId, string|null $createdDate, int|null|string $bookId, int $start = 1, int $limit = 5): void
@@ -336,7 +336,7 @@ class BookDetailController extends BaseController
             'limit' => $limit,
             'total' => $total
         ];
-        $this->render('book_details\admin\list_book_detail_inventory', $params);
+        $this->render('book_details/admin/list_book_detail_inventory', $params);
 
     }
 
@@ -355,7 +355,7 @@ class BookDetailController extends BaseController
             'limit' => $limit,
             'total' => $total
         ];
-        $this->render('book_details\admin\list_book_detail_inventory', $params);
+        $this->render('book_details/admin/list_book_detail_inventory', $params);
     }
 
     function updateBookDetailInventoryPage(int $bookId): void
@@ -368,7 +368,7 @@ class BookDetailController extends BaseController
             'bookStatusList' => $bookStatusList,
             'bookDetail' => $bookDetail
         ];
-        $this->render('book_details\admin\update_book_inventory', $params);
+        $this->render('book_details/admin/update_book_inventory', $params);
     }
 
     function updateBookDetailInventory(int $bookId): void

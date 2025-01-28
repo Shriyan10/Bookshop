@@ -32,8 +32,8 @@
             <td>{$book->title}</td>
             <td>{$book->status}</td>
             <td>
-                <a href="/bookshop/book-details/inventory/update?bookId={$book->id}">Edit</a>
-                <a href="/bookshop/book-details/inventory/delete?bookId={$book->id}&redirect={$deleteRedirect}">Delete</a>
+                <a href="/book-details/inventory/update?bookId={$book->id}">Edit</a>
+                <a href="/book-details/inventory/delete?bookId={$book->id}&redirect={$deleteRedirect}">Delete</a>
             </td>
         </tr>
     {/foreach}
@@ -43,7 +43,7 @@
 
     <ul class="pagination">
         {for $i = 1; $i <= round($total / $limit); $i++}
-            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/bookshop/book-details/inventory?start={$i}&limit={$limit}">{$i}</a></li>
+            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/book-details/inventory?start={$i}&limit={$limit}">{$i}</a></li>
         {/for}
 
     </ul>

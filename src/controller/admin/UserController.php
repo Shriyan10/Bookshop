@@ -40,7 +40,7 @@ class UserController extends BaseController
             'search' => $search
         ];
 
-        $this->render('users\list_user', $params);
+        $this->render('users/list_user', $params);
     }
 
 
@@ -59,7 +59,7 @@ class UserController extends BaseController
 
         // render to output
 
-        $this->render('users\edit_user', $params);
+        $this->render('users/edit_user', $params);
     }
 
 
@@ -119,7 +119,7 @@ class UserController extends BaseController
         ];
 
         // render to output
-        $this->render('users\add_user', $params);
+        $this->render('users/add_user', $params);
     }
 
     function saveUser(): void

@@ -15,7 +15,7 @@ class UserMapper implements RowMapper
             $row["first_name"],
             $row["last_name"],
             $row["email"],
-            $row["password"],
+            $row["password"] ?? null,
             $row["role_id"],
             $row["address"],
             $row["contact_no"]

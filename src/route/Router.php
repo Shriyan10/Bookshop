@@ -23,36 +23,36 @@ class Router extends BaseController
     function route(string $path): void
     {
         // home
-        if ($this->endsWith($path, 'bookshop/')) {
+        if ($path === '/') {
             $this->book($path);
-        } elseif ($this->endswith($path, 'bookshop/login')) {
+        } elseif (preg_match('#^/login/?$#', $path)) {
             $authenticationController = new AuthenticationController($this->latte, $this->database);
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $authenticationController->login($_POST['email'], $_POST['password']);
             } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $authenticationController->loginPage();
             }
-        } elseif ($this->endsWith($path, 'bookshop/logout')) {
+        } elseif (preg_match('#^/logout/?$#', $path)) {
             $authenticationController = new AuthenticationController($this->latte, $this->database);
             $authenticationController->logOut();
         }
-        elseif ($this->endswith($path, 'bookshop/customer/cart')) {
+        elseif (preg_match('#^/cart?$#', $path)) {
             $cartController = new CartController($this->latte, $this->database);
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $cartController->add([$_POST['bookDetailId'] => $_POST['quantity']]);
             }
         }
         // roles
-        elseif (str_contains($path, 'bookshop/roles')) {
+        elseif (str_contains($path, '/roles')) {
             $this->role($path);
         } // users
-        elseif (str_contains($path, 'bookshop/users')) {
+        elseif (str_contains($path, '/users')) {
             $this->user($path);
         } //book-details
-        elseif (str_contains($path, 'bookshop/book-details')) {
+        elseif (str_contains($path, '/book-details')) {
             $this->bookDetail($path);
         } //books
-        elseif (str_contains($path, 'bookshop/books')) {
+        elseif (str_contains($path, '/books')) {
             $this->book($path);
         } // 500 page
         else if ($this->endsWith($path, '500')) {
@@ -77,21 +77,21 @@ class Router extends BaseController
     function role(string $path): void
     {
         $roleController = new RoleController($this->latte, $this->database);
-        if (preg_match('#^/bookshop/roles/?$#', $path)) {
+        if (preg_match('#^/roles/?$#', $path)) {
             $roleController->getAllRoles();
-        } else if (preg_match('#^/bookshop/roles/save/?$#', $path)) {
+        } else if (preg_match('#^/roles/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $roleController->saveRole();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $roleController->saveRolePage();
             }
-        } else if (preg_match('#^/bookshop/roles/edit\?roleId=\d+$#', $path)) {
+        } else if (preg_match('#^/roles/edit\?roleId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $roleController->updateRole($_GET['roleId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $roleController->getRole($_GET['roleId']);
             }
-        } else if (preg_match('#^/bookshop/roles/delete\?roleId=\d+$#', $path)) {
+        } else if (preg_match('#^/roles/delete\?roleId=\d+$#', $path)) {
             $roleController->deleteRole($_GET['roleId']);
         }
     }
@@ -99,7 +99,7 @@ class Router extends BaseController
     function user(string $path): void
     {
         $userController = new UserController($this->latte, $this->database);
-        if (preg_match('#^/bookshop/users/?(?:\?.*)?$#', $path)) {
+        if (preg_match('#^/users/?(?:\?.*)?$#', $path)) {
 
             $start = 1;
             $limit = 5;
@@ -124,19 +124,19 @@ class Router extends BaseController
             }
 
             $userController->getAllUsers($start, $limit, $search);
-        } else if (preg_match('#^/bookshop/users/save/?$#', $path)) {
+        } else if (preg_match('#^/users/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $userController->saveUser();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $userController->saveUserPage();
             }
-        } else if (preg_match('#^/bookshop/users/edit\?userId=\d+$#', $path)) {
+        } else if (preg_match('#^/users/edit\?userId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $userController->updateUser($_GET['userId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $userController->getUser($_GET['userId']);
             }
-        } else if (preg_match('#^/bookshop/users/delete\?userId=\d+$#', $path)) {
+        } else if (preg_match('#^/users/delete\?userId=\d+$#', $path)) {
             $userController->deleteUser($_GET['userId']);
         }
     }
@@ -144,7 +144,7 @@ class Router extends BaseController
     function bookDetail(string $path): void
     {
         $bookDetailController = new BookDetailController($this->latte, $this->database);
-        if (preg_match('#^/bookshop/book-details/?(?:\?.*)?$#', $path)) {
+        if (preg_match('#^/book-details/?(?:\?.*)?$#', $path)) {
 
             $start = 1;
             $limit = 3;
@@ -169,61 +169,61 @@ class Router extends BaseController
             }
 
             $bookDetailController->getAllBookDetails($start, $limit, $search);
-        } else if (preg_match('#^/bookshop/book-details/save/?$#', $path)) {
+        } else if (preg_match('#^/book-details/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->saveBookDetails();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->saveBookDetailsPage();
             }
-        } else if (preg_match('#^/bookshop/book-details/edit\?bookDetailId=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/edit\?bookDetailId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->updateBookDetails($_GET['bookDetailId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->getBookDetails($_GET['bookDetailId']);
             }
-        } else if (preg_match('#^/bookshop/book-details/delete\?bookDetailId=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/delete\?bookDetailId=\d+$#', $path)) {
             $bookDetailController->deleteBookDetails($_GET['bookDetailId']);
-        } else if (preg_match('#^/bookshop/book-details/stats\?bookDetailId=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/stats\?bookDetailId=\d+$#', $path)) {
             $bookDetailController->statistics($_GET['bookDetailId']);
-        } else if (preg_match('#^/bookshop/book-details/inventory\?bookDetailId=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory\?bookDetailId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->getBookByBookDetailIdAndId($_GET['bookDetailId'], $_POST['bookId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->getBookByBookDetailId($_GET['bookDetailId']);
             }
-        } else if (preg_match('#^/bookshop/book-details/inventory\?bookDetailId=\d+&start=\d+&limit=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory\?bookDetailId=\d+&start=\d+&limit=\d+$#', $path)) {
             $bookDetailController->getBookByBookDetailId($_GET['bookDetailId'], $_GET['start'], $_GET['limit']);
-        } else if (preg_match('#^/bookshop/book-details/inventory\?bookId=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory\?bookId=\d+$#', $path)) {
             $bookDetailController->getBookByBookDetailIdAndId($_GET['bookId']);
-        } else if (preg_match('#^/bookshop/book-details/inventory/save\?bookDetailId=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory/save\?bookDetailId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->saveBook();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->saveBookPage($_GET['bookDetailId']);
             }
-        } else if (preg_match('#^/bookshop/book-details/inventory/save?$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->saveBook();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->saveBookPage(null);
             }
-        } else if (preg_match('#^/bookshop/book-details/inventory/?$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->getBookDetailInventoryByBookDetailId($_POST['bookDetailId'], $_POST['date'], $_POST['bookId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->getBookDetailInventory();
             }
-        } else if (preg_match('#^/bookshop/book-details/inventory\?start=\d+&limit=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory\?start=\d+&limit=\d+$#', $path)) {
             $bookDetailController->getBookDetailInventory($_GET['start'], $_GET['limit']);
-        } else if (preg_match('#^/bookshop/book-details/inventory\?start=\d+&limit=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory\?start=\d+&limit=\d+$#', $path)) {
             $bookDetailController->getBookDetailInventoryByBookDetailId($_POST['bookDetailId'], $_POST['date'], $_POST['bookId'], $_GET['start'], $_GET['limit']);
-        } else if (preg_match('#^/bookshop/book-details/inventory/update\?bookId=\d+$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory/update\?bookId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->updateBookDetailInventory($_GET['bookId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $bookDetailController->updateBookDetailInventoryPage($_GET['bookId']);
             }
-        } else if (preg_match('#^/bookshop/book-details/inventory/delete\?bookId=\d+&redirect=.*$#', $path)) {
+        } else if (preg_match('#^/book-details/inventory/delete\?bookId=\d+&redirect=.*$#', $path)) {
             $bookDetailController->deleteBookDetailInventory($_GET['bookId'], $_GET['redirect']);
         }
     }
@@ -231,7 +231,7 @@ class Router extends BaseController
     function book(string $path): void
     {
         $bookController = new BookController($this->latte, $this->database);
-        if (preg_match('#^/bookshop/books/?(?:\?.*)?$#', $path) || preg_match('#^/bookshop/$#', $path)) {
+        if (preg_match('#^/?(?:\?.*)?$#', $path)) {
 
             $start = 1;
             $limit = 3;
@@ -256,7 +256,7 @@ class Router extends BaseController
             }
 
             $bookController->getAllBooks($start, $limit, $search);
-        } elseif (preg_match('#^/bookshop/books/detail\?id=\d+$#', $path)) {
+        } elseif (preg_match('#^/books/detail\?id=\d+$#', $path)) {
             $bookController->getBookDetail($_GET['id']);
         }
     }
