@@ -19,30 +19,24 @@ class UserController extends BaseController
         parent::__construct($latte, $database);
     }
 
-    function getAllUsers(int $start, int $limit, string $search): void
+    function getAllUsers(int $start, int $limit, string $search = ""): void
     {
-
-        $offset = $this->offset($start, $limit);
-
-        $query = "";
-        $countQuery = "";
+        $query = "SELECT u.id, u.first_name, u.last_name, u.email, u.address, u.contact_no, r.name AS role_id FROM users u JOIN roles r ON r.id=u.role_id";
+        $countQuery = "SELECT COUNT(*) AS count FROM users u";
 
         if (strlen($search) > 0) {
-            $query = "SELECT * FROM users WHERE first_name LIKE '%$search%' or last_name LIKE '%$search%' LIMIT " . $limit . " OFFSET " . $offset;
-            $countQuery = "SELECT COUNT(*) as count FROM users WHERE first_name LIKE '%$search%' or last_name LIKE '%$search%'";
-        } else {
-            $query = "SELECT * FROM users LIMIT " . $limit . " OFFSET " . $offset;
-            $countQuery = "SELECT COUNT(*) as count FROM users";
+            $searchQuery = " WHERE u.first_name LIKE '%$search%' OR u.last_name LIKE '%$search%'";
+            $query .= $searchQuery;
+            $countQuery .= $searchQuery;
         }
 
-        $users = $this->database->queryAll($query, new UserMapper());
-        $total = $this->database->count($countQuery);
+        $response = $this->database->queryAllPaginated($query, $countQuery, $start, $limit, new UserMapper());
 
         $params = [
-            'users' => $users,
+            'users' => $response->data,
             'start' => $start,
             'limit' => $limit,
-            'total' => $total,
+            'total' => $response->total,
             'search' => $search
         ];
 

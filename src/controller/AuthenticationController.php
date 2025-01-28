@@ -13,9 +13,9 @@ class AuthenticationController extends BaseController
         parent::__construct($latte, $database);
     }
 
-    function login(string $email, string $password)
+    function login(string $email, string $password): void
     {
-        $sql = "SELECT u.id, u.first_name, u.last_name, u.email, u.address, u.contact_no, r.name as role_id, u.password FROM users u JOIN roles r ON u.role_id = r.id where u.email='$email'";
+        $sql = "SELECT u.id, u.first_name, u.last_name, u.email, u.address, u.contact_no, r.name AS role_id, u.password FROM users u JOIN roles r ON u.role_id = r.id WHERE u.email='$email'";
 
         $user = $this->database->queryOne($sql, new UserMapper());
 
@@ -32,19 +32,19 @@ class AuthenticationController extends BaseController
         }
     }
 
-    function logOut()
+    function logOut(): void
     {
         session_unset();
         session_destroy();
         $this->redirect();
     }
 
-    function loginPage()
+    function loginPage(): void
     {
         if (isset($_SESSION['user'])) {
             $this->redirect();
         } else {
-            $this->render("login", []);
+            $this->render("login");
         }
 
     }

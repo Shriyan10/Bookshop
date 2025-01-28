@@ -8,33 +8,42 @@ use Latte\Engine;
 
 class CartController extends BaseController
 {
-
     public function __construct(Engine $latte, Database $database)
     {
         parent::__construct($latte, $database);
     }
 
-
+    /**
+     * $_SESSION['cart'] structure
+     * [
+     *  1 => 2,
+     *  2 => 3
+     * ]
+     */
     function add($items = []): void
     {
         if (!isset($_SESSION['cart'])) {
+            // Create a cart if it does not exist
             $_SESSION['cart'] = [];
         }
 
         $cart = $_SESSION['cart'];
 
-        foreach ($items as $key => $value) {
-            if (array_key_exists($key, $cart)){
-                $cart[$key] = $cart[$key]+$value;
-            }else{
-                $cart[$key] = $value;
+        foreach ($items as $bookDetailId => $quantity) {
+
+            $bookDetailIdExists = array_key_exists($bookDetailId, $cart);
+
+            if ($bookDetailIdExists) {
+                $totalQuantity = $cart[$bookDetailId] + $quantity;
+                $cart[$bookDetailId] = $totalQuantity;
+            } else {
+                $cart[$bookDetailId] = $quantity;
             }
+
         }
 
         $_SESSION['cart'] = $cart;
 
-$this->redirect();
-
-
+        $this->redirect();
     }
 }
