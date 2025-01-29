@@ -6,7 +6,7 @@ create table book_details
     author    varchar(200) null,
     publisher varchar(200) null,
     isbn      varchar(20)  null,
-    price     int(10)      null,
+    price     int          null,
     image_url varchar(255) null
 );
 
@@ -14,8 +14,10 @@ create table books
 (
     id             int auto_increment
         primary key,
-    status         enum ('SOLD', 'AVAILABLE', 'DAMAGED') default 'AVAILABLE' null,
-    book_detail_id int                                                       not null,
+    status         enum ('SOLD', 'AVAILABLE', 'DAMAGED') default 'AVAILABLE'       null,
+    book_detail_id int                                                             not null,
+    created_date   timestamp                             default CURRENT_TIMESTAMP null,
+    updated_date   timestamp                                                       null on update CURRENT_TIMESTAMP,
     constraint books_ibfk_1
         foreign key (book_detail_id) references book_details (id)
 );
@@ -37,10 +39,10 @@ create table users
     first_name varchar(50)  not null,
     last_name  varchar(50)  not null,
     email      varchar(100) not null,
-    password   varchar(10)  not null,
+    password   varchar(100) not null,
     role_id    int          null,
     address    varchar(50)  not null,
-    contact_no int(10)      not null,
+    contact_no int          not null,
     constraint users_ibfk_1
         foreign key (role_id) references roles (id)
 );
@@ -49,9 +51,9 @@ create table payments
 (
     id              int auto_increment
         primary key,
-    total_cost      int(10) not null,
-    delivery_charge int(12) null,
-    user_id         int     not null,
+    total_cost      int not null,
+    delivery_charge int null,
+    user_id         int not null,
     constraint payment_user_id_user_id_fk
         foreign key (user_id) references users (id)
 );
