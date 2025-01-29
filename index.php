@@ -12,8 +12,13 @@ $database = new Database();
 $router = new Router($latte, $database);
 $uri = $_SERVER['REQUEST_URI'];
 
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+// Check if the .env file exists before loading
+if (file_exists(__DIR__ . '/.env')) {
+    $dotenv = Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+} else{
+    error_log("WARNING .env file not found");
+}
 
 session_start();
 $router->route($uri);
