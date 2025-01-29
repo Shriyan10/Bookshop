@@ -12,7 +12,8 @@
     }
   },
   "scripts": {
-    "serve": "php -S 127.0.0.1:9900 -t ."
+    "serve": "php -S 127.0.0.1:9900 -t .",
+    "analyze": "vendor/bin/phpstan analyze src && vendor/bin/phpstan analyze index.php"
   },
   "config": {
     "process-timeout":0

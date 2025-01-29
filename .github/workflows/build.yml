@@ -32,7 +32,7 @@ jobs:
       # Run PHPStan Analysis
       - name: Run PHPStan
         run: |
-          vendor/bin/phpstan analyse src
+          vendor/bin/phpstan analyze src && vendor/bin/phpstan analyze index.php
 
       # Build Docker image
       - name: Build Docker image
