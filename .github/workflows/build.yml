@@ -29,6 +29,11 @@ jobs:
           curl -sS https://getcomposer.org/installer | php
           php composer.phar install --no-interaction
 
+      # Run PHPStan Analysis
+      - name: Run PHPStan
+        run: |
+          vendor/bin/phpstan analyse src
+
       # Build Docker image
       - name: Build Docker image
         run: |

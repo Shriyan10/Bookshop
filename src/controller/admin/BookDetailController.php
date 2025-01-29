@@ -4,7 +4,7 @@ namespace App\controller\admin;
 
 
 use App\controller\BaseController;
-use App\Db\Database;
+use App\db\Database;
 use App\mapper\impl\BookDetailMapper;
 use App\mapper\impl\BookDetailStatsMapper;
 use App\mapper\impl\BookMapper;

@@ -3,7 +3,7 @@
 namespace App\controller\admin;
 
 use App\controller\BaseController;
-use App\Db\Database;
+use App\db\Database;
 use App\mapper\impl\RoleMapper;
 use App\mapper\impl\UserMapper;
 use App\model\User;
