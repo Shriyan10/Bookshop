@@ -12,16 +12,6 @@ class User
     public string $address;
     public int $contactNo;
 
-    /**
-     * @param int $id
-     * @param string $address
-     * @param int $contactNo
-     * @param string $email
-     * @param string $firstName
-     * @param string $lastName
-     * @param string $password
-     * @param int $roleId
-     */
     public function __construct(int|null $id, string $firstName, string $lastName, string $email, string|null $password, int|string $roleId, string $address, int $contactNo)
     {
         $this->id = $id;

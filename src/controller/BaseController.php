@@ -33,11 +33,14 @@ class BaseController
         $quantity = 0;
 
         if(isset($_SESSION["cart"])){
+
             $cart = $_SESSION["cart"];
 
+            // Add all the quantities of the books in the cart
             foreach ($cart as $key => $value) {
                 $quantity += $value;
             }
+
         }
 
         $params["quantity"] =$quantity;
@@ -47,7 +50,14 @@ class BaseController
 
     function redirect(string $url=""): void
     {
-        header("Location: http://localhost/bookshop/".$url);
+        // Get the current protocol (http or https)
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+
+        // Get the current host and port (if necessary)
+        $host = $_SERVER['HTTP_HOST'];  // Will give you localhost:9900 or domain:port
+        $baseUrl = $protocol . '://' . $host . '/';
+
+        header("Location: ".$baseUrl.$url);
     }
 
     function offset(int $start = 1, int $limit = 5): int{

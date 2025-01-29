@@ -9,11 +9,11 @@ class Database
 {
     public function connect()
     {
-        $servername = "localhost";
-        $username = "root";
-        $password = "root12345";
-        $database = "book_shop";
-        $port = 3306;
+        $servername = $_ENV['DATABASE_URL'];
+        $username = $_ENV['DATABASE_USERNAME'];
+        $password = $_ENV['DATABASE_PASSWORD'];
+        $database = $_ENV['DATABASE_NAME'];
+        $port = $_ENV['DATABASE_PORT'];
 
         $conn = new mysqli($servername, $username, $password, $database, $port);
 
@@ -65,6 +65,29 @@ class Database
         return (int)$data['count'];
     }
 
+    public function queryAllPaginated(string $query, string $countQuery, int $start, int $limit, RowMapper $mapper): PaginatedResponse
+    {
+        $offset = ($start - 1) * $limit;
+        $limitQuery = " LIMIT $limit OFFSET $offset";
 
+        $connection = $this->connect();
+        $result = $connection->query($query . $limitQuery);
+
+        $objects = array();
+        $count = 0;
+        $totalCount = 0;
+
+        if ($result->num_rows > 0) {
+
+            while ($row = $result->fetch_assoc()) {
+                $object = $mapper->map($row);
+                $count += array_push($objects, $object);
+            }
+
+            $totalCount = $this->count($countQuery . $limitQuery);
+        }
+
+        return new PaginatedResponse($objects, $totalCount, $count);
+    }
 }
 

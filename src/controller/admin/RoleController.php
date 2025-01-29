@@ -29,7 +29,7 @@ class RoleController extends BaseController
                 'roles' => $roles
             ];
 
-            $this->render('roles\list_role', $params);
+            $this->render('roles/list_role', $params);
         } catch (Exception $e) {
             $this->redirect("500");
         }
@@ -47,7 +47,7 @@ class RoleController extends BaseController
             ];
 
             // render to output
-            $this->render('roles\edit_role', $params);
+            $this->render('roles/edit_role', $params);
         } catch (Exception $e) {
             $this->redirect("500");
         }
@@ -69,7 +69,7 @@ class RoleController extends BaseController
                 ],
             );
             if ($result) {
-                header("Location: http://localhost/bookshop/roles/");
+                $this->redirect("roles");
             }
         } catch (Exception $e) {
             $this->redirect("500");
@@ -81,7 +81,7 @@ class RoleController extends BaseController
         try {
             $result = $this->database->query("DELETE FROM roles where id=%d", [$roleId]);
             if ($result) {
-                header("Location: http://localhost/bookshop/roles/");
+                $this->redirect("roles");
             }
         } catch (Exception $e) {
             $this->redirect("500");
@@ -91,7 +91,7 @@ class RoleController extends BaseController
     function saveRolePage(): void
     {
         try {
-            $this->render('roles\add_role');
+            $this->render('roles/add_role');
         } catch (Exception $e) {
             $this->redirect("500");
         }

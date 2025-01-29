@@ -7,10 +7,6 @@ class Role
     public int|null $id;
     public string $name;
 
-    /**
-     * @param int|null $id
-     * @param string $name
-     */
     public function __construct(int|null $id, string $name)
     {
         $this->id = $id;

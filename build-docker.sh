@@ -1,0 +1,1 @@
+docker build -t mnzit/bookshop . --platform linux/amd64

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href='./assets/styles.css'>
+    <link rel="stylesheet" href='/assets/styles.css'>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
             integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -20,7 +20,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/bookshop/">Bookshop</a>
+        <a class="navbar-brand" href="/">Bookshop</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -34,35 +34,39 @@
 
                     {if $LOGGED_IN_USER -> roleId == "ADMIN"}
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="/bookshop/roles">Roles</a>
+                            <a class="nav-link" href="/roles">Roles</a>
                         </li>
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="/bookshop/users">Users</a>
+                            <a class="nav-link" href="/users">Users</a>
                         </li>
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="/bookshop/book-details">Book Details</a>
+                            <a class="nav-link" href="/book-details">Book Details</a>
                         </li>
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="/bookshop/book-details/inventory">Book Inventory</a>
+                            <a class="nav-link" href="/book-details/inventory">Book Inventory</a>
                         </li>
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="/bookshop/book-details/inventory/save">Add Book</a>
+                            <a class="nav-link" href="/book-details/inventory/save">Add Book</a>
                         </li>
                     {else}
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="/bookshop/cart">Cart - {$quantity}</a>
+                            <a class="nav-link position-relative" href="/cart">Cart
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {$quantity}
+                        </span>
+                            </a>
                         </li>
                     {/if}
 
                     <li class="nav-item p-3">
-                        <a class="nav-link" href="/bookshop/logout">Logout</a>
+                        <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 {else}
                     <li class="nav-item p-3">
-                        <a class="nav-link" href="/bookshop/login">Login</a>
+                        <a class="nav-link" href="/login">Login</a>
                     </li>
                     <li class="nav-item p-3">
-                        <a class="nav-link position-relative" href="/bookshop/cart">Cart
+                        <a class="nav-link position-relative" href="/cart">Cart
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {$quantity}
                         </span>

@@ -4,12 +4,10 @@ namespace App\projection;
 class BookDetailStatistics
 {
     public int $id;
-
     public string $title;
     public int $sold;
     public int $available;
     public int $damaged;
-
 
     public function getAvailable(): int
     {

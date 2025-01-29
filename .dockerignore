@@ -1,0 +1,11 @@
+vendor
+database.sql
+.env*
+.gitignore
+.git
+.dockerignore
+README.md
+Dockerfile
+*.sh
+.idea
+.github

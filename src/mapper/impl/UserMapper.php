@@ -3,7 +3,7 @@
 namespace App\mapper\impl;
 
 use App\mapper\RowMapper;
-use App\Model\User;
+use App\model\User;
 
 class UserMapper implements RowMapper
 {
@@ -15,7 +15,7 @@ class UserMapper implements RowMapper
             $row["first_name"],
             $row["last_name"],
             $row["email"],
-            $row["password"],
+            $row["password"] ?? null,
             $row["role_id"],
             $row["address"],
             $row["contact_no"]

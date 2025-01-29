@@ -3,7 +3,7 @@
 namespace App\mapper\impl;
 
 use App\mapper\RowMapper;
-use App\Model\Role;
+use App\model\Role;
 
 class RoleMapper implements RowMapper
 {

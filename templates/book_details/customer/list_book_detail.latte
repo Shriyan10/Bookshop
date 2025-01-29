@@ -2,7 +2,7 @@
 
 <body>
     <h1>Book Details</h1>
-    <a href="/bookshop/book-details/save">Add Book</a>
+    <a href="/book-details/save">Add Book</a>
     {foreach $bookDetails as $bookDetail}
     <div class="row-box">
         <a href="details/{$bookDetail->id}">
@@ -15,9 +15,9 @@
             <a href="checkout.php" class="buy">Buy</a>
         </div>
         <div>
-            <a href="/bookshop/book-details/edit?bookDetailId={$bookDetail->id}">Edit</a>
-            <a href="/bookshop/book-details/delete?bookDetailId={$bookDetail->id}">Delete</a>
-            <a href="/bookshop/book-details/view?bookDetailId={$bookDetail->id}">View</a>
+            <a href="/book-details/edit?bookDetailId={$bookDetail->id}">Edit</a>
+            <a href="/book-details/delete?bookDetailId={$bookDetail->id}">Delete</a>
+            <a href="/book-details/view?bookDetailId={$bookDetail->id}">View</a>
         </div>
     </div>
 

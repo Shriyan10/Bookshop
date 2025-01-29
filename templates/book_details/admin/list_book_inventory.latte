@@ -20,8 +20,8 @@
             <td>{$book->id}</td>
             <td>{$book->status}</td>
             <td>
-                <a href="/bookshop/book-details/inventory/update?bookId={$book->id}">Edit</a>
-                <a href="/bookshop/book-details/inventory/delete?bookId={$book->id}&redirect={$deleteRedirect}">Delete</a>
+                <a href="/book-details/inventory/update?bookId={$book->id}">Edit</a>
+                <a href="/book-details/inventory/delete?bookId={$book->id}&redirect={$deleteRedirect}">Delete</a>
             </td>
         </tr>
     {/foreach}
@@ -30,7 +30,7 @@
 
     <ul class="pagination">
         {for $i = 1; $i <= round($total / $limit); $i++}
-            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/bookshop/book-details/inventory?bookDetailId={$bookDetail->id}&start={$i}&limit={$limit}">{$i}</a></li>
+            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/book-details/inventory?bookDetailId={$bookDetail->id}&start={$i}&limit={$limit}">{$i}</a></li>
         {/for}
 
     </ul>
@@ -42,7 +42,7 @@
 
         <ul class="dropdown-menu">
             {foreach $recordsPerPage as $records}
-                <li><a class="dropdown-item" href="/bookshop/book-details/inventory?bookDetailId={$bookDetail->id}&start=0&limit={$records}">{$records}</a></li>
+                <li><a class="dropdown-item" href="/book-details/inventory?bookDetailId={$bookDetail->id}&start=0&limit={$records}">{$records}</a></li>
             {/foreach}
 
 

@@ -4,7 +4,7 @@
 <h1>Book Details</h1>
 
 <div>
-    <a href="/bookshop/book-details/save">Add Book Detail</a>
+    <a href="/book-details/save">Add Book Detail</a>
 </div>
 
 {if count($bookDetails) > 0}
@@ -38,11 +38,11 @@
                 <td>{$bookDetail->isbn}</td>
                 <td>{$bookDetail->price}</td>
                 <td>
-                    <a href="/bookshop/book-details/edit?bookDetailId={$bookDetail->id}">Edit</a>
-                    <a href="/bookshop/book-details/delete?bookDetailId={$bookDetail->id}">Delete</a>
-                    <a href="/bookshop/book-details/stats?bookDetailId={$bookDetail->id}">Statistics</a>
-                    <a href="/bookshop/book-details/inventory/save?bookDetailId={$bookDetail->id}">Add Books</a>
-                    <a href="/bookshop/book-details/inventory?bookDetailId={$bookDetail->id}">Inventory</a>
+                    <a href="/book-details/edit?bookDetailId={$bookDetail->id}">Edit</a>
+                    <a href="/book-details/delete?bookDetailId={$bookDetail->id}">Delete</a>
+                    <a href="/book-details/stats?bookDetailId={$bookDetail->id}">Statistics</a>
+                    <a href="/book-details/inventory/save?bookDetailId={$bookDetail->id}">Add Books</a>
+                    <a href="/book-details/inventory?bookDetailId={$bookDetail->id}">Inventory</a>
                 </td>
             </tr>
 
@@ -53,16 +53,11 @@
 
         <ul class="pagination">
             {for $i = 1; $i <= round($total / $limit); $i++}
-                <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/bookshop/book-details?start={$i}&limit={$limit}&search={$search}">{$i}</a></li>
+                <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/book-details?start={$i}&limit={$limit}&search={$search}">{$i}</a></li>
             {/for}
 
         </ul>
 
-        <select>
-            <option>5</option>
-            <option>10</option>
-            <option>15</option>
-        </select>
     </form>
 {else}
     <p>Book Detail list is empty.</p>
