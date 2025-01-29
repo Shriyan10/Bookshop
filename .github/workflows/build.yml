@@ -32,7 +32,7 @@ jobs:
       # Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t mnzit/bookshop:${{ github.sha }} .
+          docker build -t mnzit/bookshop:latest .
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
@@ -44,4 +44,4 @@ jobs:
       # Push Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
         run: |
-          docker push mnzit/bookshop:${{ github.sha }}
+          docker push mnzit/bookshop:latest
