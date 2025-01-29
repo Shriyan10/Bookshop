@@ -1,5 +1,4 @@
 {include '../../common/headers.latte'}
-{$recordsPerPage = ['5', '10', '15']}
 <body>
 <label for="name">Name</label>
 <h1>{$bookDetail->title}</h1>
@@ -34,20 +33,6 @@
         {/for}
 
     </ul>
-
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown button
-        </button>
-
-        <ul class="dropdown-menu">
-            {foreach $recordsPerPage as $records}
-                <li><a class="dropdown-item" href="/book-details/inventory?bookDetailId={$bookDetail->id}&start=0&limit={$records}">{$records}</a></li>
-            {/foreach}
-
-
-        </ul>
-    </div>
 </form>
 
 </body>
