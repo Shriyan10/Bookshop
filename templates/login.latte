@@ -1,25 +1,40 @@
-{include './common/headers.latte'}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Heritage</title>
+    <link rel=" icon" href="/assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href='/assets/styles.css'>
+</head>
+<body class="login">
 
-<body>
-<h1>Login</h1>
-<body class="align-center">
+
+
 <div class="box">
-    <form method="post">
-        <div>
-            <label for="email" class="block">Email</label>
-            <input type="text" id="email" placeholder="Enter email" name="email">
-        </div>
-        <div>
-            <label for="password" class="block">Password</label>
-            <input type="password" id="password" min="8" placeholder="Enter password" name="password">
-        </div>
-        <div class="buttons-container">
+    <div class="loginimg">
+        <img src="/assets/loginpic.png" alt="Artisan Heritage Image">
+    </div>
+    <div class="form-section">
+
+        <form method="post">
+            <div class="form-group">
+                <label for="email" class="block">Email Address</label>
+                <input type="text" id="email" name="email" placeholder="Enter email" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password" class="block">Password</label>
+                <input type="password" id="password" min="8" placeholder="Enter password" name="password">
+                <a href="forgot_password.php">Forgot password?</a>
+            </div>
             <button type="submit" class="btn-border">Login</button>
-            <a href="#" class="btn-border">Register</a>
+        </form>
+
+        <div class="register">
+            Don’t have an account? <a href="#" class="btn-border">Register</a>
         </div>
-    </form>
+    </div>
 </div>
-</body>
 
 </body>
 </html>
