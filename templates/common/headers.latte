@@ -30,9 +30,7 @@
 
         <div class="user-info">
             {if $isLoggedIn}
-            <span class="username">{$LOGGED_IN_USER -> firstName}</span>
-
-            <a href="/logout" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
+            <span class="username">👤{$LOGGED_IN_USER -> firstName}</span>
             {/if}
         </div>
 
@@ -43,22 +41,24 @@
 
                     <a class="nav-link" href="/users">Users</a>
 
-                    <a class="nav-link" href="/book-details">Book Details</a>
+                    <a class="nav-link" href="/book-details">Product Details</a>
 
-                    <a class="nav-link" href="/book-details/inventory">Book Inventory</a>
+                    <a class="nav-link" href="/book-details/inventory">product Inventory</a>
 
-                    <a class="nav-link" href="/book-details/inventory/save">Add Book</a>
+                    <a class="nav-link" href="/book-details/inventory/save">Add Product</a>
+
+                <a href="/logout" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
 
             {else}
+                <a class="nav-link" href="/cart">Cart - {$quantity}</a>
                 <a class="nav-link" href="/about">About</a>
                 <a class="nav-link" href="/contact-us">Contact Us</a>
-                <a class="nav-link" href="/cart">Cart - {$quantity}</a>
             {/if}
         {else}
-            <a href="/login" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
             <a class="nav-link" href="/cart">Cart - {$quantity}</a>
             <a class="nav-link" href="/about">About</a>
             <a class="nav-link" href="/contact-us">Contact Us</a>
+            <a href="/login" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
         {/if}
 
     </nav>
