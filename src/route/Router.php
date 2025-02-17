@@ -147,7 +147,7 @@ class Router extends BaseController
         if (preg_match('#^/book-details/?(?:\?.*)?$#', $path)) {
 
             $start = 1;
-            $limit = 3;
+            $limit = 8;
             $search = "";
 
             if (isset($_GET['start'])) {
@@ -234,7 +234,7 @@ class Router extends BaseController
         if (preg_match('#^/?(?:\?.*)?$#', $path)) {
 
             $start = 1;
-            $limit = 3;
+            $limit = 10;
             $search = "";
 
             if (isset($_GET['start'])) {

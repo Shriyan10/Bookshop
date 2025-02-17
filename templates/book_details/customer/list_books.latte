@@ -9,23 +9,25 @@
         </p>
         <div class="search-bar">
             <form method="post">
-            <input type="text" name="search">
+            <input type="text" name="search" placeholder="Search for products">
                 <button>Search</button>
             </form>
         </div>
     </div>
 </section>
-<!-- Featured Products Section -->
+<!-- Products Section -->
 <section class="featured-saman" >
-    <h2 data-lang-en="Featured saman" data-lang-np="विशेष उत्पादनहरू">Featured Products</h2>
+    <h2 data-lang-en="Featured saman" data-lang-np="विशेष उत्पादनहरू">Products</h2>
     <div class="saman-grid">
         <div class="row">
             {foreach $bookDetails as $bookDetail}
                 <div class="saman">
                     <a href="/books/detail?id={$bookDetail->id}">
+                        <figure>
                         <img alt={$bookDetail->title} src="{$bookDetail->imageUrl}">
+                        </figure>
                         <h3>{$bookDetail->title}</h3>
-                    <p class="item-price">Price: Rs.{$bookDetail->price}</p>
+                    <p class="item-price">Rs.{$bookDetail->price}</p>
                     </a>
                     <div class="item-button">
                         <form action="/cart" method="post">
@@ -38,23 +40,6 @@
                 </div>
             {/foreach}
         </div>
-
-        <!-- Example Product -->
-        <a href="product1.php" class="product-link">
-            <div class="saman" data-type="metal" data-price="7000">
-                <img src="shakyamuni.jpg" alt="Shakya Muni Buddha">
-                <h3 data-lang-en="Shakya Muni Buddha" data-lang-np="शाक्यमुनि बुद्ध">Shakya Muni Buddha</h3>
-                <p data-lang-en="Rs 7000" data-lang-np="रु ७०००">Rs 7000</p>
-            </div>
-        </a>
-        <a href="product3.php" class="product-link">
-            <div class="saman" data-type="metal" data-price="6500">
-                <img src="chenrezig.jpg" alt="Chenrezig">
-                <h3 data-lang-en="Chenrezig" data-lang-np="चेनरेजिग">Chenrezig</h3>
-                <p data-lang-en="Rs 6500" data-lang-np="रु ६५००">Rs 6500</p>
-            </div>
-        </a>
-
     </div>
 </section>
 <body>
@@ -94,4 +79,5 @@
     </ul>
 </form>
 </body>
+{include '../../common/footers.latte'}
 </html>

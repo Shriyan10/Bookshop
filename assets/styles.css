@@ -1,4 +1,10 @@
 /* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html, body {
     height: 100dvh;
 }
@@ -10,6 +16,10 @@ body {
     color: #333;
     overflow-x: hidden ;
 
+}
+
+a {
+    text-decoration: none;
 }
 
 body.login {
@@ -46,6 +56,7 @@ header {
 .navbar-links a:hover {
     background-color: #f3f3f3;
 }
+
 .navbar-logo {
     display: flex;
     align-items: center;
@@ -65,6 +76,7 @@ header {
 .brand-name {
     font-size: 18px;
     font-weight: bold;
+    padding: 7px;
     color: #333;
     display: flex;
     align-items: center;
@@ -105,20 +117,25 @@ header {
     background-color: #dfd0c4;
 }
 
-
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 30px 20px;
+.site-footer {
+    background: #333;
+    color: white;
+    padding: 20px;
     text-align: center;
-    width: 100%;
 }
 
-footer .socials a {
-    margin: 0 15px;
-    color: #fff;
+.site-footer a {
+    color: #ffcc00;
     text-decoration: none;
-    font-size: 18px;
+    margin: 0 10px;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+.contact-info p, .socials p {
+    margin: 5px 0;
 }
 
 .box {
@@ -225,20 +242,6 @@ footer .socials a {
 
 .register a:hover {
     text-decoration: underline;
-}
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 30px 20px;
-    text-align: center;
-    width: 100%;
-}
-
-footer .socials a {
-    margin: 0 15px;
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
 }
 
 /*//about*/
@@ -463,6 +466,7 @@ iframe {
     text-align: center;
     padding: 40px 20px;
     width: 100%;
+
 }
 
 .featured-saman h2 {
@@ -475,23 +479,32 @@ iframe {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.saman-grid {
+.saman-grid .row {
     display: flex;
-    justify-content: space-evenly;
     gap: 20px;
     flex-wrap: wrap;
     padding: 0 40px;
+    justify-content: center;/* Centering the content */
+}
+
+.saman-grid figure {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .saman {
     width: 280px;
     text-align: center;
-    margin: 20px;
+    padding: 10px;
+    transition: 0.25s all ease-in-out;
 }
 
 .saman img {
     width: 100%;
-    border-radius: 10px;
+    height: 100%;
+    object-fit: contain;
 }
 
 /*//cart*/
@@ -511,16 +524,16 @@ iframe {
     align-items: center;
 }
 
-.cart-icon {
-    width: 15px;
-    height: auto;
-}
+/*.cart-icon {*/
+/*    width: 20px;*/
+/*    height: auto;*/
+/*}*/
 
 .cart-count {
     position: absolute;
     top: -5px;
     right: -5px;
-    background: red;
+    background: #e27b00;
     color: white;
     font-size: 12px;
     font-weight: bold;
@@ -531,4 +544,84 @@ iframe {
     justify-content: center;
     border-radius: 50%;
     font-family: Arial, sans-serif;
+}
+.cart-container input[name="quantity"] {
+    width: 60px; /* Adjust width as needed */
+    padding: 5px;
+    text-align: center;
+}
+
+.item-button input[name="quantity"] {
+    width: 40px; /* Adjust width as needed */
+    padding: 5px;
+    text-align: center;
+}
+
+.cart-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust spacing between input and button */
+}
+
+.cart-icon {
+    width: 28px; /* Adjust icon size */
+    height: auto;
+    transition: transform 0.2s ease-in-out;
+}
+
+.cart-button:hover .cart-icon {
+    transform: scale(1.1);
+}
+
+/*//pagination*/
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 30px;
+    justify-content: center;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: ##e27b00;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.page-item.active .page-link {
+    background-color: #e27b00;
+    color: white;
+    border-color: #e27b00;
+}
+
+.page-link:hover {
+    background-color: #f1f1f1;
+}
+
+.page-item.disabled .page-link {
+    color: #ccc;
+    pointer-events: none;
+    background-color: #f8f9fa;
+    border-color: #ddd;
+}
+
+.row h3 {
+    color: black;
+    padding: 8px;
+}
+
+.item-price {
+    color: #e27b00;
+}
+
+/*//addbook*/
+.addbook-batta {
+
 }

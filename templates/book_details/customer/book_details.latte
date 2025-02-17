@@ -6,10 +6,16 @@
         </div>
         <div class="product-details">
             <h1> {$bookDetail->title}</h1>
-            <p class="price">{$bookDetail->price}</p>
-            <label>Add to cart</label>
-            <input type="number" min="1" max="{$totalBooks}" value="1">
-            <a href="javascript:void(0)" class="buy">Buy</a>
+            <p class="price">Rs. {$bookDetail->price}</p>
+            <form action="/cart" method="post" class="cart-container">
+                <input type="hidden" value="{$bookDetail->id}" name="bookDetailId">
+                <label for="">Quantity</label>
+                <input type="number" value="1" name="quantity">
+                <button class="cart-button">
+                    <img src="/assets/cart.png" alt="Cart" class="cart-icon">
+                </button>
+
+            </form>
             <div class="details">
                 <div class="dimention">{$bookDetail->author}
                 <p data-lang-en="Total Height: 70 cm (27.6 inches)Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)"
@@ -28,6 +34,7 @@
         </div>
     </div>
 </main>
+{include '../../common/footers.latte'}
 {*<body>*}
 
 {*    <div class="row-box">*}
