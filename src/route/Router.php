@@ -84,7 +84,7 @@ class Router extends BaseController
         if (preg_match('/^\/(?:\?(?:[a-zA-Z0-9_-]+=[^&]*)?(?:&[a-zA-Z0-9_-]+=[^&]*)*)?$/', $path)) {
 
             $start = 1;
-            $limit = 3;
+            $limit = 8;
             $search = "";
 
             if (isset($_GET['start'])) {
