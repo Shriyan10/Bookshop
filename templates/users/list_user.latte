@@ -14,7 +14,7 @@
 
 {if count($users) > 0}
 
-    <table border=1>
+    <table class="table table-hover">
         <tr>
             <th>Id</th>
             <th>First name</th>
@@ -49,7 +49,9 @@
     <form>
         <ul class="pagination">
             {for $i = 1; $i <= round($total / $limit); $i++}
-                <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/users?start={$i}&limit={$limit}">{$i}</a></li>
+                <li class="page-item {if $start === $i}active{/if}"><a class="page-link"
+                                                                       href="/users?start={$i}&limit={$limit}">{$i}</a>
+                </li>
             {/for}
         </ul>
     </form>
