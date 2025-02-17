@@ -3,7 +3,10 @@
 namespace App\controller;
 
 use App\db\Database;
+use App\mapper\impl\RoleMapper;
 use App\mapper\impl\UserMapper;
+use App\model\User;
+use Exception;
 use Latte\Engine;
 
 class AuthenticationController extends BaseController
@@ -50,6 +53,49 @@ class AuthenticationController extends BaseController
             $this->render("login");
         }
 
+    }
+
+    function registerPage(): void
+    {
+        $this->render("register");
+    }
+
+    function register(): void
+    {
+        try {
+            $role = $this->database->queryOne("SELECT * FROM roles WHERE name='CUSTOMER'", new RoleMapper());
+error_log($role->id);
+            $user = new User(
+                null,
+                $_POST['firstName'] ?? null,
+                $_POST['lastName'] ?? null,
+                $_POST['email'] ?? null,
+                $_POST['password'] ?? null,
+                $role->id,
+                $_POST['address'] ?? null,
+                $_POST['contactNo'] ?? null
+            );
+
+            $result = $this->database->query(
+                "INSERT INTO users(first_name, last_name, email, password,role_id, address, contact_no) VALUES('%s','%s','%s','%s',%d,'%s',%d)",
+                [
+                    $user->getFirstName(),
+                    $user->getLastName(),
+                    $user->getEmail(),
+                    password_hash(trim($user->getPassword()), PASSWORD_BCRYPT),
+                    $user->getRoleId(),
+                    $user->getAddress(),
+                    $user->getContactNo()
+                ],
+            );
+
+            if ($result) {
+                $this->redirect();
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+//            $this->redirect("500");
+        }
     }
 }
 

@@ -14,7 +14,7 @@
         <button>Search</button>
     </form>
 
-    <table  class="table table-hover">
+    <table class="table table-hover">
         <tr>
             <th>Id</th>
             <th>Image</th>
@@ -53,7 +53,9 @@
 
         <ul class="pagination">
             {for $i = 1; $i <= round($total / $limit); $i++}
-                <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/book-details?start={$i}&limit={$limit}&search={$search}">{$i}</a></li>
+                <li class="page-item {if $start === $i}active{/if}"><a class="page-link"
+                                                                       href="/book-details?start={$i}&limit={$limit}&search={$search}">{$i}</a>
+                </li>
             {/for}
 
         </ul>

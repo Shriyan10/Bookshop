@@ -3,6 +3,7 @@
 namespace App\db;
 
 use App\mapper\RowMapper;
+use Exception;
 use mysqli;
 
 class Database
@@ -59,12 +60,23 @@ class Database
 
     public function count(string $query): int
     {
-        $connection = $this->connect();
-        $result = $connection->query($query);
-        $data = $result->fetch_assoc();
-        return (int)$data['count'];
+        try {
+
+            $connection = $this->connect();
+            $result = $connection->query($query);
+            $data = $result->fetch_assoc();
+
+            return (int)$data['count'];
+
+        } catch (Exception $e) {
+            error_log("Exception: " . $e->getMessage());
+            return -1;
+        }
     }
 
+    /**
+     * @throws Exception
+     */
     public function queryAllPaginated(string $query, string $countQuery, int $start, int $limit, RowMapper $mapper): PaginatedResponse
     {
         $offset = ($start - 1) * $limit;
@@ -84,7 +96,11 @@ class Database
                 $count += array_push($objects, $object);
             }
 
-            $totalCount = $this->count($countQuery . $limitQuery);
+            $totalCount = $this->count($countQuery);
+
+            if($totalCount == -1){
+                throw new Exception("Count query is not valid");
+            }
         }
 
         return new PaginatedResponse($objects, $totalCount, $count);

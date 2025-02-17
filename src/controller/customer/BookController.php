@@ -45,7 +45,7 @@ class BookController extends BaseController
 
             $this->render('book_details/customer/list_books', $params);
         } catch (Exception $e) {
-            error_log($e);
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -67,7 +67,7 @@ class BookController extends BaseController
 
             $this->render('book_details/customer/book_details', $params);
         } catch (Exception $e) {
-            var_dump($e);
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }

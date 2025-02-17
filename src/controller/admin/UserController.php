@@ -19,35 +19,38 @@ class UserController extends BaseController
         parent::__construct($latte, $database);
     }
 
-    function getAllUsers(int $start, int $limit, string $search = ""): void
+    function getAllUsers(int $start, int $limit, string $search): void
     {
-        $query = "SELECT u.id, u.first_name, u.last_name, u.email, u.address, u.contact_no, r.name AS role_id FROM users u JOIN roles r ON r.id=u.role_id";
-        $countQuery = "SELECT COUNT(*) AS count FROM users u";
 
-        if (strlen($search) > 0) {
-            $searchQuery = " WHERE u.first_name LIKE '%$search%' OR u.last_name LIKE '%$search%'";
-            $query .= $searchQuery;
-            $countQuery .= $searchQuery;
+        try {
+            $query = "SELECT u.id, u.first_name, u.last_name, u.email, u.address, u.contact_no, r.name AS role_id FROM users u JOIN roles r ON r.id=u.role_id";
+            $countQuery = "SELECT COUNT(*) AS count FROM users u";
+
+            if (strlen($search) > 0) {
+                $searchQuery = " WHERE u.first_name LIKE '%$search%' OR u.last_name LIKE '%$search%'";
+                $query .= $searchQuery;
+                $countQuery .= $searchQuery;
+            }
+
+            $response = $this->database->queryAllPaginated($query, $countQuery, $start, $limit, new UserMapper());
+
+            $params = [
+                'users' => $response->data,
+                'start' => $start,
+                'limit' => $limit,
+                'total' => $response->total,
+                'search' => $search
+            ];
+
+            $this->render('users/list_user', $params);
+        }catch (Exception $e){
+            error_log($e->getMessage());
         }
-
-        $response = $this->database->queryAllPaginated($query, $countQuery, $start, $limit, new UserMapper());
-
-        $params = [
-            'users' => $response->data,
-            'start' => $start,
-            'limit' => $limit,
-            'total' => $response->total,
-            'search' => $search
-        ];
-
-        $this->render('users/list_user', $params);
     }
 
 
     function getUser(int $userId): void
     {
-
-
         $query = "SELECT * FROM users WHERE id=" . $userId;
         $user = $this->database->queryOne($query, new UserMapper());
         $roles = $this->database->queryAll("SELECT * FROM roles", new RoleMapper());
@@ -93,6 +96,7 @@ class UserController extends BaseController
                 $this->redirect("users");
             }
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -106,6 +110,7 @@ class UserController extends BaseController
                 $this->redirect("users");
             }
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -153,6 +158,7 @@ class UserController extends BaseController
                 $this->redirect("users");
             }
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }

@@ -35,14 +35,27 @@ class Router extends BaseController
         } elseif (preg_match('#^/logout/?$#', $path)) {
             $authenticationController = new AuthenticationController($this->latte, $this->database);
             $authenticationController->logOut();
-        }
-        elseif (preg_match('#^/cart?$#', $path)) {
+        } elseif (preg_match('#^/cart?$#', $path)) {
             $cartController = new CartController($this->latte, $this->database);
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $cartController->add([$_POST['bookDetailId'] => $_POST['quantity']]);
             }
-        }
-        // roles
+        } elseif (preg_match('#^/about?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $this->render("about");
+            }
+        } elseif (preg_match('#^/contact-us?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $this->render("contactus");
+            }
+        } elseif (preg_match('#^/register?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $this->render("register");
+            } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $authenticationController = new AuthenticationController($this->latte, $this->database);
+                $authenticationController -> register();
+            }
+        } // roles
         elseif (str_contains($path, '/roles')) {
             $this->role($path);
         } // users
@@ -65,13 +78,37 @@ class Router extends BaseController
         }
     }
 
-    function endsWith($string, $endString): bool
+    function book(string $path): void
     {
-        $len = strlen($endString);
-        if ($len == 0) {
-            return true;
+        $bookController = new BookController($this->latte, $this->database);
+        if (preg_match('/^\/(?:\?(?:[a-zA-Z0-9_-]+=[^&]*)?(?:&[a-zA-Z0-9_-]+=[^&]*)*)?$/', $path)) {
+
+            $start = 1;
+            $limit = 3;
+            $search = "";
+
+            if (isset($_GET['start'])) {
+                $start = $_GET['start'];
+            }
+
+            if (isset($_GET['limit'])) {
+                $limit = $_GET['limit'];
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if (isset($_POST['search'])) {
+                    $search = $_POST['search'];
+                }
+            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                if (isset($_GET['search'])) {
+                    $search = $_GET['search'];
+                }
+            }
+
+            $bookController->getAllBooks($start, $limit, $search);
+        } elseif (preg_match('#^/books/detail\?id=\d+$#', $path)) {
+            $bookController->getBookDetail($_GET['id']);
         }
-        return (substr($string, -$len) === $endString);
     }
 
     function role(string $path): void
@@ -194,7 +231,7 @@ class Router extends BaseController
         } else if (preg_match('#^/book-details/inventory\?bookDetailId=\d+&start=\d+&limit=\d+$#', $path)) {
             $bookDetailController->getBookByBookDetailId($_GET['bookDetailId'], $_GET['start'], $_GET['limit']);
         } else if (preg_match('#^/book-details/inventory\?bookId=\d+$#', $path)) {
-            $bookDetailController->getBookByBookDetailIdAndId($_GET['bookId']);
+            $bookDetailController->getBookByBookDetailIdAndId($_GET['bookId'], $_GET['bookDetailId'], $_GET['start'], $_GET['limit']);
         } else if (preg_match('#^/book-details/inventory/save\?bookDetailId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bookDetailController->saveBook();
@@ -228,36 +265,12 @@ class Router extends BaseController
         }
     }
 
-    function book(string $path): void
+    function endsWith($string, $endString): bool
     {
-        $bookController = new BookController($this->latte, $this->database);
-        if (preg_match('#^/?(?:\?.*)?$#', $path)) {
-
-            $start = 1;
-            $limit = 3;
-            $search = "";
-
-            if (isset($_GET['start'])) {
-                $start = $_GET['start'];
-            }
-
-            if (isset($_GET['limit'])) {
-                $limit = $_GET['limit'];
-            }
-
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if (isset($_POST['search'])) {
-                    $search = $_POST['search'];
-                }
-            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                if (isset($_GET['search'])) {
-                    $search = $_GET['search'];
-                }
-            }
-
-            $bookController->getAllBooks($start, $limit, $search);
-        } elseif (preg_match('#^/books/detail\?id=\d+$#', $path)) {
-            $bookController->getBookDetail($_GET['id']);
+        $len = strlen($endString);
+        if ($len == 0) {
+            return true;
         }
+        return (substr($string, -$len) === $endString);
     }
 }

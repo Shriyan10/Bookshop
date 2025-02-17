@@ -31,6 +31,7 @@ class RoleController extends BaseController
 
             $this->render('roles/list_role', $params);
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -49,6 +50,7 @@ class RoleController extends BaseController
             // render to output
             $this->render('roles/edit_role', $params);
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -72,6 +74,7 @@ class RoleController extends BaseController
                 $this->redirect("roles");
             }
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -84,6 +87,7 @@ class RoleController extends BaseController
                 $this->redirect("roles");
             }
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -93,6 +97,7 @@ class RoleController extends BaseController
         try {
             $this->render('roles/add_role');
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -118,6 +123,7 @@ class RoleController extends BaseController
             }
 
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }

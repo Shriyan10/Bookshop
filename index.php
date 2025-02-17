@@ -11,7 +11,6 @@ $latte = new Engine();
 $database = new Database();
 $router = new Router($latte, $database);
 $uri = $_SERVER['REQUEST_URI'];
-
 // Check if the .env file exists before loading
 if (file_exists(__DIR__ . '/.env')) {
     $dotenv = Dotenv::createImmutable(__DIR__);
@@ -19,7 +18,7 @@ if (file_exists(__DIR__ . '/.env')) {
 } else{
     error_log("WARNING .env file not found");
 }
-
+//error_log( password_hash("admin", PASSWORD_BCRYPT));
 session_start();
 $router->route($uri);
 

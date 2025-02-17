@@ -48,6 +48,7 @@ class BookDetailController extends BaseController
             ];
             $this->render('book_details/admin/list_book_detail', $params);
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect('500');
         }
     }
@@ -64,6 +65,7 @@ class BookDetailController extends BaseController
 
             $this->render('book_details/admin/edit_book_detail', $params);
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -98,6 +100,7 @@ class BookDetailController extends BaseController
                 $this->redirect("book-details");
             }
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -111,6 +114,7 @@ class BookDetailController extends BaseController
                 $this->redirect("book-details");
             }
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -127,7 +131,7 @@ class BookDetailController extends BaseController
             // render to output
             $this->render('book_details/admin/add_book_detail', $params);
         } catch (Exception $e) {
-            var_dump($e);
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -161,7 +165,7 @@ class BookDetailController extends BaseController
                 $this->redirect("book-details");
             }
         } catch (Exception $e) {
-            var_dump($e);
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -188,6 +192,7 @@ class BookDetailController extends BaseController
             // render to output
             $this->render('book_details/admin/statistics_book_detail', $params);
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this->redirect("500");
         }
     }
@@ -219,6 +224,7 @@ class BookDetailController extends BaseController
             $this->redirect("book-details");
 
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $this -> redirect("500");
         }
     }
@@ -242,14 +248,18 @@ class BookDetailController extends BaseController
         $this->render('book_details/admin/list_book_inventory', $params);
     }
 
-    function getBookByBookDetailIdAndId(int $bookDetailId, int $bookId): void
+    function getBookByBookDetailIdAndId(int $bookDetailId, int $bookId, int $start = 1, int $limit = 5): void
     {
+        $offset = $this->offset($start, $limit);
         $bookDetail = $this->database->queryOne("SELECT * FROM book_details WHERE id=" . $bookDetailId, new BookDetailMapper());
         $books = $this->database->queryAll("select * from books where book_detail_id=" . $bookDetailId . " and id=" . $bookId, new BookMapper());
-
+        $total = $this->database->count("SELECT COUNT(*) as count FROM books");
         $params = [
             'books' => $books,
-            'bookDetail' => $bookDetail
+            'bookDetail' => $bookDetail,
+            'start' => $start,
+            'limit' => $limit,
+            'total' => $total
         ];
         $this->render('book_details/admin/list_book_inventory', $params);
     }
