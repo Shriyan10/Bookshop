@@ -4,6 +4,8 @@ namespace App\controller\customer;
 
 use App\controller\BaseController;
 use App\db\Database;
+use App\dto\CartDetail;
+use App\mapper\impl\ProductDetailMapper;
 use Latte\Engine;
 
 class CartController extends BaseController
@@ -45,5 +47,38 @@ class CartController extends BaseController
         $_SESSION['cart'] = $cart;
 
         $this->redirect();
+    }
+
+    function cart(): void
+    {
+        try {
+            $cart = $_SESSION['cart'];
+
+            $cartDetails = [];
+            $grandTotal = 0;
+            foreach ($cart as $bookDetailId => $quantity) {
+
+                $cartDetail = new CartDetail();
+                $cartDetail->setQuantity($quantity);
+
+                $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=$bookDetailId", new ProductDetailMapper());
+                $title = $bookDetail->title;
+                $cartDetail->setTitle($title);
+                $totalAmount = $bookDetail->price*$quantity;
+                $grandTotal += $totalAmount;
+                $cartDetail->setTotalAmount($totalAmount);
+                array_push($cartDetails, $cartDetail);
+            }
+
+            $params = [
+                "cartDetails" => $cartDetails,
+                "grandTotal" => $grandTotal
+            ];
+
+            $this->render('book_details/customer/cart_detail', $params);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            $this->redirect("500");
+        }
     }
 }

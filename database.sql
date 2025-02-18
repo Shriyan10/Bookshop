@@ -1,4 +1,4 @@
-create table book_details
+create table product_details
 (
     id        int auto_increment
         primary key,
@@ -10,7 +10,7 @@ create table book_details
     image_url varchar(255) null
 );
 
-create table books
+create table products
 (
     id             int auto_increment
         primary key,
@@ -18,12 +18,12 @@ create table books
     book_detail_id int                                                             not null,
     created_date   timestamp                             default CURRENT_TIMESTAMP null,
     updated_date   timestamp                                                       null on update CURRENT_TIMESTAMP,
-    constraint books_ibfk_1
-        foreign key (book_detail_id) references book_details (id)
+    constraint products_ibfk_1
+        foreign key (book_detail_id) references product_details (id)
 );
 
 create index book_detail_id
-    on books (book_detail_id);
+    on products (book_detail_id);
 
 create table roles
 (
@@ -67,7 +67,7 @@ create table payment_details
     constraint payment_details_ibfk_1
         foreign key (payment_id) references payments (id),
     constraint payment_details_ibfk_2
-        foreign key (book_id) references books (id)
+        foreign key (book_id) references products (id)
 );
 
 create index book_id

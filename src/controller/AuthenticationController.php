@@ -37,12 +37,16 @@ class AuthenticationController extends BaseController
 
     function logOut(): void
     {
-        if (isset($_SESSION['user'])) {
+        if ($this -> isLoggedIn()) {
             session_unset();
             session_destroy();
         }
 
         $this->redirect();
+    }
+
+    function isLoggedIn(): bool{
+        return isset($_SESSION['user']);
     }
 
     function loginPage(): void
@@ -90,11 +94,11 @@ error_log($role->id);
             );
 
             if ($result) {
-                $this->redirect();
+                $this->redirect("login");
             }
         } catch (Exception $e) {
             error_log($e->getMessage());
-//            $this->redirect("500");
+            $this->redirect("500");
         }
     }
 }

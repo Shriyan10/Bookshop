@@ -1,7 +1,7 @@
 <?php
 
 namespace App\projection;
-class BookDetailStatistics
+class ProductDetailStatistics
 {
     public int $id;
     public string $title;

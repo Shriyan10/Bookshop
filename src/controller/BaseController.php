@@ -36,7 +36,7 @@ class BaseController
 
             $cart = $_SESSION["cart"];
 
-            // Add all the quantities of the books in the cart
+            // Add all the quantities of the products in the cart
             foreach ($cart as $key => $value) {
                 $quantity += $value;
             }

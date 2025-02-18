@@ -33,8 +33,11 @@
                         <form action="/cart" method="post">
                             <input type="hidden" value="{$bookDetail->id}" name="bookDetailId">
                             <label for="">Quantity</label>
-                            <input type="number" value="1" name="quantity">
-                            <button type="submit">Add to Cart</button>
+                            <input type="number" value="1" name="quantity" min="1" max="{$bookDetail->quantity}">
+                            <b>{$bookDetail->quantity} left in stock</b>
+                            <button class="cart-button">
+                                <img src="/assets/cart.png" alt="Cart" class="cart-icon">
+                            </button>
                         </form>
                     </div>
                 </div>

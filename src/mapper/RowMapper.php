@@ -3,5 +3,5 @@
 namespace App\mapper;
 interface RowMapper
 {
-    public function map($row);
+    public function map($row):object;
 }

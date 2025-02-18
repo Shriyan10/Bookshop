@@ -3,14 +3,14 @@
 namespace App\mapper\impl;
 
 use App\mapper\RowMapper;
-use App\projection\BookDetailStatistics;
+use App\projection\ProductDetailStatistics;
 
-class BookDetailStatsMapper implements RowMapper
+class ProductDetailStatsMapper implements RowMapper
 {
 
-    public function map($row): BookDetailStatistics
+    public function map($row): ProductDetailStatistics
     {
-        $bookDetailStatistics = new BookDetailStatistics();
+        $bookDetailStatistics = new ProductDetailStatistics();
 
         $bookDetailStatistics->title = $row["title"];
         $bookDetailStatistics->available = $row["available"];

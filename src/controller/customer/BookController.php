@@ -4,7 +4,8 @@ namespace App\controller\customer;
 
 use App\controller\BaseController;
 use App\db\Database;
-use App\mapper\impl\BookDetailMapper;
+use App\mapper\impl\ProductDetailMapper;
+use App\mapper\impl\ProductDetailQuantityMapper;
 use Exception;
 use Latte\Engine;
 
@@ -25,14 +26,14 @@ class BookController extends BaseController
             $countQuery = "";
 
             if (strlen($search) > 0) {
-                $query = "SELECT * FROM book_details WHERE title LIKE '%$search%' LIMIT " . $limit . " OFFSET " . $offset;
-                $countQuery = "SELECT COUNT(*) as count FROM book_details WHERE title LIKE '%$search%'";
+                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.book_detail_id WHERE bd.title LIKE '%$search%' GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
+                $countQuery = "SELECT COUNT(*) as count FROM product_details WHERE title LIKE '%$search%'";
             } else {
-                $query = "SELECT * FROM book_details LIMIT " . $limit . " OFFSET " . $offset;
-                $countQuery = "SELECT COUNT(*) as count FROM book_details";
+                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.book_detail_id GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
+                $countQuery = "SELECT COUNT(*) as count FROM product_details";
             }
 
-            $bookDetails = $this->database->queryAll($query, new BookDetailMapper());
+            $bookDetails = $this->database->queryAll($query, new ProductDetailQuantityMapper());
             $total = $this->database->count($countQuery);
 
             $params = [
@@ -55,9 +56,9 @@ class BookController extends BaseController
 
         try {
 
-            $query = "SELECT * FROM book_details WHERE id=" . $bookDetailId;
-            $bookDetail = $this->database->queryOne($query, new BookDetailMapper());
-            $count = "SELECT count(*) as count FROM books WHERE book_detail_id=" . $bookDetailId;
+            $query = "SELECT * FROM product_details WHERE id=" . $bookDetailId;
+            $bookDetail = $this->database->queryOne($query, new ProductDetailMapper());
+            $count = "SELECT count(*) as count FROM products WHERE book_detail_id=" . $bookDetailId;
             $totalBooks = $this->database->count($count);
 
             $params = [

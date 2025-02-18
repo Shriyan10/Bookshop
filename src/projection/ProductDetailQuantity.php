@@ -1,7 +1,7 @@
 <?php
 
-namespace App\model;
-class BookDetail
+namespace App\projection;
+class ProductDetailQuantity
 {
     public int|null $id;
     public string $title;
@@ -9,9 +9,11 @@ class BookDetail
     public string $publisher;
     public string $isbn;
     public int $price;
+    public int $quantity;
     public string $imageUrl;
 
-    public function __construct(int|null $id, string $title, string $author, string $publisher, string $isbn, int $price, string $imageUrl)
+
+    public function __construct(int|null $id, string $title, string $author, string $publisher, string $isbn, int $price, string $imageUrl, int $quantity)
     {
         $this->id = $id;
         $this->title = $title;
@@ -19,6 +21,7 @@ class BookDetail
         $this->publisher = $publisher;
         $this->isbn = $isbn;
         $this->price = $price;
+        $this->quantity = $quantity;
         $this->imageUrl = $imageUrl;
     }
 
@@ -90,6 +93,16 @@ class BookDetail
     public function setImageUrl(string $imageUrl): void
     {
         $this->imageUrl = $imageUrl;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): void
+    {
+        $this->quantity = $quantity;
     }
 
 

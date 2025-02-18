@@ -3,13 +3,13 @@
 namespace App\mapper\impl;
 
 use App\mapper\RowMapper;
-use App\projection\BookReport;
+use App\projection\ProductReport;
 
-class BookReportMapper implements RowMapper
+class ProductReportMapper implements RowMapper
 {
-    public function map($row): BookReport
+    public function map($row): ProductReport
     {
-        $bookReport = new BookReport();
+        $bookReport = new ProductReport();
 
         $bookReport->id = $row['id'];
         $bookReport->title = $row['title'];

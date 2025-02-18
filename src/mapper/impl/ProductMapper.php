@@ -3,14 +3,14 @@
 namespace App\mapper\impl;
 
 use App\mapper\RowMapper;
-use App\model\Book;
+use App\model\Product;
 
-class BookMapper implements RowMapper
+class ProductMapper implements RowMapper
 {
 
-    public function map($row): Book
+    public function map($row): Product
     {
-        $book = new Book();
+        $book = new Product();
         $book->setId($row["id"]);
         $book->setStatus($row["status"]);
         $book->setBookDetailId($row["book_detail_id"]);

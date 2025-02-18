@@ -39,14 +39,13 @@ class Database
         return $objects;
     }
 
-    public function queryOne(string $query, RowMapper $mapper)
+    public function queryOne(string $query, RowMapper $mapper): object|null
     {
         $connection = $this->connect();
         $result = $connection->query($query);
         if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                return $mapper->map($row);
-            }
+            $row = $result->fetch_assoc();
+            return $mapper->map($row);
         }
         return null;
     }
@@ -98,7 +97,7 @@ class Database
 
             $totalCount = $this->count($countQuery);
 
-            if($totalCount == -1){
+            if ($totalCount == -1) {
                 throw new Exception("Count query is not valid");
             }
         }

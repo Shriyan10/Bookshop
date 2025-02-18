@@ -1,23 +1,13 @@
 <?php
 
-namespace App\model;
-class Book
+namespace App\projection;
+class ProductReport
 {
-    public int|null $id;
+    public int $id;
+    public string $title;
     public string $status;
-    public int $bookDetailId;
     public string $createdDate;
     public string|null $updatedDate;
-
-    public function getBookDetailId(): int
-    {
-        return $this->bookDetailId;
-    }
-
-    public function setBookDetailId(int $bookDetailId): void
-    {
-        $this->bookDetailId = $bookDetailId;
-    }
 
     public function getCreatedDate(): string
     {
@@ -29,12 +19,12 @@ class Book
         $this->createdDate = $createdDate;
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(?int $id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -47,6 +37,16 @@ class Book
     public function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
     }
 
     public function getUpdatedDate(): string|null

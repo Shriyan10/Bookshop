@@ -5,11 +5,11 @@ namespace App\controller\admin;
 
 use App\controller\BaseController;
 use App\db\Database;
-use App\mapper\impl\BookDetailMapper;
-use App\mapper\impl\BookDetailStatsMapper;
-use App\mapper\impl\BookMapper;
-use App\mapper\impl\BookReportMapper;
-use App\model\BookDetail;
+use App\mapper\impl\ProductDetailMapper;
+use App\mapper\impl\ProductDetailStatsMapper;
+use App\mapper\impl\ProductMapper;
+use App\mapper\impl\ProductReportMapper;
+use App\model\ProductDetail;
 use Exception;
 use Latte\Engine;
 
@@ -29,14 +29,14 @@ class BookDetailController extends BaseController
             $countQuery = "";
 
             if (strlen($search) > 0) {
-                $query = "SELECT * FROM book_details WHERE title LIKE '%$search%' LIMIT " . $limit . " OFFSET " . $offset;
-                $countQuery = "SELECT COUNT(*) as count FROM book_details WHERE title LIKE '%$search%'";
+                $query = "SELECT * FROM product_details WHERE title LIKE '%$search%' LIMIT " . $limit . " OFFSET " . $offset;
+                $countQuery = "SELECT COUNT(*) as count FROM product_details WHERE title LIKE '%$search%'";
             } else {
-                $query = "SELECT * FROM book_details LIMIT " . $limit . " OFFSET " . $offset;
-                $countQuery = "SELECT COUNT(*) as count FROM book_details";
+                $query = "SELECT * FROM product_details LIMIT " . $limit . " OFFSET " . $offset;
+                $countQuery = "SELECT COUNT(*) as count FROM product_details";
             }
 
-            $bookDetails = $this->database->queryAll($query, new BookDetailMapper());
+            $bookDetails = $this->database->queryAll($query, new ProductDetailMapper());
             $total = $this->database->count($countQuery);
 
             $params = [
@@ -56,8 +56,8 @@ class BookDetailController extends BaseController
     function getBookDetails(int $bookDetailId): void
     {
         try {
-            $query = "SELECT * FROM book_details WHERE id=" . $bookDetailId;
-            $bookDetail = $this->database->queryOne($query, new BookDetailMapper());
+            $query = "SELECT * FROM product_details WHERE id=" . $bookDetailId;
+            $bookDetail = $this->database->queryOne($query, new ProductDetailMapper());
 
             $params = [
                 'bookDetail' => $bookDetail,
@@ -74,7 +74,7 @@ class BookDetailController extends BaseController
     function updateBookDetails(int $bookId): void
     {
         try {
-            $bookDetail = new BookDetail(
+            $bookDetail = new ProductDetail(
                 $bookId,
                 $_POST['title'] ?? null,
                 $_POST['author'] ?? null,
@@ -85,7 +85,7 @@ class BookDetailController extends BaseController
             );
 
             $result = $this->database->query(
-                "UPDATE book_details SET title='%s', image_url='%s', author='%s', publisher='%s', isbn='%s', price=%d where id=%d",
+                "UPDATE product_details SET title='%s', image_url='%s', author='%s', publisher='%s', isbn='%s', price=%d where id=%d",
                 [
                     $bookDetail->getTitle(),
                     $bookDetail->getImageUrl(),
@@ -109,7 +109,7 @@ class BookDetailController extends BaseController
     function deleteBookDetails(int $bookId): void
     {
         try {
-            $result = $this->database->query("DELETE FROM book_details where id=%d", [$bookId]);
+            $result = $this->database->query("DELETE FROM product_details where id=%d", [$bookId]);
             if ($result) {
                 $this->redirect("book-details");
             }
@@ -122,7 +122,7 @@ class BookDetailController extends BaseController
     function saveBookDetailsPage(): void
     {
         try {
-            $bookDetails = $this->database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
+            $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
 
             $params = [
                 'bookDetails' => $bookDetails
@@ -140,7 +140,7 @@ class BookDetailController extends BaseController
     function saveBookDetails(): void
     {
         try {
-            $bookDetail = new BookDetail(
+            $bookDetail = new ProductDetail(
                 null,
                 $_POST['title'] ?? null,
                 $_POST['author'] ?? null,
@@ -151,7 +151,7 @@ class BookDetailController extends BaseController
             );
 
             $result = $this->database->query(
-                "INSERT INTO book_details(title, image_url, author, publisher, isbn, price) VALUES('%s','%s','%s','%s', '%s', %d)",
+                "INSERT INTO product_details(title, image_url, author, publisher, isbn, price) VALUES('%s','%s','%s','%s', '%s', %d)",
                 [
                     $bookDetail->getTitle(),
                     $bookDetail->getImageUrl(),
@@ -174,15 +174,15 @@ class BookDetailController extends BaseController
     {
         try {
             $sql = "select title,
-       (select count(*) from books where book_detail_id = " . $bookDetailId . " and status = 'SOLD') as sold,
-       (select count(*) from books where book_detail_id =" . $bookDetailId . " and status = 'DAMAGED') as damaged,
-       (select count(*) from books where book_detail_id = " . $bookDetailId . " and status = 'AVAILABLE') as available
-        from book_details
+       (select count(*) from products where book_detail_id = " . $bookDetailId . " and status = 'SOLD') as sold,
+       (select count(*) from products where book_detail_id =" . $bookDetailId . " and status = 'DAMAGED') as damaged,
+       (select count(*) from products where book_detail_id = " . $bookDetailId . " and status = 'AVAILABLE') as available
+        from product_details
         where id =" . $bookDetailId;
 
             $statistics = $this->database->queryOne(
                 $sql,
-                new BookDetailStatsMapper());
+                new ProductDetailStatsMapper());
 
             $statistics->id = $bookDetailId;
             $params = [
@@ -199,7 +199,7 @@ class BookDetailController extends BaseController
 
     function saveBookPage(int|null $bookDetailId): void
     {
-        $bookDetails = $this->database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
+        $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
 
         $params = [
             'bookDetails' => $bookDetails,
@@ -215,7 +215,7 @@ class BookDetailController extends BaseController
         try {
             $bookDetailId = $_POST['bookDetailId'] ?? null;
             $quantity = $_POST['quantity'] ?? null;
-            $sql = "INSERT INTO books(book_detail_id) VALUES (%d)";
+            $sql = "INSERT INTO products(book_detail_id) VALUES (%d)";
             for ($i = 0; $i < $quantity; $i++) {
 
                 $this->database->query($sql, [$bookDetailId]);
@@ -232,10 +232,10 @@ class BookDetailController extends BaseController
     function getBookByBookDetailId(int $bookDetailId, int $start = 1, int $limit = 5): void
     {
         $offset = $this->offset($start, $limit);
-        $query = "SELECT * FROM books WHERE book_detail_id=" . $bookDetailId . " LIMIT " . $limit . " OFFSET " . $offset;
-        $books = $this->database->queryAll($query, new BookMapper());
-        $bookDetail = $this->database->queryOne("SELECT * FROM book_details WHERE id=" . $bookDetailId, new BookDetailMapper());
-        $total = $this->database->count("SELECT COUNT(*) as count FROM books");
+        $query = "SELECT * FROM products WHERE book_detail_id=" . $bookDetailId . " LIMIT " . $limit . " OFFSET " . $offset;
+        $books = $this->database->queryAll($query, new ProductMapper());
+        $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=" . $bookDetailId, new ProductDetailMapper());
+        $total = $this->database->count("SELECT COUNT(*) as count FROM products");
 
         $params = [
             'books' => $books,
@@ -251,9 +251,9 @@ class BookDetailController extends BaseController
     function getBookByBookDetailIdAndId(int $bookDetailId, int $bookId, int $start = 1, int $limit = 5): void
     {
         $offset = $this->offset($start, $limit);
-        $bookDetail = $this->database->queryOne("SELECT * FROM book_details WHERE id=" . $bookDetailId, new BookDetailMapper());
-        $books = $this->database->queryAll("select * from books where book_detail_id=" . $bookDetailId . " and id=" . $bookId, new BookMapper());
-        $total = $this->database->count("SELECT COUNT(*) as count FROM books");
+        $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=" . $bookDetailId, new ProductDetailMapper());
+        $books = $this->database->queryAll("select * from products where book_detail_id=" . $bookDetailId . " and id=" . $bookId, new ProductMapper());
+        $total = $this->database->count("SELECT COUNT(*) as count FROM products");
         $params = [
             'books' => $books,
             'bookDetail' => $bookDetail,
@@ -271,8 +271,8 @@ class BookDetailController extends BaseController
         }
         
         $offset = $this->offset($start, $limit);
-        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from books b INNER JOIN book_details bd ON b.book_detail_id=bd.id";
-        $countSql = "SELECT COUNT(*) as count FROM books";
+        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from products b INNER JOIN product_details bd ON b.book_detail_id=bd.id";
+        $countSql = "SELECT COUNT(*) as count FROM products";
         $isFilterPresent = false;
 
         $isBookDetailIdFilterPresent = false;
@@ -336,8 +336,8 @@ class BookDetailController extends BaseController
         }
         $sql .= " LIMIT " . $limit . " OFFSET " . $offset;
 
-        $books = $this->database->queryAll($sql, new BookReportMapper());
-        $bookDetails = $this->database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
+        $books = $this->database->queryAll($sql, new ProductReportMapper());
+        $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
         $total = $this->database->count($countSql);
         $params = [
             'books' => $books,
@@ -353,10 +353,10 @@ class BookDetailController extends BaseController
     function getBookDetailInventory(int $start = 1, int $limit = 5): void
     {
         $offset = $this->offset($start, $limit);
-        $query = "SELECT b.id,  bd.title, b.status, b.created_date, b.updated_date FROM books b INNER JOIN book_details bd ON b.book_detail_id=bd.id LIMIT " . $limit . " OFFSET " . $offset;
-        $books = $this->database->queryAll($query, new BookReportMapper());
-        $bookDetails = $this->database->queryAll("SELECT * FROM book_details", new BookDetailMapper());
-        $total = $this->database->count("SELECT COUNT(*) as count FROM books");
+        $query = "SELECT b.id,  bd.title, b.status, b.created_date, b.updated_date FROM products b INNER JOIN product_details bd ON b.book_detail_id=bd.id LIMIT " . $limit . " OFFSET " . $offset;
+        $books = $this->database->queryAll($query, new ProductReportMapper());
+        $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
+        $total = $this->database->count("SELECT COUNT(*) as count FROM products");
         $params = [
             'books' => $books,
             'bookDetails' => $bookDetails,
@@ -371,8 +371,8 @@ class BookDetailController extends BaseController
     function updateBookDetailInventoryPage(int $bookId): void
     {
 
-        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from books b INNER JOIN book_details bd ON b.book_detail_id=bd.id where b.id=" . $bookId;
-        $bookDetail = $this->database->queryOne($sql, new BookReportMapper());
+        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from products b INNER JOIN product_details bd ON b.book_detail_id=bd.id where b.id=" . $bookId;
+        $bookDetail = $this->database->queryOne($sql, new ProductReportMapper());
         $bookStatusList = ["AVAILABLE", "SOLD", "DAMAGED"];
         $params = [
             'bookStatusList' => $bookStatusList,
@@ -383,7 +383,7 @@ class BookDetailController extends BaseController
 
     function updateBookDetailInventory(int $bookId): void
     {
-        $sql = "UPDATE books SET status='%s' WHERE id=%d";
+        $sql = "UPDATE products SET status='%s' WHERE id=%d";
         $result = $this->database->query($sql, [$_POST['status'], $bookId]);
         if ($result) {
             $this->redirect("book-details/inventory");
@@ -392,7 +392,7 @@ class BookDetailController extends BaseController
 
     function deleteBookDetailInventory(int $bookId, string $redirectUrl): void
     {
-        $sql = "DELETE FROM books WHERE id=%d";
+        $sql = "DELETE FROM products WHERE id=%d";
         $result = $this->database->query($sql, [$bookId]);
 
         if ($result) {

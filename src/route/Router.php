@@ -39,6 +39,8 @@ class Router extends BaseController
             $cartController = new CartController($this->latte, $this->database);
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $cartController->add([$_POST['bookDetailId'] => $_POST['quantity']]);
+            }else{
+                $cartController->cart();
             }
         } elseif (preg_match('#^/about?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -64,7 +66,7 @@ class Router extends BaseController
         } //book-details
         elseif (str_contains($path, '/book-details')) {
             $this->bookDetail($path);
-        } //books
+        } //products
         elseif (str_contains($path, '/books')) {
             $this->book($path);
         } // 500 page
