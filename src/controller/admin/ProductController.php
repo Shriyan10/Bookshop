@@ -13,14 +13,14 @@ use App\model\ProductDetail;
 use Exception;
 use Latte\Engine;
 
-class BookDetailController extends BaseController
+class ProductController extends BaseController
 {
     public function __construct(Engine $latte, Database $database)
     {
         parent::__construct($latte, $database);
     }
 
-    function getAllBookDetails(int $start, int $limit, string $search): void
+    function getAllProductDetails(int $start, int $limit, string $search): void
     {
         try {
             $offset = $this->offset($start, $limit);
@@ -36,34 +36,34 @@ class BookDetailController extends BaseController
                 $countQuery = "SELECT COUNT(*) as count FROM product_details";
             }
 
-            $bookDetails = $this->database->queryAll($query, new ProductDetailMapper());
+            $productDetails = $this->database->queryAll($query, new ProductDetailMapper());
             $total = $this->database->count($countQuery);
 
             $params = [
-                'bookDetails' => $bookDetails,
+                'bookDetails' => $productDetails,
                 'start' => $start,
                 'limit' => $limit,
                 'total' => $total,
                 'search' => $search
             ];
-            $this->render('book_details/admin/list_book_detail', $params);
+            $this->render('product/admin/list_product_detail', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $this->redirect('500');
         }
     }
 
-    function getBookDetails(int $bookDetailId): void
+    function getProductDetails(int $productDetailId): void
     {
         try {
-            $query = "SELECT * FROM product_details WHERE id=" . $bookDetailId;
+            $query = "SELECT * FROM product_details WHERE id=" . $productDetailId;
             $bookDetail = $this->database->queryOne($query, new ProductDetailMapper());
 
             $params = [
                 'bookDetail' => $bookDetail,
             ];
 
-            $this->render('book_details/admin/edit_book_detail', $params);
+            $this->render('product/admin/edit_product_detail', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $this->redirect("500");
@@ -71,11 +71,11 @@ class BookDetailController extends BaseController
     }
 
 
-    function updateBookDetails(int $bookId): void
+    function updateProductDetails(int $productId): void
     {
         try {
-            $bookDetail = new ProductDetail(
-                $bookId,
+            $productDetail = new ProductDetail(
+                $productId,
                 $_POST['title'] ?? null,
                 $_POST['author'] ?? null,
                 $_POST['publisher'] ?? null,
@@ -87,7 +87,7 @@ class BookDetailController extends BaseController
             $result = $this->database->query(
                 "UPDATE product_details SET title='%s', image_url='%s', author='%s', publisher='%s', isbn='%s', price=%d where id=%d",
                 [
-                    $bookDetail->getTitle(),
+                    $productDetail->getTitle(),
                     $bookDetail->getImageUrl(),
                     $bookDetail->getAuthor(),
                     $bookDetail->getPublisher(),
@@ -97,7 +97,7 @@ class BookDetailController extends BaseController
                 ],
             );
             if ($result) {
-                $this->redirect("book-details");
+                $this->redirect("product-details");
             }
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -106,12 +106,12 @@ class BookDetailController extends BaseController
     }
 
 
-    function deleteBookDetails(int $bookId): void
+    function deleteProductDetails(int $bookId): void
     {
         try {
             $result = $this->database->query("DELETE FROM product_details where id=%d", [$bookId]);
             if ($result) {
-                $this->redirect("book-details");
+                $this->redirect("product-details");
             }
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -119,7 +119,7 @@ class BookDetailController extends BaseController
         }
     }
 
-    function saveBookDetailsPage(): void
+    function saveProductDetailsPage(): void
     {
         try {
             $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
@@ -129,7 +129,7 @@ class BookDetailController extends BaseController
             ];
 
             // render to output
-            $this->render('book_details/admin/add_book_detail', $params);
+            $this->render('product/admin/add_product_detail', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $this->redirect("500");
@@ -137,7 +137,7 @@ class BookDetailController extends BaseController
     }
 
 
-    function saveBookDetails(): void
+    function saveBookProducts(): void
     {
         try {
             $bookDetail = new ProductDetail(
@@ -162,7 +162,7 @@ class BookDetailController extends BaseController
                 ],
             );
             if ($result) {
-                $this->redirect("book-details");
+                $this->redirect("product-details");
             }
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -170,58 +170,58 @@ class BookDetailController extends BaseController
         }
     }
 
-    function statistics(int $bookDetailId): void
+    function statistics(int $productDetailId): void
     {
         try {
             $sql = "select title,
-       (select count(*) from products where book_detail_id = " . $bookDetailId . " and status = 'SOLD') as sold,
-       (select count(*) from products where book_detail_id =" . $bookDetailId . " and status = 'DAMAGED') as damaged,
-       (select count(*) from products where book_detail_id = " . $bookDetailId . " and status = 'AVAILABLE') as available
+       (select count(*) from products where product_detail_id = " . $productDetailId . " and status = 'SOLD') as sold,
+       (select count(*) from products where product_detail_id =" . $productDetailId . " and status = 'DAMAGED') as damaged,
+       (select count(*) from products where product_detail_id = " . $productDetailId . " and status = 'AVAILABLE') as available
         from product_details
-        where id =" . $bookDetailId;
+        where id =" . $productDetailId;
 
             $statistics = $this->database->queryOne(
                 $sql,
                 new ProductDetailStatsMapper());
 
-            $statistics->id = $bookDetailId;
+            $statistics->id = $productDetailId;
             $params = [
                 'statistics' => $statistics
             ];
 
             // render to output
-            $this->render('book_details/admin/statistics_book_detail', $params);
+            $this->render('product/admin/statistics_product_detail', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $this->redirect("500");
         }
     }
 
-    function saveBookPage(int|null $bookDetailId): void
+    function saveProductPage(int|null $productDetailId): void
     {
         $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
 
         $params = [
             'bookDetails' => $bookDetails,
-            'selectedBookDetailId' => $bookDetailId
+            'selectedProductDetailId' => $productDetailId
         ];
 
         // render to output
-        $this->render('book_details/admin/add_book_inventory', $params);
+        $this->render('product/admin/add_product_inventory', $params);
     }
 
-    function saveBook(): void
+    function saveProduct(): void
     {
         try {
-            $bookDetailId = $_POST['bookDetailId'] ?? null;
+            $productDetailId = $_POST['productDetailId'] ?? null;
             $quantity = $_POST['quantity'] ?? null;
-            $sql = "INSERT INTO products(book_detail_id) VALUES (%d)";
+            $sql = "INSERT INTO products(product_detail_id) VALUES (%d)";
             for ($i = 0; $i < $quantity; $i++) {
 
-                $this->database->query($sql, [$bookDetailId]);
+                $this->database->query($sql, [$productDetailId]);
             }
 
-            $this->redirect("book-details");
+            $this->redirect("product-details");
 
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -229,59 +229,59 @@ class BookDetailController extends BaseController
         }
     }
 
-    function getBookByBookDetailId(int $bookDetailId, int $start = 1, int $limit = 5): void
+    function getProductByProductDetailId(int $productDetailId, int $start = 1, int $limit = 5): void
     {
         $offset = $this->offset($start, $limit);
-        $query = "SELECT * FROM products WHERE book_detail_id=" . $bookDetailId . " LIMIT " . $limit . " OFFSET " . $offset;
-        $books = $this->database->queryAll($query, new ProductMapper());
-        $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=" . $bookDetailId, new ProductDetailMapper());
+        $query = "SELECT * FROM products WHERE product_detail_id=" . $productDetailId . " LIMIT " . $limit . " OFFSET " . $offset;
+        $products = $this->database->queryAll($query, new ProductMapper());
+        $productDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=" . $productDetailId, new ProductDetailMapper());
         $total = $this->database->count("SELECT COUNT(*) as count FROM products");
 
         $params = [
-            'books' => $books,
-            'bookDetail' => $bookDetail,
-            'deleteRedirect' => 'book-details/inventory?bookDetailId=' . $bookDetailId,
+            'products' => $products,
+            'productDetail' => $productDetail,
+            'deleteRedirect' => 'product-details/inventory?productDetailId=' . $productDetailId,
             'start' => $start,
             'limit' => $limit,
             'total' => $total
         ];
-        $this->render('book_details/admin/list_book_inventory', $params);
+        $this->render('product/admin/list_product_inventory', $params);
     }
 
-    function getBookByBookDetailIdAndId(int $bookDetailId, int $bookId, int $start = 1, int $limit = 5): void
+    function getProductByProductDetailIdAndId(int $productDetailId, int $bookId, int $start = 1, int $limit = 5): void
     {
         $offset = $this->offset($start, $limit);
-        $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=" . $bookDetailId, new ProductDetailMapper());
-        $books = $this->database->queryAll("select * from products where book_detail_id=" . $bookDetailId . " and id=" . $bookId, new ProductMapper());
+        $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=" . $productDetailId, new ProductDetailMapper());
+        $products = $this->database->queryAll("select * from products where product_detail_id=" . $productDetailId . " and id=" . $bookId, new ProductMapper());
         $total = $this->database->count("SELECT COUNT(*) as count FROM products");
         $params = [
-            'books' => $books,
+            'books' => $products,
             'bookDetail' => $bookDetail,
             'start' => $start,
             'limit' => $limit,
             'total' => $total
         ];
-        $this->render('book_details/admin/list_book_inventory', $params);
+        $this->render('product/admin/list_product_inventory', $params);
     }
 
-    function getBookDetailInventoryByBookDetailId(int|null $bookDetailId, string|null $createdDate, int|null|string $bookId, int $start = 1, int $limit = 5): void
+    function getBookDetailInventoryByProductDetailId(int|null $productDetailId, string|null $createdDate, int|null|string $bookId, int $start = 1, int $limit = 5): void
     {
-        if ($bookDetailId === -1) {
-            $bookDetailId = null;
+        if ($productDetailId === -1) {
+            $productDetailId = null;
         }
         
         $offset = $this->offset($start, $limit);
-        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from products b INNER JOIN product_details bd ON b.book_detail_id=bd.id";
+        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from products b INNER JOIN product_details bd ON b.product_detail_id=bd.id";
         $countSql = "SELECT COUNT(*) as count FROM products";
         $isFilterPresent = false;
 
-        $isBookDetailIdFilterPresent = false;
+        $isproductDetailIdFilterPresent = false;
         $isBookIdFilterPresent = false;
         $isCreatedDateFilterPresent = false;
 
-        if (strlen($bookDetailId)) {
+        if (strlen($productDetailId)) {
             $isFilterPresent = true;
-            $isBookDetailIdFilterPresent = true;
+            $isproductDetailIdFilterPresent = true;
         }
 
         if (strlen($createdDate) !== 0) {
@@ -300,10 +300,10 @@ class BookDetailController extends BaseController
 
             $filterStart = false;
 
-            if ($isBookDetailIdFilterPresent) {
-                if ($bookDetailId > 0) {
-                    $sql .= "bd.id = " . $bookDetailId;
-                    $countSql .= "book_detail_id = " . $bookDetailId;
+            if ($isproductDetailIdFilterPresent) {
+                if ($productDetailId > 0) {
+                    $sql .= "bd.id = " . $productDetailId;
+                    $countSql .= "product_detail_id = " . $productDetailId;
                     $filterStart = true;
                 }
             }
@@ -336,61 +336,61 @@ class BookDetailController extends BaseController
         }
         $sql .= " LIMIT " . $limit . " OFFSET " . $offset;
 
-        $books = $this->database->queryAll($sql, new ProductReportMapper());
+        $products = $this->database->queryAll($sql, new ProductReportMapper());
         $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
         $total = $this->database->count($countSql);
         $params = [
-            'books' => $books,
+            'books' => $products,
             'bookDetails' => $bookDetails,
             'start' => $start,
             'limit' => $limit,
             'total' => $total
         ];
-        $this->render('book_details/admin/list_book_detail_inventory', $params);
+        $this->render('product/admin/list_product_detail_inventory', $params);
 
     }
 
-    function getBookDetailInventory(int $start = 1, int $limit = 5): void
+    function getProductDetailInventory(int $start = 1, int $limit = 5): void
     {
         $offset = $this->offset($start, $limit);
-        $query = "SELECT b.id,  bd.title, b.status, b.created_date, b.updated_date FROM products b INNER JOIN product_details bd ON b.book_detail_id=bd.id LIMIT " . $limit . " OFFSET " . $offset;
-        $books = $this->database->queryAll($query, new ProductReportMapper());
+        $query = "SELECT b.id,  bd.title, b.status, b.created_date, b.updated_date FROM products b INNER JOIN product_details bd ON b.product_detail_id=bd.id LIMIT " . $limit . " OFFSET " . $offset;
+        $products = $this->database->queryAll($query, new ProductReportMapper());
         $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
         $total = $this->database->count("SELECT COUNT(*) as count FROM products");
         $params = [
-            'books' => $books,
+            'books' => $products,
             'bookDetails' => $bookDetails,
-            'deleteRedirect' => 'book-details/inventory',
+            'deleteRedirect' => 'product-details/inventory',
             'start' => $start,
             'limit' => $limit,
             'total' => $total
         ];
-        $this->render('book_details/admin/list_book_detail_inventory', $params);
+        $this->render('product/admin/list_product_detail_inventory', $params);
     }
 
-    function updateBookDetailInventoryPage(int $bookId): void
+    function updateProductDetailInventoryPage(int $bookId): void
     {
 
-        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from products b INNER JOIN product_details bd ON b.book_detail_id=bd.id where b.id=" . $bookId;
+        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from products b INNER JOIN product_details bd ON b.product_detail_id=bd.id where b.id=" . $bookId;
         $bookDetail = $this->database->queryOne($sql, new ProductReportMapper());
         $bookStatusList = ["AVAILABLE", "SOLD", "DAMAGED"];
         $params = [
             'bookStatusList' => $bookStatusList,
             'bookDetail' => $bookDetail
         ];
-        $this->render('book_details/admin/update_book_inventory', $params);
+        $this->render('product/admin/update_product_inventory', $params);
     }
 
-    function updateBookDetailInventory(int $bookId): void
+    function updateProductDetailInventory(int $bookId): void
     {
         $sql = "UPDATE products SET status='%s' WHERE id=%d";
         $result = $this->database->query($sql, [$_POST['status'], $bookId]);
         if ($result) {
-            $this->redirect("book-details/inventory");
+            $this->redirect("product-details/inventory");
         }
     }
 
-    function deleteBookDetailInventory(int $bookId, string $redirectUrl): void
+    function deleteProductDetailInventory(int $bookId, string $redirectUrl): void
     {
         $sql = "DELETE FROM products WHERE id=%d";
         $result = $this->database->query($sql, [$bookId]);

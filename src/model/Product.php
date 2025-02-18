@@ -5,18 +5,18 @@ class Product
 {
     public int|null $id;
     public string $status;
-    public int $bookDetailId;
+    public int $productDetailId;
     public string $createdDate;
     public string|null $updatedDate;
 
-    public function getBookDetailId(): int
+    public function getproductDetailId(): int
     {
-        return $this->bookDetailId;
+        return $this->productDetailId;
     }
 
-    public function setBookDetailId(int $bookDetailId): void
+    public function setproductDetailId(int $productDetailId): void
     {
-        $this->bookDetailId = $bookDetailId;
+        $this->productDetailId = $productDetailId;
     }
 
     public function getCreatedDate(): string

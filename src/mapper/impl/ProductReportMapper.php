@@ -9,14 +9,14 @@ class ProductReportMapper implements RowMapper
 {
     public function map($row): ProductReport
     {
-        $bookReport = new ProductReport();
+        $productReport = new ProductReport();
 
-        $bookReport->id = $row['id'];
-        $bookReport->title = $row['title'];
-        $bookReport->status = $row['status'];
-        $bookReport->createdDate = $row['created_date'];
-        $bookReport->updatedDate = $row['updated_date'];
+        $productReport->id = $row['id'];
+        $productReport->title = $row['title'];
+        $productReport->status = $row['status'];
+        $productReport->createdDate = $row['created_date'];
+        $productReport->updatedDate = $row['updated_date'];
 
-        return $bookReport;
+        return $productReport;
     }
 }

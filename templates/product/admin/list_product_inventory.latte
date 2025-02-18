@@ -1,0 +1,38 @@
+{include '../../common/headers.latte'}
+
+<body>
+<h1>{$productDetail->title}</h1>
+
+<form method="post">
+    <label for="id">Book Id</label>
+    <input type="number" id="id" name="bookId">
+    <button>Search</button>
+</form>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {foreach $products as $product}
+        <tr>
+            <td>{$product->id}</td>
+            <td>{$product->status}</td>
+            <td>
+                <a href="/product-details/inventory/update?bookId={$product->id}">Edit</a>
+                <a href="/product-details/inventory/delete?bookId={$product->id}&redirect={$deleteRedirect}">Delete</a>
+            </td>
+        </tr>
+    {/foreach}
+</table>
+
+<form>
+    <ul class="pagination">
+        {for $i = 1; $i <= round($total / $limit); $i++}
+            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/product-details/inventory?productDetailId={$productDetail->id}&start={$i}&limit={$limit}">{$i}</a></li>
+        {/for}
+    </ul>
+</form>
+
+</body>
+</html>

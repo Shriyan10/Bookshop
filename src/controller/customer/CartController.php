@@ -6,6 +6,7 @@ use App\controller\BaseController;
 use App\db\Database;
 use App\dto\CartDetail;
 use App\mapper\impl\ProductDetailMapper;
+use Exception;
 use Latte\Engine;
 
 class CartController extends BaseController
@@ -31,15 +32,15 @@ class CartController extends BaseController
 
         $cart = $_SESSION['cart'];
 
-        foreach ($items as $bookDetailId => $quantity) {
+        foreach ($items as $productDetailId => $quantity) {
 
-            $bookDetailIdExists = array_key_exists($bookDetailId, $cart);
+            $productDetailIdExists = array_key_exists($productDetailId, $cart);
 
-            if ($bookDetailIdExists) {
-                $totalQuantity = $cart[$bookDetailId] + $quantity;
-                $cart[$bookDetailId] = $totalQuantity;
+            if ($productDetailIdExists) {
+                $totalQuantity = $cart[$productDetailId] + $quantity;
+                $cart[$productDetailId] = $totalQuantity;
             } else {
-                $cart[$bookDetailId] = $quantity;
+                $cart[$productDetailId] = $quantity;
             }
 
         }
@@ -56,12 +57,12 @@ class CartController extends BaseController
 
             $cartDetails = [];
             $grandTotal = 0;
-            foreach ($cart as $bookDetailId => $quantity) {
+            foreach ($cart as $productDetailId => $quantity) {
 
                 $cartDetail = new CartDetail();
                 $cartDetail->setQuantity($quantity);
 
-                $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=$bookDetailId", new ProductDetailMapper());
+                $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=$productDetailId", new ProductDetailMapper());
                 $title = $bookDetail->title;
                 $cartDetail->setTitle($title);
                 $totalAmount = $bookDetail->price*$quantity;
@@ -75,7 +76,7 @@ class CartController extends BaseController
                 "grandTotal" => $grandTotal
             ];
 
-            $this->render('book_details/customer/cart_detail', $params);
+            $this->render('product/customer/cart_detail', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $this->redirect("500");

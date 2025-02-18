@@ -10,12 +10,12 @@ class ProductDetailStatsMapper implements RowMapper
 
     public function map($row): ProductDetailStatistics
     {
-        $bookDetailStatistics = new ProductDetailStatistics();
+        $productDetailStatistics = new ProductDetailStatistics();
 
-        $bookDetailStatistics->title = $row["title"];
-        $bookDetailStatistics->available = $row["available"];
-        $bookDetailStatistics->sold = $row["sold"];
-        $bookDetailStatistics->damaged = $row["damaged"];
-        return $bookDetailStatistics;
+        $productDetailStatistics->title = $row["title"];
+        $productDetailStatistics->available = $row["available"];
+        $productDetailStatistics->sold = $row["sold"];
+        $productDetailStatistics->damaged = $row["damaged"];
+        return $productDetailStatistics;
     }
 }

@@ -10,13 +10,13 @@ class ProductMapper implements RowMapper
 
     public function map($row): Product
     {
-        $book = new Product();
-        $book->setId($row["id"]);
-        $book->setStatus($row["status"]);
-        $book->setBookDetailId($row["book_detail_id"]);
-        $book->setCreatedDate($row["created_date"]);
-        $book->setUpdatedDate($row["updated_date"]);
+        $product = new Product();
+        $product->setId($row["id"]);
+        $product->setStatus($row["status"]);
+        $product->setproductDetailId($row["product_detail_id"]);
+        $product->setCreatedDate($row["created_date"]);
+        $product->setUpdatedDate($row["updated_date"]);
 
-        return $book;
+        return $product;
     }
 }

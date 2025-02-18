@@ -1,9 +1,14 @@
 {include '../../common/headers.latte'}
+
 <h1>Cart Items</h1>
+
 {foreach $cartDetails as $cartDetail}
 <h1>Title: {$cartDetail->title}</h1>
 <h1>Quantity: {$cartDetail->quantity}</h1>
 <h1>Total Amount: {$cartDetail->totalAmount}</h1>
 {/foreach}
+
 <h1>Grand Total Amount: {$grandTotal}</h1>
+<button>Checkout</button>
+
 {include '../../common/footers.latte'}

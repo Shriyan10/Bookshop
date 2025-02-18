@@ -1,0 +1,29 @@
+{include '../common/headers.latte'}
+
+<body>
+    <h1>Book Details</h1>
+    <a href="/product-details/save">Add Book</a>
+    {foreach $productDetails as $productDetail}
+    <div class="row-box">
+        <a href="details/{$productDetail->id}">
+            <img src="{$productDetail->imageUrl}" alt="Mountain">
+            <p class="item-title">{$productDetail->title}</p>
+        </a>
+        <p class="item-price">Price: Rs.{$productDetail->price}</p>
+        <div class="item-button">
+            <button>+</button>
+            <a href="checkout.php" class="buy">Buy</a>
+        </div>
+        <div>
+            <a href="/product-details/edit?productDetailId={$bookDetail->id}">Edit</a>
+            <a href="/product-details/delete?productDetailId={$bookDetail->id}">Delete</a>
+            <a href="/product-details/view?productDetailId={$bookDetail->id}">View</a>
+        </div>
+    </div>
+
+
+    {/foreach}
+
+
+</body>
+</html>

@@ -2,10 +2,11 @@
 
 <body>
 
+<a class="nav-link" href="/product-details/inventory/save">Add Inventory</a>
 
 <form method="post">
     <label for="name">Name</label>
-    <select name="bookDetailId">
+    <select name="productDetailId">
         <option value="-1">Select book</option>
         {foreach $bookDetails as $bookDetail}
             <option value="{$bookDetail -> id}">{$bookDetail -> title}</option>
@@ -26,14 +27,14 @@
         <th>Status</th>
         <th>Actions</th>
     </tr>
-    {foreach $books as $book}
+    {foreach $products as $product}
         <tr>
-            <td>{$book->id}</td>
-            <td>{$book->title}</td>
-            <td>{$book->status}</td>
+            <td>{$product->id}</td>
+            <td>{$product->title}</td>
+            <td>{$product->status}</td>
             <td>
-                <a href="/book-details/inventory/update?bookId={$book->id}">Edit</a>
-                <a href="/book-details/inventory/delete?bookId={$book->id}&redirect={$deleteRedirect}">Delete</a>
+                <a href="/product-details/inventory/update?bookId={$product->id}">Edit</a>
+                <a href="/product-details/inventory/delete?bookId={$product->id}&redirect={$deleteRedirect}">Delete</a>
             </td>
         </tr>
     {/foreach}
@@ -43,7 +44,7 @@
 
     <ul class="pagination">
         {for $i = 1; $i <= round($total / $limit); $i++}
-            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/book-details/inventory?start={$i}&limit={$limit}">{$i}</a></li>
+            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/product-details/inventory?start={$i}&limit={$limit}">{$i}</a></li>
         {/for}
 
     </ul>

@@ -20,21 +20,21 @@
     <h2 data-lang-en="Featured saman" data-lang-np="विशेष उत्पादनहरू">Products</h2>
     <div class="saman-grid">
         <div class="row">
-            {foreach $bookDetails as $bookDetail}
+            {foreach $productDetails as $productDetail}
                 <div class="saman">
-                    <a href="/books/detail?id={$bookDetail->id}">
+                    <a href="/books/detail?id={$productDetail->id}">
                         <figure>
-                        <img alt={$bookDetail->title} src="{$bookDetail->imageUrl}">
+                        <img alt={$productDetail->title} src="{$productDetail->imageUrl}">
                         </figure>
-                        <h3>{$bookDetail->title}</h3>
-                    <p class="item-price">Rs.{$bookDetail->price}</p>
+                        <h3>{$productDetail->title}</h3>
+                    <p class="item-price">Rs.{$productDetail->price}</p>
                     </a>
                     <div class="item-button">
                         <form action="/cart" method="post">
-                            <input type="hidden" value="{$bookDetail->id}" name="bookDetailId">
+                            <input type="hidden" value="{$productDetail->id}" name="productDetailId">
                             <label for="">Quantity</label>
-                            <input type="number" value="1" name="quantity" min="1" max="{$bookDetail->quantity}">
-                            <b>{$bookDetail->quantity} left in stock</b>
+                            <input type="number" value="1" name="quantity" min="1" max="{$productDetail->quantity}">
+                            <b>{$productDetail->quantity} left in stock</b>
                             <button class="cart-button">
                                 <img src="/assets/cart.png" alt="Cart" class="cart-icon">
                             </button>
@@ -52,16 +52,16 @@
 {*    <button>Search</button>*}
 {*</form>*}
 {*<div class="row">*}
-{*{foreach $bookDetails as $bookDetail}*}
+{*{foreach $productDetails as $productDetail}*}
 {*    <div class="col-6 col-sm-3">*}
-{*        <a href="/books/detail?id={$bookDetail->id}">*}
-{*            <img alt={$bookDetail->title} src="{$bookDetail->imageUrl}">*}
-{*            <span>{$bookDetail->title}</span>*}
+{*        <a href="/books/detail?id={$productDetail->id}">*}
+{*            <img alt={$productDetail->title} src="{$productDetail->imageUrl}">*}
+{*            <span>{$productDetail->title}</span>*}
 {*        </a>*}
-{*        <p class="item-price">Price: Rs.{$bookDetail->price}</p>*}
+{*        <p class="item-price">Price: Rs.{$productDetail->price}</p>*}
 {*        <div class="item-button">*}
 {*            <form action="/cart" method="post">*}
-{*                <input type="hidden" value="{$bookDetail->id}" name="bookDetailId">*}
+{*                <input type="hidden" value="{$productDetail->id}" name="productDetailId">*}
 {*                <label for="">Quantity</label>*}
 {*                <input type="number" value="1" name="quantity">*}
 {*                <button type="submit">Add to Cart</button>*}
