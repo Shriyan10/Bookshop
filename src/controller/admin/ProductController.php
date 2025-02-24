@@ -88,12 +88,12 @@ class ProductController extends BaseController
                 "UPDATE product_details SET title='%s', image_url='%s', author='%s', publisher='%s', isbn='%s', price=%d where id=%d",
                 [
                     $productDetail->getTitle(),
-                    $bookDetail->getImageUrl(),
-                    $bookDetail->getAuthor(),
-                    $bookDetail->getPublisher(),
-                    $bookDetail->getIsbn(),
-                    $bookDetail->getPrice(),
-                    $bookDetail->getId()
+                    $productDetail->getImageUrl(),
+                    $productDetail->getAuthor(),
+                    $productDetail->getPublisher(),
+                    $productDetail->getIsbn(),
+                    $productDetail->getPrice(),
+                    $productDetail->getId()
                 ],
             );
             if ($result) {
@@ -137,7 +137,7 @@ class ProductController extends BaseController
     }
 
 
-    function saveBookProducts(): void
+    function saveProducts(): void
     {
         try {
             $bookDetail = new ProductDetail(
@@ -358,7 +358,7 @@ class ProductController extends BaseController
         $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
         $total = $this->database->count("SELECT COUNT(*) as count FROM products");
         $params = [
-            'books' => $products,
+            'products' => $products,
             'bookDetails' => $bookDetails,
             'deleteRedirect' => 'product-details/inventory',
             'start' => $start,

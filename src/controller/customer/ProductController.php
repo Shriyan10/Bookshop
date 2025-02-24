@@ -66,7 +66,7 @@ class ProductController extends BaseController
                 'totalBooks' => $totalBooks
             ];
 
-            $this->render('product/customer/product', $params);
+            $this->render('product/customer/product_details', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $this->redirect("500");

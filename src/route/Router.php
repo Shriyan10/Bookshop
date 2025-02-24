@@ -210,7 +210,7 @@ class Router extends BaseController
             $productDetailController->getAllProductDetails($start, $limit, $search);
         } else if (preg_match('#^/product-details/save/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $productDetailController->saveBookProducts();
+                $productDetailController->saveProducts();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $productDetailController->saveProductDetailsPage();
             }
@@ -250,20 +250,20 @@ class Router extends BaseController
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $productDetailController->getBookDetailInventoryByproductDetailId($_POST['productDetailId'], $_POST['date'], $_POST['bookId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $productDetailController->getBookDetailInventory();
+                $productDetailController->getProductDetailInventory();
             }
         } else if (preg_match('#^/product-details/inventory\?start=\d+&limit=\d+$#', $path)) {
-            $productDetailController->getBookDetailInventory($_GET['start'], $_GET['limit']);
+            $productDetailController->getProductDetailInventory($_GET['start'], $_GET['limit']);
         } else if (preg_match('#^/product-details/inventory\?start=\d+&limit=\d+$#', $path)) {
             $productDetailController->getBookDetailInventoryByproductDetailId($_POST['productDetailId'], $_POST['date'], $_POST['bookId'], $_GET['start'], $_GET['limit']);
         } else if (preg_match('#^/product-details/inventory/update\?bookId=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $productDetailController->updateBookDetailInventory($_GET['bookId']);
+                $productDetailController->updateProductDetailInventory($_GET['bookId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $productDetailController->updateBookDetailInventoryPage($_GET['bookId']);
+                $productDetailController->updateProductDetailInventoryPage($_GET['bookId']);
             }
         } else if (preg_match('#^/product-details/inventory/delete\?bookId=\d+&redirect=.*$#', $path)) {
-            $productDetailController->deleteBookDetailInventory($_GET['bookId'], $_GET['redirect']);
+            $productDetailController->deleteProductDetailInventory($_GET['bookId'], $_GET['redirect']);
         }
     }
 

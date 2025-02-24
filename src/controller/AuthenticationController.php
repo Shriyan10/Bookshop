@@ -37,7 +37,7 @@ class AuthenticationController extends BaseController
 
     function logOut(): void
     {
-        if ($this -> isLoggedIn()) {
+        if ($this->isLoggedIn()) {
             session_unset();
             session_destroy();
         }
@@ -45,7 +45,8 @@ class AuthenticationController extends BaseController
         $this->redirect();
     }
 
-    function isLoggedIn(): bool{
+    function isLoggedIn(): bool
+    {
         return isset($_SESSION['user']);
     }
 
@@ -68,7 +69,7 @@ class AuthenticationController extends BaseController
     {
         try {
             $role = $this->database->queryOne("SELECT * FROM roles WHERE name='CUSTOMER'", new RoleMapper());
-error_log($role->id);
+            error_log($role->id);
             $user = new User(
                 null,
                 $_POST['firstName'] ?? null,
