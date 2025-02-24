@@ -138,7 +138,7 @@ header {
     margin: 5px 0;
 }
 
-.box {
+.loginbox {
     margin: auto;
     display: flex;
     background: white;
@@ -146,8 +146,6 @@ header {
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     width: min(90%, 1000px);
-
-
 }
 
 .loginimg {
@@ -160,7 +158,7 @@ header {
     object-fit: cover;
 }
 
-.form-section {
+.loginform-section {
     flex: 1;
     padding: 2rem;
     display: flex;
@@ -168,31 +166,31 @@ header {
     justify-content: center;
 }
 
-.form-section h1 {
+.loginform-section h1 {
     font-size: 1.8rem;
     font-weight: 700;
     color: #444;
     margin-bottom: 1rem;
 }
 
-.form-section p {
+.loginform-section p {
     font-size: 0.9rem;
     color: #777;
     margin-bottom: 2rem;
 }
 
-.form-group {
+.loginform-group {
     margin-bottom: 1rem;
 }
 
-.form-group label {
+.loginform-group label {
     display: block;
     font-weight: 500;
     margin-bottom: 0.5rem;
     color: #555;
 }
 
-.form-group input {
+.loginform-group input {
     width: 100%;
     padding: 0.8rem;
     font-size: 1rem;
@@ -200,7 +198,7 @@ header {
     border-radius: 5px;
 }
 
-.form-group a {
+.loginform-group a {
     display: inline-block;
     margin-top: 0.5rem;
     font-size: 0.85rem;
@@ -208,11 +206,14 @@ header {
     text-decoration: none;
 }
 
-.form-group a:hover {
+.loginform-group a:hover {
     text-decoration: underline;
 }
 
-.form-section button {
+.loginform-section form {
+    flex-direction: column;
+}
+.loginform-section button {
     padding: 0.8rem;
     width: 100%;
     background: #6e4c3c;
@@ -225,22 +226,22 @@ header {
     transition: background 0.3s ease;
 }
 
-.form-section button:hover {
+.loginform-section button:hover {
     background: #55382b;
 }
 
-.register {
+.loginregister {
     margin-top: 1rem;
     font-size: 0.9rem;
     text-align: center;
 }
 
-.register a {
+.loginregister a {
     color: #007bff;
     text-decoration: none;
 }
 
-.register a:hover {
+.loginregister a:hover {
     text-decoration: underline;
 }
 
@@ -1254,4 +1255,77 @@ adduserbtn:hover {
     background-color: #45a049;
 }
 
-/*//statprod*/
+/*//register*/
+.regisadd {
+    margin: auto;
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: min(90%, 1000px);
+}
+
+.regisimg {
+    flex: 1;
+}
+
+.regisimg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.regisform {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.regisform h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 1rem;
+}
+
+.regisform-group {
+    margin-bottom: 1rem;
+}
+
+.regisform-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.regisform-group input {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.regisform button {
+    padding: 0.8rem;
+    width: 100%;
+    background: #6e4c3c;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.regisform button:hover {
+    background: #55382b;
+}
+.regisform form {
+    flex-direction: column;
+}

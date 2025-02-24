@@ -9,12 +9,14 @@
 </head>
 <body>
 
+<div class="regisadd">
+    <div class="regisimg">
+        <img src="/assets/regispic.png" alt="Artisan Heritage Image">
+    </div>
 
-<h1>Register</h1>
-
-<div class="form">
+<div class="regisform">
     <form method="POST">
-        <div class="name">
+        <div class="regisform-group">
             <label for="first_name">First Name</label>
             <input type="text" id="first-name" placeholder="Enter first name" name="firstName">
 
@@ -22,28 +24,29 @@
             <input type="text" id="last-name" placeholder="Enter last name" name="lastName">
         </div>
 
-        <div>
+        <div class="regisform-group">
             <label for="email">Email</label>
             <input type="text" id="email" placeholder="Enter email" name="email">
         </div>
 
-        <div>
+        <div class="regisform-group">
             <label for="password">Password</label>
             <input type="password" id="password" min="8" placeholder="Enter password" name="password">
         </div>
 
-        <div>
+        <div class="regisform-group">
             <label for="address">Address</label>
             <input type="text" id="address" placeholder="Enter address" name="address">
         </div>
 
-        <div>
+        <div class="regisform-group">
             <label for="contact-no">Contact No</label>
             <input type="text" id="contact-no" placeholder="Enter contact no" name="contactNo">
         </div>
 
         <button type="submit">Register</button>
     </form>
+</div>
 </div>
 </body>
 </html>
