@@ -1,13 +1,13 @@
 {include '../../common/headers.latte'}
 
 <body>
+<div class="statprod"></div>
+<h1>Product Details Statistics</h1>
 
-<h1>Book Details Statistics</h1>
-
-<div>Title:{$statistics->title}</div>
-<div>Available:{$statistics->available}</div>
-<div>Sold:{$statistics->sold}</div>
-<div>Damaged:{$statistics->damaged}</div>
-
+<div class="prodstattit">Title:{$statistics->title}</div>
+<div class="prodstatava">Available:{$statistics->available}</div>
+<div class="prodstatsold">Sold:{$statistics->sold}</div>
+<div class="prodstatdam">Damaged:{$statistics->damaged}</div>
+</div>
 </body>
 </html>

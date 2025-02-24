@@ -1,20 +1,21 @@
 {include '../common/headers.latte'}
 
 <body>
+<div class="dibba">
 <h1>Users</h1>
 
 <form method="post">
     <input type="text" name="search">
-    <button>Search</button>
+    <button class="adddusertbtn">Search</button>
 </form>
 
-<div>
+<div class="adduser">
     <a href="/users/save">Add User</a>
 </div>
 
 {if count($users) > 0}
 
-    <table class="table table-hover">
+    <table class="tbul table-hover">
         <tr>
             <th>Id</th>
             <th>First name</th>
@@ -47,7 +48,7 @@
     </table>
 
     <form>
-        <ul class="pagination">
+        <ul class="pagination1">
             {for $i = 1; $i <= round($total / $limit); $i++}
                 <li class="page-item {if $start === $i}active{/if}"><a class="page-link"
                                                                        href="/users?start={$i}&limit={$limit}">{$i}</a>
@@ -59,6 +60,6 @@
 {else}
     <p>User list is empty.</p>
 {/if}
-
+</div>
 </body>
 </html>

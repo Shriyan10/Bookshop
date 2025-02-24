@@ -1,42 +1,45 @@
 {include '../../common/headers.latte'}
-<div class="addbook-batta">
-<h1>Add Book</h1>
-<div class="addbookform">
-<form method="POST">
-    <div class="name">
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title">
+<div class="addprodadd">
+    <h1>Add Product</h1>
+    <div class="addprodform">
+        <form method="POST">
+            <table>
+                <tr>
+                    <td><label for="title">Title</label></td>
+                    <td><input type="text" id="title" name="title"></td>
+                </tr>
+
+                <tr>
+                    <td><label for="file">Image URL</label></td>
+                    <td><input type="text" id="file" name="imageUrl"></td>
+                </tr>
+
+                <tr>
+                    <td><label for="author">Dimention</label></td>
+                    <td><input type="text" id="author" name="author"></td>
+                </tr>
+
+                <tr>
+                    <td><label for="publisher">Materials</label></td>
+                    <td><input type="text" id="publisher" name="publisher"></td>
+                </tr>
+
+                <tr>
+                    <td><label for="isbn">Description</label></td>
+                    <td><input type="text" id="isbn" name="isbn"></td>
+                </tr>
+
+                <tr>
+                    <td><label for="price">Price</label></td>
+                    <td><input type="number" id="price" name="price"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><button type="submit">Submit</button></td>
+                </tr>
+            </table>
+        </form>
     </div>
-
-    <div>
-        <label for="file">Image URL</label>
-        <input type="text" id="file" name="imageUrl">
-    </div>
-
-    <div>
-        <label for="author">Author</label>
-        <input type="text" id="author" name="author">
-    </div>
-
-    <div>
-        <label for="publisher">Publisher</label>
-        <input type="text" id="publisher" name="publisher">
-    </div>
-
-    <div>
-        <label for="isbn">ISBN No</label>
-        <input type="text" id="isbn" name="isbn">
-    </div>
-
-    <div>
-        <label for="price">Price</label>
-        <input type="number" id="price" name="price">
-    </div>
-
-    <button type="submit">Submit</button>
-</div>
-
-</form>
 </div>
 </body>
 </html>

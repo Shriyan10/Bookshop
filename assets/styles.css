@@ -621,7 +621,637 @@ iframe {
     color: #e27b00;
 }
 
-/*//addbook*/
-.addbook-batta {
-
+/*//role*/
+/* Styling for the main container */
+.dabba {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Styling for the role addition button */
+.roleadd {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.roleadd a {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.roleadd a:hover {
+    background-color: #218838;
+}
+
+/* Table styling */
+.tabul {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.tabul th, .tabul td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.tabul th {
+    background-color: #007bff;
+    color: white;
+}
+
+.tabul tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Action links */
+.tabul td a {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+.tabul td a:first-child {
+    background-color: #ffc107;
+}
+
+.tabul td a:first-child:hover {
+    background-color: #e0a800;
+}
+
+.tabul td a:last-child {
+    background-color: #dc3545;
+}
+
+.tabul td a:last-child:hover {
+    background-color: #c82333;
+}
+
+/*//useradd*/
+/* Styling for the main container */
+.dibba {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the search form */
+form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+adduserbtn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+adduserbtn:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for the add user button */
+.adduser {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.adduser a {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.adduser a:hover {
+    background-color: #218838;
+}
+
+/* Table styling */
+.tbul {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.tbul th, .tbul td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.tbul th {
+    background-color: #007bff;
+    color: white;
+}
+
+.tbul tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Action links */
+.tbul td a {
+    display: inline-block;
+    margin-right: 15px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+.tbul td a:first-child {
+    background-color: #ffc107;
+}
+
+.tbul td a:first-child:hover {
+    background-color: #e0a800;
+}
+
+.tbul td a:last-child {
+    background-color: #dc3545;
+}
+
+.tbul td a:last-child:hover {
+    background-color: #c82333;
+}
+
+/*//edit user*/
+.edituser-edit {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.edituser-edit h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.edituserform table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+.edituserform td {
+    padding: 8px 0;
+    vertical-align: top;
+}
+
+.edituserform td:first-child {
+    width: 30%;
+    padding-right: 20px;
+}
+
+.edituserform label {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.edituserform input,
+.edituserform select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+}
+
+.edituserform input:focus,
+.edituserform select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.edituserform input::placeholder {
+    color: #94a3b8;
+}
+
+.edituserbtn {
+    background-color: #ff9900;
+    color: white;
+    font-weight: bold;
+}
+
+.edituserbtn:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+/*//add_user*/
+/* Main form container */
+.add_userform {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Header styling */
+.add_userform h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* Table form styling */
+.add_userform table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+/* Table cell styling */
+.add_userform td {
+    padding: 8px 0;
+    vertical-align: top;
+}
+
+.add_userform td:first-child {
+    width: 30%;
+    padding-right: 20px;
+}
+
+/* Label styling */
+.add_userform label {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+/* Input and select styling */
+.add_userform input,
+.add_userform select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+}
+
+/* Focused input and select */
+.add_userform input:focus,
+.add_userform select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+/* Input placeholder color */
+.add_userform input::placeholder {
+    color: #94a3b8;
+}
+
+/* Button styling */
+.add_userform .add_userbtn {
+    padding: 8px 15px; /* Reduced padding for a smaller button */
+    font-size: 14px;   /* Smaller font size */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px; /* Optional: limits button width */
+    margin: 0 auto;    /* Centers the button */
+}
+
+.add_userform .add_userbtn:hover {
+    background-color: #45a049;
+}
+
+/*//proddetail*/
+.proddetail {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.proddetail h1 {
+    color: #333;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Search bar styling */
+.proddetail form {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.proddetail input[type="text"] {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.proddetail button {
+    padding: 8px 16px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Add Product Detail button */
+.addproddetail {
+    margin: 20px 0;
+}
+
+.addproddetail a {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #40B54D;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.addproddetail a:hover {
+    background-color: #359740;
+}
+
+/* Table styling */
+.tb {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+}
+
+.tb th {
+    background-color: #0d6efd;
+    color: white;
+    text-align: left;
+    padding: 12px;
+    font-weight: 500;
+}
+
+.tb td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.tb img {
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Action links styling */
+.tb td a {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 2px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.tb td a:nth-child(1) { /* Edit */
+    background-color: #ffc107;
+    color: black;
+}
+
+.tb td a:nth-child(2) { /* Delete */
+    background-color: #dc3545;
+    color: white;
+}
+
+.tb td a:nth-child(3) { /* Statistics */
+    background-color: #0d6efd;
+    color: white;
+}
+
+.tb td a:nth-child(4) { /* Add Products */
+    background-color: #40B54D;
+    color: white;
+}
+
+.tb td a:nth-child(5) { /* Inventory */
+    background-color: #6c757d;
+    color: white;
+}
+
+/*//editprod*/
+.editproddetail {
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.editproddetail h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* Table styling */
+.editprodform table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+.editprodform td {
+    padding: 8px;
+    vertical-align: middle;
+}
+
+.editprodform td:first-child {
+    width: 30%;
+    padding-right: 20px;
+}
+
+.editprodform label {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.editprodform input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+}
+
+.editprodform input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.editprodform input::placeholder {
+    color: #94a3b8;
+}
+
+/* Button styling */
+.editprodform button {
+    background-color: #ff9900;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+    margin: 20px auto 0;
+}
+
+.editprodform button:hover {
+    background-color: #ff8000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 153, 0, 0.2);
+}
+
+/*//addprod*/
+/* Main wrapper */
+.addprodadd {
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the Add Product header */
+.addprodadd h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Table form styling */
+.addprodform table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+/* Table cell styling */
+.addprodform td {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+/* Label styling */
+.addprodform label {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Input field styling */
+.addprodform input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.addprodform input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background-color: #fff;
+}
+
+/* Button styling */
+.addprodform button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+.addprodform button:hover {
+    background-color: #45a049;
+}
+
+/*//statprod*/

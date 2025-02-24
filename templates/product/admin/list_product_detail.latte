@@ -1,10 +1,11 @@
 {include '../../common/headers.latte'}
 
 <body>
-<h1>Book Details</h1>
+<div class="proddetail">
+<h1>Product Details</h1>
 
-<div>
-    <a href="/product-details/save">Add Book Detail</a>
+<div class="addproddetail">
+    <a href="/product-details/save">Add Product Detail</a>
 </div>
 
 {if count($bookDetails) > 0}
@@ -14,14 +15,14 @@
         <button>Search</button>
     </form>
 
-    <table class="table table-hover">
+    <table class="tb table-hover">
         <tr>
             <th>Id</th>
             <th>Image</th>
             <th>Title</th>
-            <th>Author</th>
-            <th>Publisher</th>
-            <th>ISBN</th>
+            <th>Dimention</th>
+            <th>Materials</th>
+            <th>Description</th>
             <th>Price</th>
             <th>Actions</th>
         </tr>
@@ -41,14 +42,14 @@
                     <a href="/product-details/edit?productDetailId={$bookDetail->id}">Edit</a>
                     <a href="/product-details/delete?productDetailId={$bookDetail->id}">Delete</a>
                     <a href="/product-details/stats?productDetailId={$bookDetail->id}">Statistics</a>
-                    <a href="/product-details/inventory/save?productDetailId={$bookDetail->id}">Add Books</a>
+                    <a href="/product-details/inventory/save?productDetailId={$bookDetail->id}">Add Products</a>
                     <a href="/product-details/inventory?productDetailId={$bookDetail->id}">Inventory</a>
                 </td>
             </tr>
 
         {/foreach}
     </table>
-
+</div>
     <form>
 
         <ul class="pagination">
@@ -62,7 +63,7 @@
 
     </form>
 {else}
-    <p>Book Detail list is empty.</p>
+    <p>Product Detail list is empty.</p>
 {/if}
 
 </body>
