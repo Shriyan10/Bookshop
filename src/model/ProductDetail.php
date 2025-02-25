@@ -6,8 +6,8 @@ class ProductDetail
     public int|null $id;
     public string $title;
     public string $author;
-    public string $publisher;
-    public string $isbn;
+    public string $description;
+    public string $distributor;
     public int $price;
     public string $imageUrl;
 
@@ -16,8 +16,8 @@ class ProductDetail
         $this->id = $id;
         $this->title = $title;
         $this->author = $author;
-        $this->publisher = $publisher;
-        $this->isbn = $isbn;
+        $this->description = $publisher;
+        $this->distributor = $isbn;
         $this->price = $price;
         $this->imageUrl = $imageUrl;
     }
@@ -52,24 +52,24 @@ class ProductDetail
         $this->author = $author;
     }
 
-    public function getPublisher(): string
+    public function getDescription(): string
     {
-        return $this->publisher;
+        return $this->description;
     }
 
-    public function setPublisher(string $publisher): void
+    public function setDescription(string $description): void
     {
-        $this->publisher = $publisher;
+        $this->description = $description;
     }
 
-    public function getIsbn(): string
+    public function getDistributor(): string
     {
-        return $this->isbn;
+        return $this->distributor;
     }
 
-    public function setIsbn(string $isbn): void
+    public function setDistributor(string $distributor): void
     {
-        $this->isbn = $isbn;
+        $this->distributor = $distributor;
     }
 
     public function getPrice(): int

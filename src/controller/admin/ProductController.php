@@ -90,8 +90,8 @@ class ProductController extends BaseController
                     $productDetail->getTitle(),
                     $productDetail->getImageUrl(),
                     $productDetail->getAuthor(),
-                    $productDetail->getPublisher(),
-                    $productDetail->getIsbn(),
+                    $productDetail->getDescription(),
+                    $productDetail->getDistributor(),
                     $productDetail->getPrice(),
                     $productDetail->getId()
                 ],
@@ -156,8 +156,8 @@ class ProductController extends BaseController
                     $bookDetail->getTitle(),
                     $bookDetail->getImageUrl(),
                     $bookDetail->getAuthor(),
-                    $bookDetail->getPublisher(),
-                    $bookDetail->getIsbn(),
+                    $bookDetail->getDescription(),
+                    $bookDetail->getDistributor(),
                     $bookDetail->getPrice()
                 ],
             );
@@ -203,7 +203,7 @@ class ProductController extends BaseController
 
         $params = [
             'bookDetails' => $bookDetails,
-            'selectedProductDetailId' => $productDetailId
+            'productDetailId' => $productDetailId
         ];
 
         // render to output
@@ -271,7 +271,7 @@ class ProductController extends BaseController
         }
         
         $offset = $this->offset($start, $limit);
-        $sql = "select b.id,  bd.title, b.status, b.created_date, b.updated_date from products b INNER JOIN product_details bd ON b.product_detail_id=bd.id";
+        $sql = "SELECT b.id,  bd.title, b.status, b.created_date, b.updated_date FROM products b INNER JOIN product_details bd ON b.product_detail_id=bd.id";
         $countSql = "SELECT COUNT(*) as count FROM products";
         $isFilterPresent = false;
 
@@ -340,7 +340,7 @@ class ProductController extends BaseController
         $bookDetails = $this->database->queryAll("SELECT * FROM product_details", new ProductDetailMapper());
         $total = $this->database->count($countSql);
         $params = [
-            'books' => $products,
+            'products' => $products,
             'bookDetails' => $bookDetails,
             'start' => $start,
             'limit' => $limit,

@@ -8,6 +8,7 @@ use App\controller\admin\RoleController;
 use App\controller\admin\UserController;
 use App\controller\AuthenticationController;
 use App\controller\BaseController;
+use App\controller\customer\CheckoutController;
 use App\controller\customer\ProductController as CustomerProductController;
 use App\controller\customer\CartController;
 use App\db\Database;
@@ -42,7 +43,13 @@ class Router extends BaseController
             }else{
                 $cartController->cart();
             }
-        } elseif (preg_match('#^/about?$#', $path)) {
+        }
+        elseif (preg_match('#^/checkout?$#', $path)) {
+            $checkoutController = new CheckoutController($this->latte, $this->database);
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $checkoutController->checkout();
+            }
+        }elseif (preg_match('#^/about?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $this->render("about");
             }
@@ -248,7 +255,7 @@ class Router extends BaseController
             }
         } else if (preg_match('#^/product-details/inventory/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $productDetailController->getBookDetailInventoryByproductDetailId($_POST['productDetailId'], $_POST['date'], $_POST['bookId']);
+                $productDetailController->getBookDetailInventoryByProductDetailId($_POST['productDetailId'], $_POST['date'], $_POST['bookId']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $productDetailController->getProductDetailInventory();
             }

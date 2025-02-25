@@ -14,8 +14,8 @@ class ProductDetailQuantityMapper implements RowMapper
             $row["id"],
             $row["title"],
             $row["author"],
-            $row["publisher"],
-            $row["isbn"],
+            $row["description"],
+            $row["distributor"],
             $row["price"],
             $row["image_url"],
             $row["quantity"]

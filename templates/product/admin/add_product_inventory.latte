@@ -3,9 +3,9 @@
 <body>
 <form method="post">
     <label for="name">Name</label>
-    <select name="productDetailId" id="books" {ifset $selectedproductDetailId} readonly {/ifset}>
+    <select name="productDetailId" id="books" {ifset $productDetailId} readonly {/ifset}>
         {foreach $bookDetails as $bookDetail}
-            <option {if $bookDetail -> id ==$selectedproductDetailId }selected{/if} value="{$bookDetail -> id}">{$bookDetail -> title}</option>
+            <option {if $bookDetail -> id == $productDetailId }selected{/if} value="{$bookDetail -> id}">{$bookDetail -> title}</option>
         {/foreach}
     </select>
 
