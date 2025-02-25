@@ -33,12 +33,16 @@
                     <div class="item-button">
                         <form action="/cart" method="post">
                             <input type="hidden" value="{$productDetail->id}" name="productDetailId">
+                            <div class="quanbtn">
                             <label for="">Quantity</label>
                             <input type="number" value="1" name="quantity" min="1" max="{$productDetail->quantity}">
                             <b>{$productDetail->quantity} left in stock</b>
-                            <button class="cart-button">
-                                <img src="/assets/cart.png" alt="Cart" class="cart-icon">
+                            </div>
+                            <div class="cartbtn1">
+                            <button class="cart-button1">
+                                <img src="/assets/cart.png" alt="Cart" class="cart-icon1">
                             </button>
+                            </div>
                         </form>
                     </div>
                 </div>

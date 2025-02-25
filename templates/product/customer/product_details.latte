@@ -9,10 +9,12 @@
             <p class="price">Rs. {$bookDetail->price}</p>
             <form action="/cart" method="post" class="cart-container">
                 <input type="hidden" value="{$bookDetail->id}" name="productDetailId">
+                <div class="quantitybtn">
                 <label for="">Quantity</label>
                 <input type="number" value="1" name="quantity">
-                <button class="cart-button">
-                    <img src="/assets/cart.png" alt="Cart" class="cart-icon">
+                </div>
+                <button class="cart-button1">
+                    <img src="/assets/cart.png" alt="Cart" class="cart-icon1">
                 </button>
 
             </form>
