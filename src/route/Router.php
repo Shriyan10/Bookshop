@@ -9,6 +9,7 @@ use App\controller\admin\UserController;
 use App\controller\AuthenticationController;
 use App\controller\BaseController;
 use App\controller\customer\CheckoutController;
+use App\controller\customer\PaymentController;
 use App\controller\customer\ProductController as CustomerProductController;
 use App\controller\customer\CartController;
 use App\db\Database;
@@ -56,6 +57,11 @@ class Router extends BaseController
         } elseif (preg_match('#^/contact-us?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $this->render("contactus");
+            }
+        }elseif (preg_match('#^/payments?$#', $path)) {
+            $paymentController = new PaymentController($this->latte, $this->database);
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $paymentController->viewPayments();
             }
         } elseif (preg_match('#^/register?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
