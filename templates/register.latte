@@ -19,7 +19,8 @@
         <div class="regisform-group">
             <label for="first_name">First Name</label>
             <input type="text" id="first-name" placeholder="Enter first name" name="firstName">
-
+        </div>
+            <div class="regisform-group">
             <label for="last_name">Last Name</label>
             <input type="text" id="last-name" placeholder="Enter last name" name="lastName">
         </div>
@@ -31,7 +32,8 @@
 
         <div class="regisform-group">
             <label for="password">Password</label>
-            <input type="password" id="password" min="8" placeholder="Enter password" name="password">
+            <input type="password" id="password"  placeholder="Enter password" name="password" pattern={=".{8,10}"}  required>
+            <p>Password must be between 8-10 characters only.</p>
         </div>
 
         <div class="regisform-group">

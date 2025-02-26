@@ -18,7 +18,7 @@ if (file_exists(__DIR__ . '/.env')) {
 } else{
     error_log("WARNING .env file not found");
 }
-//error_log( password_hash("admin", PASSWORD_BCRYPT));
+error_log( password_hash("Sushant@123", PASSWORD_BCRYPT));
 session_start();
 $router->route($uri);
 

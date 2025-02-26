@@ -1,19 +1,21 @@
 {include '../../common/headers.latte'}
 
 <body>
+<div class="update_inv">
 <label for="name">Name</label>
-<h1>{$bookDetail->title}</h1>
 
+<h1>{$bookDetail->title}</h1>
+<div class="upadte_invform">
 <form method="post">
     <select name="status">
         {foreach $bookStatusList as $bookStatus}
             <option value="{$bookStatus}">{$bookStatus}</option>
         {/foreach}
     </select>
-
-    <button>Update</button>
+</div>
+    <button class="btn2">Update</button>
 </form>
 
-
+</div>
 </body>
 </html>
