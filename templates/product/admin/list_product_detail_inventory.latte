@@ -1,54 +1,126 @@
+{*{include '../../common/headers.latte'}*}
+
+{*<body>*}
+
+{*<a class="nav-link" href="/product-details/inventory/save">Add Inventory</a>*}
+
+{*<form method="post">*}
+{*    <label for="name">Name</label>*}
+{*    <select name="productDetailId">*}
+{*        <option value="-1">Select book</option>*}
+{*        {foreach $bookDetails as $bookDetail}*}
+{*            <option value="{$bookDetail -> id}">{$bookDetail -> title}</option>*}
+{*        {/foreach}*}
+{*    </select>*}
+
+{*    <label for="bookId">Book Id</label>*}
+{*    <input type="number" name="bookId">*}
+
+{*    <label for="date">Date</label>*}
+{*    <input type="date" name="date">*}
+{*    <button>Search</button>*}
+{*</form>*}
+{*<table class="table table-hover">*}
+{*    <tr>*}
+{*        <th>Id</th>*}
+{*        <th>Book Name</th>*}
+{*        <th>Status</th>*}
+{*        <th>Actions</th>*}
+{*    </tr>*}
+{*    {foreach $products as $product}*}
+{*        <tr>*}
+{*            <td>{$product->id}</td>*}
+{*            <td>{$product->title}</td>*}
+{*            <td>{$product->status}</td>*}
+{*            <td>*}
+{*                <a href="/product-details/inventory/update?bookId={$product->id}">Edit</a>*}
+{*                <a href="/product-details/inventory/delete?bookId={$product->id}&redirect={$deleteRedirect}">Delete</a>*}
+{*            </td>*}
+{*        </tr>*}
+{*    {/foreach}*}
+{*</table>*}
+
+{*<form>*}
+
+{*    <ul class="pagination">*}
+{*        {for $i = 1; $i <= round($total / $limit); $i++}*}
+{*            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/product-details/inventory?start={$i}&limit={$limit}">{$i}</a></li>*}
+{*        {/for}*}
+
+{*    </ul>*}
+{*</form>*}
+
+{*</body>*}
+{*</html>*}
 {include '../../common/headers.latte'}
 
 <body>
 
-<a class="nav-link" href="/product-details/inventory/save">Add Inventory</a>
+<div class="list_product-container">
+    <div class="list_prodheader">
+        <a class="nav-link1" href="/product-details/inventory/save">Add Inventory</a>
+    </div>
 
-<form method="post">
-    <label for="name">Name</label>
-    <select name="productDetailId">
-        <option value="-1">Select book</option>
-        {foreach $bookDetails as $bookDetail}
-            <option value="{$bookDetail -> id}">{$bookDetail -> title}</option>
-        {/foreach}
-    </select>
+    <div class="list_prodform-container">
+        <form method="post">
+            <div class="list_prodform-group">
+                <label for="name">Name</label>
+                <select name="productDetailId" class="list_prodform-select">
+                    <option value="-1">Select book</option>
+                    {foreach $bookDetails as $bookDetail}
+                        <option value="{$bookDetail -> id}">{$bookDetail -> title}</option>
+                    {/foreach}
+                </select>
+            </div>
 
-    <label for="bookId">Book Id</label>
-    <input type="number" name="bookId">
+            <div class="list_prodform-group">
+                <label for="bookId">Book Id</label>
+                <input type="number" name="bookId" class="form-input">
+            </div>
 
-    <label for="date">Date</label>
-    <input type="date" name="date">
-    <button>Search</button>
-</form>
-<table class="table table-hover">
-    <tr>
-        <th>Id</th>
-        <th>Book Name</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-    {foreach $products as $product}
-        <tr>
-            <td>{$product->id}</td>
-            <td>{$product->title}</td>
-            <td>{$product->status}</td>
-            <td>
-                <a href="/product-details/inventory/update?bookId={$product->id}">Edit</a>
-                <a href="/product-details/inventory/delete?bookId={$product->id}&redirect={$deleteRedirect}">Delete</a>
-            </td>
-        </tr>
-    {/foreach}
-</table>
+            <div class="flist_prodform-group">
+                <label for="date">Date</label>
+                <input type="date" name="date" class="form-input">
+            </div>
 
-<form>
+            <button type="submit" class="btn">Search</button>
+        </form>
+    </div>
 
-    <ul class="pagination">
-        {for $i = 1; $i <= round($total / $limit); $i++}
-            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/product-details/inventory?start={$i}&limit={$limit}">{$i}</a></li>
-        {/for}
+    <div class="list_prodtable-container">
+        <table class="list_prodtable">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Book Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $products as $product}
+                <tr>
+                    <td>{$product->id}</td>
+                    <td>{$product->title}</td>
+                    <td>{$product->status}</td>
+                    <td>
+                        <a href="/product-details/inventory/update?bookId={$product->id}" class="action-link">Edit</a>
+                        <a href="/product-details/inventory/delete?bookId={$product->id}&redirect={$deleteRedirect}" class="action-link">Delete</a>
+                    </td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    </div>
 
-    </ul>
-</form>
+        <ul class="pagination">
+            {for $i = 1; $i <= round($total / $limit); $i++}
+                <li class="page-item {if $start===$i}active{/if}">
+                    <a class="page-link" href="/product-details/inventory?start={$i}&limit={$limit}">{$i}</a>
+                </li>
+            {/for}
+        </ul>
+    </div>
 
 </body>
 </html>

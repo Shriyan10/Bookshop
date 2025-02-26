@@ -1,19 +1,26 @@
 {include '../../common/headers.latte'}
 
 <body>
+<div class="product-form-containerinv">
 <form method="post">
+    <div class="form-group">
     <label for="name">Name</label>
     <select name="productDetailId" id="books" {ifset $productDetailId} readonly {/ifset}>
         {foreach $bookDetails as $bookDetail}
             <option {if $bookDetail -> id == $productDetailId }selected{/if} value="{$bookDetail -> id}">{$bookDetail -> title}</option>
         {/foreach}
     </select>
+    </div>
 
-    <label for="quantity">Quantity</label>
-    <input type="number" id="quantity" name="quantity">
 
-    <button>Add Products</button>
-</form>
+        <div class="prodinvform-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity">
+        </div>
+
+        <button class="btm1">Add Products</button>
+    </form>
+</div>
 
 </body>
 </html>
