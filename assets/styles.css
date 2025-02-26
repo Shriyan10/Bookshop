@@ -1924,3 +1924,103 @@ body {
 .btm1:hover {
     background-color: #218838;
 }
+
+/*//listprodinv*/
+/* Container */
+.list_prodinv {
+    width: 80%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Header */
+.list_prodinv h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form */
+.list_prodform {
+    margin-bottom: 20px;
+}
+
+.list_prodform label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #555;
+}
+
+.list_prodform input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.list_prodform button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.list_prodform button:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+.invtable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.invtable th,
+.invtable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.invtable th {
+    background-color: #007bff;
+    color: white;
+}
+
+.invtable td {
+    background-color: #f8f9fa;
+}
+
+.invtable a {
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin: 0 5px;
+    color: white;
+    transition: 0.3s;
+}
+
+.invtable a:first-child {
+    background-color: #ffc107;
+}
+
+.invtable a:first-child:hover {
+    background-color: #e0a800;
+}
+
+.invtable a:last-child {
+    background-color: #dc3545;
+}
+
+.invtable a:last-child:hover {
+    background-color: #c82333;
+}

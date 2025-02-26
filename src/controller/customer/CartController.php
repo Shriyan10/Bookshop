@@ -53,10 +53,22 @@ class CartController extends BaseController
     function cart(): void
     {
         try {
-            $cart = $_SESSION['cart'];
+
 
             $cartDetails = [];
             $grandTotal = 0;
+
+            if (!isset($_SESSION['cart'])) {
+                $params = [
+                    "cartDetails" => $cartDetails,
+                    "grandTotal" => $grandTotal
+                ];
+
+                $this->render('product/customer/cart_detail', $params);
+                return;
+            }
+
+            $cart = $_SESSION['cart'];
             foreach ($cart as $productDetailId => $quantity) {
 
                 $cartDetail = new CartDetail();

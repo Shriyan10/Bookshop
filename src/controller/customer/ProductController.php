@@ -26,10 +26,10 @@ class ProductController extends BaseController
             $countQuery = "";
 
             if (strlen($search) > 0) {
-                $query = "SELECT COUNT(*) as quantity, bd.* from products b RIGHT JOIN product_details bd ON bd.id=b.product_detail_id WHERE bd.title LIKE '%$search%' GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
+                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE bd.title AND b.status='AVAILABLE' LIKE '%$search%' GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
                 $countQuery = "SELECT COUNT(*) as count FROM product_details WHERE title LIKE '%$search%'";
             } else {
-                $query = "SELECT COUNT(*) as quantity, bd.* from products b RIGHT JOIN product_details bd ON bd.id=b.product_detail_id GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
+                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
                 $countQuery = "SELECT COUNT(*) as count FROM product_details";
             }
 

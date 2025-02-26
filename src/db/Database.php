@@ -57,6 +57,15 @@ class Database
         return $connection->query($query);
     }
 
+    public function queryWithId(string $query, array $params): int
+    {
+        $query = sprintf($query, ...$params);
+        $connection = $this->connect();
+         $connection->query($query);
+
+        return $connection->insert_id;
+    }
+
     public function count(string $query): int
     {
         try {
