@@ -46,6 +46,7 @@ class ProductController extends BaseController
                 'total' => $total,
                 'search' => $search
             ];
+
             $this->render('product/admin/list_product_detail', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -151,7 +152,7 @@ class ProductController extends BaseController
             );
 
             $result = $this->database->query(
-                "INSERT INTO product_details(title, image_url, author, publisher, isbn, price) VALUES('%s','%s','%s','%s', '%s', %d)",
+                "INSERT INTO product_details(title, image_url, author, description, distributor, price) VALUES('%s','%s','%s','%s', '%s', %d)",
                 [
                     $bookDetail->getTitle(),
                     $bookDetail->getImageUrl(),

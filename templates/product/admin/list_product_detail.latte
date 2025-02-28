@@ -56,7 +56,7 @@
 
 
                 <ul class="pagination">
-            {for $i = 1; $i <= round($total / $limit); $i++}
+            {for $i = 1; $i <= ceil($total / $limit); $i++}
                 <li class="page-item {if $start === $i}active{/if}"><a class="page-link"
                                                                        href="/product-details?start={$i}&limit={$limit}&search={$search}">{$i}</a>
                 </li>

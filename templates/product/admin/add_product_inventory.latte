@@ -5,7 +5,7 @@
 <form method="post">
     <div class="form-group">
     <label for="name">Name</label>
-    <select name="productDetailId" id="books" {ifset $productDetailId} readonly {/ifset}>
+    <select name="productDetailId" id="books" {ifset $productDetailId} readonly="true" {/ifset}>
         {foreach $bookDetails as $bookDetail}
             <option {if $bookDetail -> id == $productDetailId }selected{/if} value="{$bookDetail -> id}">{$bookDetail -> title}</option>
         {/foreach}

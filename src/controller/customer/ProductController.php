@@ -26,13 +26,14 @@ class ProductController extends BaseController
             $countQuery = "";
 
             if (strlen($search) > 0) {
-                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE bd.title AND b.status='AVAILABLE' LIKE '%$search%' GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
-                $countQuery = "SELECT COUNT(*) as count FROM product_details WHERE title LIKE '%$search%'";
+                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE  b.status='AVAILABLE' AND bd.title LIKE '%$search%' GROUP BY bd.id LIMIT $limit OFFSET $offset";
+                $countQuery = "SELECT count(*) FROM (SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' AND bd.title = '$search'GROUP BY bd.id) t";
             } else {
-                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
-                $countQuery = "SELECT COUNT(*) as count FROM product_details";
+                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' GROUP BY bd.id LIMIT $limit OFFSET $offset";
+                $countQuery = "SELECT count(*) FROM (SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' GROUP BY bd.id) t";
             }
-
+            error_log($query);
+            error_log($countQuery);
             $productDetails = $this->database->queryAll($query, new ProductDetailQuantityMapper());
             $total = $this->database->count($countQuery);
 
@@ -43,6 +44,8 @@ class ProductController extends BaseController
                 "total" => $total,
                 "search" => $search
             ];
+
+            var_dump($params);
 
             $this->render('product/customer/list_product', $params);
         } catch (Exception $e) {
