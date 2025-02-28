@@ -1,5 +1,6 @@
 {include '../../common/headers.latte'}
 <body>
+
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-content">
@@ -16,6 +17,7 @@
         </div>
     </div>
 </section>
+
 <!-- Products Section -->
 <section class="featured-saman" >
     <h2 data-lang-en="Featured saman" data-lang-np="विशेष उत्पादनहरू">Products</h2>
@@ -51,41 +53,16 @@
     </div>
 </section>
 
-{*<div class="container-fluid">*}
-{*<form method="post">*}
-{*    <input type="text" name="search">*}
-{*    <button>Search</button>*}
-{*</form>*}
-{*<div class="row">*}
-{*{foreach $productDetails as $productDetail}*}
-{*    <div class="col-6 col-sm-3">*}
-{*        <a href="/books/detail?id={$productDetail->id}">*}
-{*            <img alt={$productDetail->title} src="{$productDetail->imageUrl}">*}
-{*            <span>{$productDetail->title}</span>*}
-{*        </a>*}
-{*        <p class="item-price">Price: Rs.{$productDetail->price}</p>*}
-{*        <div class="item-button">*}
-{*            <form action="/cart" method="post">*}
-{*                <input type="hidden" value="{$productDetail->id}" name="productDetailId">*}
-{*                <label for="">Quantity</label>*}
-{*                <input type="number" value="1" name="quantity">*}
-{*                <button type="submit">Add to Cart</button>*}
-{*            </form>*}
-{*            <a href="javascript:void(0)" class="buy">Buy</a>*}
-{*        </div>*}
-{*    </div>*}
-{*{/foreach}*}
-{*</div>*}
-{*</div>*}
+
 <form>
     <ul class="pagination">
         {for $i = 1; $i <= round($total / $limit); $i++}
-            <li class="page-item {if $start === $i}active{/if}"><a class="page-link"
-                                                                   href="?start={$i}&limit={$limit}&search={$search}">{$i}</a>
+            <li class="page-item {if $start === $i}active{/if}">
+                <a class="page-link" href="?start={$i}&limit={$limit}&search={$search}">{$i}</a>
             </li>
         {/for}
     </ul>
 </form>
 </body>
+
 {include '../../common/footers.latte'}
-</html>

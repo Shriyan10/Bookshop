@@ -7,17 +7,14 @@
     <link rel=" icon" href="/assets/logo.png" type="image/x-icon">
     <link rel="stylesheet" href='/assets/styles.css'>
 </head>
-<body class="login">
-
-
-
+<body class="auth login">
 <div class="loginbox">
     <div class="loginimg">
         <img src="/assets/loginpic.png" alt="Artisan Heritage Image">
     </div>
     <div class="loginform-section">
 
-        <form method="post">
+        <form class="auth-form" method="post">
             <div class="loginform-group">
                 <label for="email" class="block">Email Address</label>
                 <input type="text" id="email" name="email" placeholder="Enter email" required autofocus>
@@ -30,6 +27,7 @@
                 <small id="passwordError" class="error-message"></small>
                 <a href="forgot_password.php">Forgot password?</a>
             </div>
+
 
             <button type="submit" class="btn-border">Login</button>
         </form>
