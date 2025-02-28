@@ -3,21 +3,22 @@
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-content">
-        <h1 data-lang-en="Discover Your Tranquil Gem." data-lang-np="आफ्नो शान्त रत्न खोज्नुहोस्।">Discover Your Tranquil Gem.</h1>
+        <h1 data-lang-en="Discover Your Tranquil Gem." data-lang-np="आफ्नो शान्त रत्न खोज्नुहोस्।">Discover Your
+            Tranquil Gem.</h1>
         <p data-lang-en="Find beautiful, calming pieces to brighten your life. Shop now."
            data-lang-np="तपाईंको जीवन उज्यालो पार्न सुन्दर, शान्त टुक्राहरू खोज्नुहोस्। अहिले किनमेल गर्नुहोस्।">
             Find beautiful, calming pieces to brighten your life. Shop now.
         </p>
         <div class="search-bar">
             <form method="post">
-            <input type="text" name="search" placeholder="Search for products">
+                <input type="text" name="search" placeholder="Search for products">
                 <button>Search</button>
             </form>
         </div>
     </div>
 </section>
 <!-- Products Section -->
-<section class="featured-saman" >
+<section class="featured-saman">
     <h2 data-lang-en="Featured saman" data-lang-np="विशेष उत्पादनहरू">Products</h2>
     <div class="saman-grid">
         <div class="row">
@@ -25,23 +26,23 @@
                 <div class="saman">
                     <a href="/books/detail?id={$productDetail->id}">
                         <figure>
-                        <img alt={$productDetail->title} src="{$productDetail->imageUrl}">
+                            <img alt={$productDetail->title} src="{$productDetail->imageUrl}">
                         </figure>
                         <h3>{$productDetail->title}</h3>
-                    <p class="item-price">Rs.{$productDetail->price}</p>
+                        <p class="item-price">Rs.{$productDetail->price}</p>
                     </a>
                     <div class="item-button">
                         <form action="/cart" method="post">
                             <input type="hidden" value="{$productDetail->id}" name="productDetailId">
                             <div class="quanbtn">
-                            <label for="">Quantity</label>
-                            <input type="number" value="1" name="quantity" min="1" max="{$productDetail->quantity}">
-                            <b>{$productDetail->quantity} left in stock</b>
+                                <label for="">Quantity</label>
+                                <input type="number" value="1" name="quantity" min="1" max="{$productDetail->quantity}">
+                                <b>{$productDetail->quantity} left in stock</b>
                             </div>
                             <div class="cartbtn1">
-                            <button class="cart-button1">
-                                <img src="/assets/cart.png" alt="Cart" class="cart-icon1 dashboard-icon">
-                            </button>
+                                <button class="cart-button1">
+                                    <img src="/assets/cart.png" alt="Cart" class="cart-icon1 dashboard-icon">
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -51,40 +52,18 @@
     </div>
 </section>
 
-{*<div class="container-fluid">*}
-{*<form method="post">*}
-{*    <input type="text" name="search">*}
-{*    <button>Search</button>*}
-{*</form>*}
-{*<div class="row">*}
-{*{foreach $productDetails as $productDetail}*}
-{*    <div class="col-6 col-sm-3">*}
-{*        <a href="/books/detail?id={$productDetail->id}">*}
-{*            <img alt={$productDetail->title} src="{$productDetail->imageUrl}">*}
-{*            <span>{$productDetail->title}</span>*}
-{*        </a>*}
-{*        <p class="item-price">Price: Rs.{$productDetail->price}</p>*}
-{*        <div class="item-button">*}
-{*            <form action="/cart" method="post">*}
-{*                <input type="hidden" value="{$productDetail->id}" name="productDetailId">*}
-{*                <label for="">Quantity</label>*}
-{*                <input type="number" value="1" name="quantity">*}
-{*                <button type="submit">Add to Cart</button>*}
-{*            </form>*}
-{*            <a href="javascript:void(0)" class="buy">Buy</a>*}
-{*        </div>*}
-{*    </div>*}
-{*{/foreach}*}
-{*</div>*}
-{*</div>*}
+
 <form>
+
     <ul class="pagination">
-        {for $i = 1; $i <= round($total / $limit); $i++}
-            <li class="page-item {if $start === $i}active{/if}"><a class="page-link"
-                                                                   href="?start={$i}&limit={$limit}&search={$search}">{$i}</a>
+        {for $i = 1; $i <= round($total / $limit)+1; $i++}
+            <li class="page-item {if $start === $i}active{/if}">
+                <a class="page-link" href="?start={$i}&limit={$limit}&search={$search}">{$i}</a>
             </li>
         {/for}
+
     </ul>
+
 </form>
 </body>
 {include '../../common/footers.latte'}

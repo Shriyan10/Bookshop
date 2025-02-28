@@ -25,7 +25,9 @@ class Router extends BaseController
     function route(string $path): void
     {
         // home
-        if ($path === '/') {
+
+//        /^\/[?]*(?:\?[^#]*)?\/?$/
+        if (preg_match('/^\/[?]*(?:\?[^#]*)?\/?$/', $path)) {
             $this->product($path);
         } elseif (preg_match('#^/login/?$#', $path)) {
             $authenticationController = new AuthenticationController($this->latte, $this->database);
@@ -95,8 +97,10 @@ class Router extends BaseController
 
     function product(string $path): void
     {
+        error_log("asd".$path);
         $customerProductController = new CustomerProductController($this->latte, $this->database);
-        if (preg_match('/^\/(?:\?(?:[a-zA-Z0-9_-]+=[^&]*)?(?:&[a-zA-Z0-9_-]+=[^&]*)*)?$/', $path)) {
+//        /^\/[^?]*(?:\?[^#]*)?\/?$/gm
+        if (preg_match('/^\/[^?]*(?:\?[^#]*)?\/?$/', $path)) {
 
             $start = 1;
             $limit = 8;
