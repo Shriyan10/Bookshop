@@ -283,7 +283,7 @@ header {
 }
 
 .about img {
-    max-width: 100%;
+    max-width: 25%;
     height: auto;
     margin: 20px 0;
     border-radius: 10px;
@@ -346,7 +346,7 @@ iframe {
 /*//listbook*/
 /* Hero Section */
 .hero {
-    background-image: url('/assets/hero-background.png');
+    background-image: url('/assets/books.jpg');
     background-size: cover;
     background-position: center;
     text-align: center;
@@ -608,7 +608,7 @@ iframe {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 460px;
+    height: 490px;
     position: relative;
 }
 

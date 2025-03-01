@@ -86,7 +86,7 @@ class ProductController extends BaseController
             );
 
             $result = $this->database->query(
-                "UPDATE product_details SET title='%s', image_url='%s', author='%s', publisher='%s', isbn='%s', price=%d where id=%d",
+                "UPDATE product_details SET title='%s', image_url='%s', author='%s', description='%s', distributor='%s', price=%d where id=%d",
                 [
                     $productDetail->getTitle(),
                     $productDetail->getImageUrl(),
