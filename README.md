@@ -9,7 +9,7 @@ composer serve
 ```
 
 
-## Tools required
+## Development tools used
 
 1. Php Storm https://www.jetbrains.com/phpstorm/download/
 2. Composer https://getcomposer.org/installer
