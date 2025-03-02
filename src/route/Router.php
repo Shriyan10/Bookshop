@@ -97,9 +97,8 @@ class Router extends BaseController
 
     function product(string $path): void
     {
-        error_log("asd".$path);
+
         $customerProductController = new CustomerProductController($this->latte, $this->database);
-//        /^\/[^?]*(?:\?[^#]*)?\/?$/gm
         if (preg_match('/^\/[^?]*(?:\?[^#]*)?\/?$/', $path)) {
 
             $start = 1;
@@ -125,7 +124,7 @@ class Router extends BaseController
             }
 
             $customerProductController->getAllProducts($start, $limit, $search);
-        } elseif (preg_match('#^/books/detail\?id=\d+$#', $path)) {
+        } elseif (preg_match('#^/products/detail\?id=\d+$#', $path)) {
             $customerProductController->getProductDetail($_GET['id']);
         }
     }
