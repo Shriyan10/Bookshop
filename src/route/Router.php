@@ -24,9 +24,6 @@ class Router extends BaseController
 
     function route(string $path): void
     {
-        // home
-
-//        /^\/[?]*(?:\?[^#]*)?\/?$/
         if (preg_match('/^\/[?]*(?:\?[^#]*)?\/?$/', $path)) {
             $this->product($path);
         } elseif (preg_match('#^/login/?$#', $path)) {
@@ -82,7 +79,7 @@ class Router extends BaseController
         elseif (str_contains($path, '/product-details')) {
             $this->productDetail($path);
         } //products
-        elseif (str_contains($path, '/books')) {
+        elseif (str_contains($path, '/products')) {
             $this->product($path);
         } // 500 page
         else if ($this->endsWith($path, '500')) {
@@ -97,10 +94,9 @@ class Router extends BaseController
 
     function product(string $path): void
     {
-        error_log("asd".$path);
+
         $customerProductController = new CustomerProductController($this->latte, $this->database);
-//        /^\/[^?]*(?:\?[^#]*)?\/?$/gm
-        if (preg_match('/^\/[^?]*(?:\?[^#]*)?\/?$/', $path)) {
+        if (preg_match('/^\/[?]*(?:\?[^#]*)?\/?$/', $path)) {
 
             $start = 1;
             $limit = 8;
@@ -125,7 +121,7 @@ class Router extends BaseController
             }
 
             $customerProductController->getAllProducts($start, $limit, $search);
-        } elseif (preg_match('#^/books/detail\?id=\d+$#', $path)) {
+        } elseif (preg_match('#^/products/detail\?id=\d+$#', $path)) {
             $customerProductController->getProductDetail($_GET['id']);
         }
     }

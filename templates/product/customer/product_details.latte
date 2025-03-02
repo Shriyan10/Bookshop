@@ -1,14 +1,15 @@
 {include '../../common/headers.latte'}
 <main class="detail-batta">
     <div class="product">
+
         <div class="product-image">
-            <img src="{$bookDetail->imageUrl}">
+            <img src="{$productDetail->imageUrl}">
         </div>
         <div class="product-details">
-            <h1> {$bookDetail->title}</h1>
-            <p class="price">Rs. {$bookDetail->price}</p>
+            <h1> {$productDetail->title}</h1>
+            <p class="price">Rs. {$productDetail->price}</p>
             <form action="/cart" method="post" class="cart-container">
-                <input type="hidden" value="{$bookDetail->id}" name="productDetailId">
+                <input type="hidden" value="{$productDetail->id}" name="productDetailId">
                 <div class="quantitybtn">
                 <label for="">Quantity</label>
                 <input type="number" value="1" name="quantity">
@@ -19,16 +20,17 @@
 
             </form>
             <div class="details">
-                <div class="dimention">{$bookDetail->author}
+                <div class="dimention">{$productDetail->author}
                 <p></p>
                 </div>
-                <h3 ><div class="materials">{$bookDetail->description}</div></h3>
+                <h3 ><div class="materials">{$productDetail->description}</div></h3>
                 <p></p>
 
-                <h3 ><div class="description">{$bookDetail->distributor}</div></h3>
+                <h3 ><div class="description">{$productDetail->distributor}</div></h3>
                 <p></p>
             </div>
         </div>
+
     </div>
 </main>
 {include '../../common/footers.latte'}

@@ -54,19 +54,16 @@ class ProductController extends BaseController
 
     function getProductDetail(int $productDetailId): void
     {
-
         try {
-
             $query = "SELECT * FROM product_details WHERE id=" . $productDetailId;
-            $bookDetail = $this->database->queryOne($query, new ProductDetailMapper());
+            $productDetail = $this->database->queryOne($query, new ProductDetailMapper());
             $count = "SELECT count(*) as count FROM products WHERE product_detail_id=" . $productDetailId;
             $totalBooks = $this->database->count($count);
 
             $params = [
-                'bookDetail' => $bookDetail,
+                'productDetail' => $productDetail,
                 'totalBooks' => $totalBooks
             ];
-
             $this->render('product/customer/product_details', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
