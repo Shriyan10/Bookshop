@@ -42,8 +42,8 @@
                     <a href="/product-details/edit?productDetailId={$bookDetail->id}">Edit</a>
                     <a href="/product-details/delete?productDetailId={$bookDetail->id}">Delete</a>
                     <a href="/product-details/stats?productDetailId={$bookDetail->id}">Statistics</a>
-                    <a href="/product-details/inventory/save?productDetailId={$bookDetail->id}">Add Products</a>
-                    <a href="/product-details/inventory?productDetailId={$bookDetail->id}">Inventory</a>
+{*                    <a href="/product-details/inventory/save?productDetailId={$bookDetail->id}">Add Products</a>*}
+{*                    <a href="/product-details/inventory?productDetailId={$bookDetail->id}">Inventory</a>*}
                 </td>
             </tr>
 
@@ -51,9 +51,8 @@
     </table>
 </div>
     <form>
-
-        <ul class="pagination">
-            {for $i = 1; $i <= round($total / $limit); $i++}
+                <ul class="pagination">
+            {for $i = 1; $i <= ceil($total / $limit); $i++}
                 <li class="page-item {if $start === $i}active{/if}"><a class="page-link"
                                                                        href="/product-details?start={$i}&limit={$limit}&search={$search}">{$i}</a>
                 </li>

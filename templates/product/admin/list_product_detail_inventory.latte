@@ -43,7 +43,7 @@
 {*<form>*}
 
 {*    <ul class="pagination">*}
-{*        {for $i = 1; $i <= round($total / $limit); $i++}*}
+{*        {for $i = 1; $i <= ceil($total / $limit); $i++}*}
 {*            <li class="page-item {if $start===$i}active{/if}"><a class="page-link" href="/product-details/inventory?start={$i}&limit={$limit}">{$i}</a></li>*}
 {*        {/for}*}
 
@@ -78,7 +78,7 @@
                 <input type="number" name="bookId" class="form-input">
             </div>
 
-            <div class="flist_prodform-group">
+            <div class="list_prodform-group">
                 <label for="date">Date</label>
                 <input type="date" name="date" class="form-input">
             </div>
@@ -112,9 +112,8 @@
             </tbody>
         </table>
     </div>
-
         <ul class="pagination">
-            {for $i = 1; $i <= round($total / $limit); $i++}
+            {for $i = 1; $i <= ceil($total / $limit); $i++}
                 <li class="page-item {if $start===$i}active{/if}">
                     <a class="page-link" href="/product-details/inventory?start={$i}&limit={$limit}">{$i}</a>
                 </li>

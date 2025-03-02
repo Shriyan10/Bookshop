@@ -6,7 +6,7 @@
 
 <form method="post">
     <input type="text" name="search">
-    <button class="adddusertbtn">Search</button>
+    <button class="btn">Search</button>
 </form>
 
 <div class="adduser">
@@ -48,8 +48,8 @@
     </table>
 
     <form>
-        <ul class="pagination1">
-            {for $i = 1; $i <= round($total / $limit); $i++}
+        <ul class="pagination">
+            {for $i = 1; $i <= ceil($total / $limit); $i++}
                 <li class="page-item {if $start === $i}active{/if}"><a class="page-link"
                                                                        href="/users?start={$i}&limit={$limit}">{$i}</a>
                 </li>

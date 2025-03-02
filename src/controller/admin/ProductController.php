@@ -46,6 +46,7 @@ class ProductController extends BaseController
                 'total' => $total,
                 'search' => $search
             ];
+
             $this->render('product/admin/list_product_detail', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -85,7 +86,7 @@ class ProductController extends BaseController
             );
 
             $result = $this->database->query(
-                "UPDATE product_details SET title='%s', image_url='%s', author='%s', publisher='%s', isbn='%s', price=%d where id=%d",
+                "UPDATE product_details SET title='%s', image_url='%s', author='%s', description='%s', distributor='%s', price=%d where id=%d",
                 [
                     $productDetail->getTitle(),
                     $productDetail->getImageUrl(),
@@ -151,7 +152,7 @@ class ProductController extends BaseController
             );
 
             $result = $this->database->query(
-                "INSERT INTO product_details(title, image_url, author, publisher, isbn, price) VALUES('%s','%s','%s','%s', '%s', %d)",
+                "INSERT INTO product_details(title, image_url, author, description, distributor, price) VALUES('%s','%s','%s','%s', '%s', %d)",
                 [
                     $bookDetail->getTitle(),
                     $bookDetail->getImageUrl(),
@@ -267,7 +268,7 @@ class ProductController extends BaseController
     function getBookDetailInventoryByProductDetailId(int|null $productDetailId, string|null $createdDate, int|null|string $bookId, int $start = 1, int $limit = 5): void
     {
         if ($productDetailId === -1) {
-            $productDetailId = null;
+            $productDetailId = "";
         }
         
         $offset = $this->offset($start, $limit);

@@ -1,13 +1,13 @@
 create table product_details
 (
-    id        int auto_increment
+    id          int auto_increment
         primary key,
-    title     varchar(100) null,
-    author    varchar(200) null,
-    publisher varchar(200) null,
-    isbn      varchar(20)  null,
-    price     int          null,
-    image_url varchar(255) null
+    title       varchar(100) null,
+    author      varchar(200) null,
+    description varchar(200) null,
+    distributor varchar(20)  null,
+    price       int          null,
+    image_url   varchar(255) null
 );
 
 create table products

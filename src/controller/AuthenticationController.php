@@ -96,10 +96,12 @@ class AuthenticationController extends BaseController
 
             if ($result) {
                 $this->redirect("login");
+                var_dump($result);
             }
+
         } catch (Exception $e) {
             error_log($e->getMessage());
-            $this->redirect("500");
+//            $this->redirect("500");
         }
     }
 }

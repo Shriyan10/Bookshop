@@ -1,8 +1,8 @@
 {include '../../common/headers.latte'}
-
+<div class="paymentcon">
 <h1>Payments</h1>
 
-<table>
+<table class="paymentcos_form">
     <thead>
     <tr>
         <th>Id</th>
@@ -16,5 +16,7 @@
             <td>Rs. {$payment->totalCost}</td>
         </tr>
     {/foreach}
+    </table>
+</div>
 
 
