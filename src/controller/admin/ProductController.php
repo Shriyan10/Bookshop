@@ -268,7 +268,7 @@ class ProductController extends BaseController
     function getBookDetailInventoryByProductDetailId(int|null $productDetailId, string|null $createdDate, int|null|string $bookId, int $start = 1, int $limit = 5): void
     {
         if ($productDetailId === -1) {
-            $productDetailId = null;
+            $productDetailId = "";
         }
         
         $offset = $this->offset($start, $limit);
