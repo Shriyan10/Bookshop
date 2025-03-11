@@ -69,8 +69,6 @@ class ProductController extends BaseController
             $this->redirect("500");
         }
     }
-
-
     function updateProductDetails(int $productId): void
     {
         try {
@@ -85,7 +83,7 @@ class ProductController extends BaseController
             );
 
             $result = $this->database->query(
-                "UPDATE product_details SET title='%s', image_url='%s', author='%s', publisher='%s', isbn='%s', price=%d where id=%d",
+                "UPDATE product_details SET title='%s', image_url='%s', author='%s', description='%s', distributor='%s', price=%d where id=%d",
                 [
                     $productDetail->getTitle(),
                     $productDetail->getImageUrl(),
@@ -105,16 +103,21 @@ class ProductController extends BaseController
         }
     }
 
-
     function deleteProductDetails(int $bookId): void
     {
         try {
-            $result = $this->database->query("DELETE FROM product_details where id=%d", [$bookId]);
+            error_log("Deleting product with ID: " . $bookId); // Debugging
+
+            $result = $this->database->query("DELETE FROM product_details WHERE id=%d", [$bookId]);
+
             if ($result) {
+                error_log("Product deleted successfully");
                 $this->redirect("product-details");
+            } else {
+                error_log("Delete query failed");
             }
         } catch (Exception $e) {
-            error_log($e->getMessage());
+            error_log("Error deleting product: " . $e->getMessage());
             $this->redirect("500");
         }
     }

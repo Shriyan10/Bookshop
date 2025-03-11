@@ -23,14 +23,18 @@ class AuthenticationController extends BaseController
         $user = $this->database->queryOne($sql, new UserMapper());
 
         if (!$user) {
-            var_dump("User with email: $email not found");
+            $this->render("login", [
+                "message" => "Username/Password is incorrect!"
+            ]);
         } else {
             $isVerified = password_verify(trim($password), $user->getPassword());
             if ($isVerified) {
                 $_SESSION['user'] = $user;
                 $this->redirect();
             } else {
-                $this->redirect("login");
+                $this->render("login", [
+                    "message" => "Username/Password is incorrect!"
+                ]);
             }
         }
     }
@@ -55,7 +59,9 @@ class AuthenticationController extends BaseController
         if (isset($_SESSION['user'])) {
             $this->redirect();
         } else {
-            $this->render("login");
+            $this->render("login", [
+                "message" => ""
+            ]);
         }
 
     }
@@ -96,11 +102,12 @@ class AuthenticationController extends BaseController
 
             if ($result) {
                 $this->redirect("login");
+                var_dump($result);
             }
+
         } catch (Exception $e) {
             error_log($e->getMessage());
             $this->redirect("500");
         }
     }
 }
-
