@@ -6,6 +6,7 @@ namespace App\route;
 use App\controller\admin\ProductController as AdminProductController;
 use App\controller\admin\RoleController;
 use App\controller\admin\UserController;
+use App\controller\api\admin\RoleRestController;
 use App\controller\AuthenticationController;
 use App\controller\BaseController;
 use App\controller\customer\CheckoutController;
@@ -26,7 +27,12 @@ class Router extends BaseController
     {
         if (preg_match('/^\/[?]*(?:\?[^#]*)?\/?$/', $path)) {
             $this->product($path);
-        } elseif (preg_match('#^/login/?$#', $path)) {
+        }
+        elseif (str_contains($path, '/api/rest')) {
+            $apiRouter = new APIRouter($this->latte, $this->database);
+            $apiRouter->route($path);
+        }
+        elseif (preg_match('#^/login/?$#', $path)) {
             $authenticationController = new AuthenticationController($this->latte, $this->database);
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $authenticationController->login($_POST['email'], $_POST['password']);
