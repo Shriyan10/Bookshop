@@ -6,13 +6,12 @@ namespace App\route;
 use App\controller\admin\ProductController as AdminProductController;
 use App\controller\admin\RoleController;
 use App\controller\admin\UserController;
-use App\controller\api\admin\RoleRestController;
 use App\controller\AuthenticationController;
 use App\controller\BaseController;
+use App\controller\customer\CartController;
 use App\controller\customer\CheckoutController;
 use App\controller\customer\PaymentController;
 use App\controller\customer\ProductController as CustomerProductController;
-use App\controller\customer\CartController;
 use App\db\Database;
 use Latte\Engine;
 
@@ -29,7 +28,7 @@ class Router extends BaseController
             $this->product($path);
         }
         elseif (str_contains($path, '/api/rest')) {
-            $apiRouter = new APIRouter($this->latte, $this->database);
+            $apiRouter = new APIRouter($this->database);
             $apiRouter->route($path);
         }
         elseif (preg_match('#^/login/?$#', $path)) {

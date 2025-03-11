@@ -2,35 +2,32 @@
 
 namespace App\controller\api\admin;
 
-use App\controller\BaseController;
+use App\controller\RestController;
 use App\db\Database;
 use App\mapper\impl\RoleMapper;
-use App\model\Role;
 use App\response\ServerResponse;
 use Exception;
-use Latte\Engine;
 
 
-class RoleRestController extends BaseController
+class RoleRestController extends RestController
 {
 
-    public function __construct(Engine $latte, Database $database)
+    public function __construct(Database $database)
     {
-        parent::__construct($latte, $database);
+        parent::__construct($database);
     }
 
-    function getAllRoles(): string
+    function getAllRoles()
     {
         try {
             $query = "SELECT * FROM roles";
-
             $roles = $this->database->queryAll($query, new RoleMapper());
             $serverResponse = new ServerResponse($roles);
-            return json_encode($serverResponse);
+            $this->response(200, $serverResponse);
 
         } catch (Exception $e) {
             error_log($e->getMessage());
-            $this->redirect("500");
+            $this->error(500, $e->getMessage());
         }
     }
 }

@@ -3,32 +3,22 @@
 namespace App\route;
 
 
-use App\controller\admin\ProductController as AdminProductController;
-use App\controller\admin\RoleController;
-use App\controller\admin\UserController;
 use App\controller\api\admin\RoleRestController;
-use App\controller\AuthenticationController;
-use App\controller\BaseController;
-use App\controller\customer\CheckoutController;
-use App\controller\customer\PaymentController;
-use App\controller\customer\ProductController as CustomerProductController;
-use App\controller\customer\CartController;
+use App\controller\RestController;
 use App\db\Database;
-use Latte\Engine;
 
-class APIRouter extends BaseController
+class APIRouter extends RestController
 {
-    public function __construct(Engine $latte, Database $database)
+    public function __construct(Database $database)
     {
-        parent::__construct($latte, $database);
+        parent::__construct($database);
     }
 
     function route(string $path): void
     {
         if (preg_match('#^/api/rest/roles/?$#', $path)) {
-            $roleController = new RoleRestController($this->latte, $this->database);
-            header('Content-Type: application/json; charset=utf-8');
-            echo $roleController->getAllRoles();
+            $roleController = new RoleRestController($this->database);
+            $roleController->getAllRoles();
         }
     }
 
