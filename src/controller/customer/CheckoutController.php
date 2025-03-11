@@ -68,9 +68,6 @@ class CheckoutController extends BaseController
             if (isset($_SESSION['cart'])) {
                 $_SESSION['cart'] = [];
             }
-
-            $this->redirect("payments");
-
         } catch (Exception $e) {
             error_log($e->getMessage());
             $this->redirect("500");

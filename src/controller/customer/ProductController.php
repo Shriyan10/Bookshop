@@ -60,6 +60,9 @@ class ProductController extends BaseController
             $count = "SELECT count(*) as count FROM products WHERE product_detail_id=" . $productDetailId;
             $totalBooks = $this->database->count($count);
 
+
+            $productDetail -> description = base64_decode($productDetail -> description);
+
             $params = [
                 'productDetail' => $productDetail,
                 'totalBooks' => $totalBooks
