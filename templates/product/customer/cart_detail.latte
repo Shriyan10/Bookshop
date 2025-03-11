@@ -1,17 +1,4 @@
-{*{include '../../common/headers.latte'}*}
 
-{*<h1>Cart Items</h1>*}
-
-{*{foreach $cartDetails as $cartDetail}*}
-{*<h1>Title: {$cartDetail->title}</h1>*}
-{*<h1>Quantity: {$cartDetail->quantity}</h1>*}
-{*<h1>Total Amount: {$cartDetail->totalAmount}</h1>*}
-{*{/foreach}*}
-
-{*<h1>Grand Total Amount: {$grandTotal}</h1>*}
-{*<a href="#">Checkout</a>*}
-
-{*{include '../../common/footers.latte'}*}
 {include '../../common/headers.latte'}
 
 
@@ -38,17 +25,18 @@
     </tbody>
 </table>
 <div class="checkout-container">
-    <a href="javascript:void(0)" onclick="toggleModal()" class="checkout-button">Checkout</a>
+    <a href="javascript:void(0)" onclick="toggleModal(true)" class="checkout-button">Checkout</a>
 </div>
 
 <div id="receipt">
     <div class="overlay"></div>
     <div class="modal-content">
+        <div class="receipt_content">
         <h1>BookShop</h1>
         <p>Date: {date("F j, Y")} </p>
         <p>Customer Name: {$LOGGED_IN_USER -> firstName} {$LOGGED_IN_USER -> lastName}</p>
         <p>Payment: Cash on Delivery</p>
-
+        </div>
         <table class="cart-table">
             <thead>
             <tr>
@@ -76,62 +64,32 @@
         <p>
             Thank you for choosing us
         </p>
-        <a href="javascript:void()" onclick="toggleModal()" class="checkout-button">Close</a>
+        <a href="javascript:void()" onclick="toggleModal(false)" class="checkout-button">Close</a>
     </div>
 
 
 </div>
 
-<style>
-    #receipt {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100dvh;
-        z-index: 1000;
-        text-align: center;
-
-
-        &.show {
-            display: block;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100dvh;
-            background: rgb(0 0 0 / 0.35);
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            position: relative;
-            z-index: 1001;
-            width: min(100%, 30rem);
-            background: #fff;
-            padding: 1rem;
-            margin: 10px auto
-        }
-
-    }
-
-</style>
 
 <script>
 
     const reciptModal = document.getElementById('receipt')
 
-    function toggleModal() {
-        if (reciptModal.classList.contains('show')) {
-            reciptModal.classList.remove('show')
-        } else {
-            reciptModal.classList.add('show')
+    function toggleModal(toggle) {
+        if(toggle){
+            fetch(window.location.origin+'/checkout', {
+                method: 'GET',
+                credentials: 'include' // Send cookies with the request
+            })
+                .then(response => {
+                    console.log(response)
+                    if(response.ok){
+                            reciptModal.classList.add('show')
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }else{
+            window.location.reload();
         }
-
-
     }
 </script>

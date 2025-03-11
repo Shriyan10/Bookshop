@@ -4,7 +4,7 @@
 <div class="editproddetail">
     <h1>Edit Book</h1>
     <div class="editprodform">
-        <form method="POST">
+        <form method="POST" id="product-detail-submit-form">
             <table>
                 <tr>
                     <td><label for="title">Title</label></td>
@@ -23,7 +23,11 @@
 
                 <tr>
                     <td><label for="publisher">Description</label></td>
-                    <td><input type="text" id="publisher" name="publisher" value="{$bookDetail->description}"></td>
+                    <td>
+                        <!-- Quill Editor -->
+                        <div id="editor-container">{$bookDetail->description | noescape}</div>
+                        <input type="hidden" id="publisher" name="publisher">
+                    </td>
                 </tr>
 
                 <tr>
@@ -43,5 +47,17 @@
         </form>
     </div>
 </div>
+<script>
+    // Initialize Quill editor
+    var quill = new Quill('#editor-container', {
+        theme: 'snow'
+    });
+
+    // Before form submits, update the hidden input with Quill content
+    document.getElementById('product-detail-submit-form').onsubmit = function () {
+        document.getElementById('publisher').value = quill.root.innerHTML;
+    };
+
+</script>
 </body>
 </html>

@@ -64,6 +64,8 @@ class ProductController extends BaseController
                 'bookDetail' => $bookDetail,
             ];
 
+            $bookDetail -> description = base64_decode($bookDetail -> description);
+
             $this->render('product/admin/edit_product_detail', $params);
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -79,7 +81,7 @@ class ProductController extends BaseController
                 $productId,
                 $_POST['title'] ?? null,
                 $_POST['author'] ?? null,
-                $_POST['publisher'] ?? null,
+                base64_encode($_POST['publisher'] ?? null),
                 $_POST['isbn'] ?? null,
                 $_POST['price'] ?? null,
                 $_POST['imageUrl'] ?? null
