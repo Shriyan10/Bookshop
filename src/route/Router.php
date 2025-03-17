@@ -27,10 +27,6 @@ class Router extends BaseController
         if (preg_match('/^\/[?]*(?:\?[^#]*)?\/?$/', $path)) {
             $this->product($path);
         }
-        elseif (str_contains($path, '/api/rest')) {
-            $apiRouter = new APIRouter($this->database);
-            $apiRouter->route($path);
-        }
         elseif (preg_match('#^/login/?$#', $path)) {
             $authenticationController = new AuthenticationController($this->latte, $this->database);
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -50,7 +50,7 @@ class Database
         return null;
     }
 
-    public function query(string $query, array $params)
+    public function query(string $query, array $params): bool
     {
         $query = sprintf($query, ...$params);
         $connection = $this->connect();

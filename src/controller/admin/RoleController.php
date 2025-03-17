@@ -6,27 +6,26 @@ use App\controller\BaseController;
 use App\db\Database;
 use App\mapper\impl\RoleMapper;
 use App\model\Role;
+use App\service\RoleService;
 use Exception;
 use Latte\Engine;
 
 
 class RoleController extends BaseController
 {
+    private RoleService $roleService;
 
-    public function __construct(Engine $latte, Database $database)
+    public function __construct(Engine $latte, Database $database, RoleService $roleService)
     {
         parent::__construct($latte, $database);
+        $this->roleService = $roleService;
     }
 
     function getAllRoles(): void
     {
         try {
-            $query = "SELECT * FROM roles";
-
-            $roles = $this->database->queryAll($query, new RoleMapper());
-
             $params = [
-                'roles' => $roles
+                'roles' => $this->roleService->getAllRoles()
             ];
 
             $this->render('roles/list_role', $params);
