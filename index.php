@@ -1,8 +1,13 @@
 <?php
 
 use App\db\Database;
+use App\repository\impl\RoleRepositoryMySQLImpl;
+use App\repository\impl\UserRepositoryMySQLImpl;
+use App\repository\RoleRepository;
+use App\repository\UserRepository;
 use App\route\APIRouter;
 use App\route\Router;
+use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Latte\Engine;
 
@@ -22,9 +27,26 @@ if (file_exists(__DIR__ . '/.env')) {
 session_start();
 
 if (str_contains($uri, '/api/rest')) {
-    $apiRouter = new APIRouter($database);
-    $apiRouter->route($uri);
-}else{
+
+    $builder = new ContainerBuilder();
+    $builder->useAutowiring(true);
+    $builder->useAttributes(true);
+    $builder->enableCompilation(__DIR__ . '\tmp');
+    $builder->writeProxiesToFile(true, __DIR__ . '\tmp\proxies');
+    $builder->addDefinitions([
+        RoleRepository::class => DI\autowire(RoleRepositoryMySQLImpl::class),
+        UserRepository::class => DI\autowire(UserRepositoryMySQLImpl::class)
+    ]);
+
+    try {
+        $container = $builder->build();
+        $apiRouter = $container->get(ApiRouter::class);
+        $apiRouter->route($uri);
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+    }
+
+} else {
     $router = new Router($latte, $database);
     $router->route($uri);
 }

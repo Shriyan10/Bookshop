@@ -20,7 +20,7 @@ class RoleRepositoryMySQLImpl extends BaseRepository implements RoleRepository
         return $this->database->queryAll("SELECT * FROM roles", new RoleMapper());
     }
 
-    public function getRoleById(int $id): object | null
+    public function getRoleById(int $id): object|null
     {
         return $this->database->queryOne("SELECT * FROM roles WHERE id=" . $id, new RoleMapper());
     }
@@ -36,12 +36,12 @@ class RoleRepositoryMySQLImpl extends BaseRepository implements RoleRepository
         );
     }
 
-    public function deleteRole(int $roleId): bool
+    public function deleteRole(int $id): bool
     {
         return $this->database->query(
             "DELETE FROM roles where id=%d",
             [
-                $roleId
+                $id
             ]
         );
     }
@@ -51,10 +51,16 @@ class RoleRepositoryMySQLImpl extends BaseRepository implements RoleRepository
         return $this->database->query(
             "INSERT INTO roles(name) VALUES('%s')",
             [
-                $name,
+                $name
             ],
         );
     }
+
+    public function roleExists(int $id): bool
+    {
+        return $this->database->countWithQuery("roles where id=$id") == 1;
+    }
+
 }
 
 

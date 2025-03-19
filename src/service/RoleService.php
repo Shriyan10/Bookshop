@@ -32,15 +32,15 @@ class RoleService
     /**
      * @throws ApplicationException
      */
-    public function getRoleById(int $id): object | null
+    public function getRoleById(int $id): object|null
     {
         try {
-             $role = $this->roleRepository->getRoleById($id);
-             if(!$role){
-                 throw new ApplicationException("Role not found", 404);
-             }
-             return $role;
-        }  catch (ApplicationException $e) {
+            $role = $this->roleRepository->getRoleById($id);
+            if (!$role) {
+                throw new ApplicationException("Role not found", 404);
+            }
+            return $role;
+        } catch (ApplicationException $e) {
             throw $e;
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -56,6 +56,44 @@ class RoleService
         try {
             return $this->roleRepository->saveRole($name);
         } catch (Exception $e) {
+            throw new ApplicationException($e);
+        }
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    public function updateRole(int $id, string $name): bool
+    {
+        try {
+            $roleExists = $this->roleRepository->roleExists($id);
+            if (!$roleExists) {
+                throw new ApplicationException("Role not found", 404);
+            }
+
+            return $this->roleRepository->updateRole($id, $name);
+
+        } catch (Exception $e) {
+            throw new ApplicationException($e);
+        }
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    public function deleteRole(int $id): bool
+    {
+        try {
+            $roleExists = $this->roleRepository->roleExists($id);
+            if (!$roleExists) {
+                throw new ApplicationException("Role not found", 404);
+            }
+
+            return $this->roleRepository->deleteRole($id);
+        } catch (ApplicationException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
             throw new ApplicationException($e);
         }
     }

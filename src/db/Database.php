@@ -82,6 +82,23 @@ class Database
         }
     }
 
+    public function countWithQuery(string $query): int
+    {
+        try {
+
+            $connection = $this->connect();
+            $sql = "SELECT count(*) as count from $query";
+            $result = $connection->query($sql);
+            $data = $result->fetch_assoc();
+
+            return (int)$data['count'];
+
+        } catch (Exception $e) {
+            error_log("Exception: " . $e->getMessage());
+            return -1;
+        }
+    }
+
     /**
      * @throws Exception
      */

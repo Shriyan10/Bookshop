@@ -15,6 +15,7 @@ class RoleRestController extends RestController
     public function __construct(RoleService $roleService)
     {
         $this->roleService = $roleService;
+//        error_log("Role rest controller ko object banyo hai");
     }
 
     /**
@@ -34,32 +35,24 @@ class RoleRestController extends RestController
         $serverResponse = new ServerResponse($this->roleService->getRoleById($id));
         $this->response(200, $serverResponse);
     }
-//
-//    }
-//    function updateRole(int $roleId): void
-//    {
-//        $entityBody = file_get_contents('php://input');
-//        $data = json_decode($entityBody, true);
-//
-//        try {
-//            $result = $this->database->query(
-//                "UPDATE roles SET name='%s' where id=%d",
-//                [
-//                    $data['name'],
-//                    $roleId
-//                ],
-//            );
-//
-//            if ($result) {
-//                $serverResponse = new ServerResponse(null, "Role has been updated");
-//                $this->response(200, $serverResponse);
-//            }
-//        } catch (Exception $e) {
-//            error_log($e->getMessage());
-//            $this->redirect("500");
-//        }
-//    }
-//
+
+
+    /**
+     * @throws ApplicationException
+     */
+    function updateRole(int $roleId): void
+    {
+
+        $success = $this->roleService->updateRole($roleId, $this->requestBody()['name']);
+
+        if ($success) {
+            $serverResponse = new ServerResponse(null, "Role has been updated");
+            $this->response(200, $serverResponse);
+        } else {
+            throw new ApplicationException("Role update failed", 500);
+        }
+    }
+
     /**
      * @throws ApplicationException
      */
@@ -72,6 +65,18 @@ class RoleRestController extends RestController
             $this->response(201, $serverResponse);
         } else {
             throw new ApplicationException("Role creation failed", 500);
+        }
+    }
+
+    function deleteRole(int $id): void
+    {
+        $success = $this->roleService->deleteRole($id);
+
+        if ($success) {
+            $serverResponse = new ServerResponse(null, "Role has been deleted");
+            $this->response(200, $serverResponse);
+        } else {
+            throw new ApplicationException("Role delete failed", 500);
         }
     }
 
