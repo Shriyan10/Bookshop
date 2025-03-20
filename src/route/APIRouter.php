@@ -3,6 +3,7 @@
 namespace App\route;
 
 
+use App\controller\api\admin\ProductRestController;
 use App\controller\api\admin\RoleRestController;
 use App\controller\api\admin\UserRestController;
 use App\controller\RestController;
@@ -13,6 +14,7 @@ use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
+use Throwable;
 
 class APIRouter extends RestController
 {
@@ -20,6 +22,7 @@ class APIRouter extends RestController
     private Container $container;
     private RoleRestController $roleRestController;
     private UserRestController $userRestController;
+    private ProductRestController $productRestController;
 
     public function __construct(Container $container)
     {
@@ -41,6 +44,8 @@ class APIRouter extends RestController
                 $this->role($path);
             } else if (str_contains($path, '/' . self::API_REST . '/users')) {
                 $this->user($path);
+            } else if (str_contains($path, '/' . self::API_REST . '/product/details')) {
+                $this->productDetail($path);
             }
 
         } catch (BaseException $exception) {
@@ -49,6 +54,9 @@ class APIRouter extends RestController
             }
             RestController::error($exception->getCode(), $exception->getMessage());
         } catch (Exception $exception) {
+            error_log('Exception: ' . $exception->getMessage());
+            RestController::error(500, $exception->getMessage());
+        } catch (Throwable $exception) {
             error_log('Exception: ' . $exception->getMessage());
             RestController::error(500, $exception->getMessage());
         }
@@ -76,7 +84,7 @@ class APIRouter extends RestController
                 $this->roleRestController->updateRole($_GET['id']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->roleRestController->getRole($_GET['id']);
-            }else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->roleRestController->deleteRole($_GET['id']);
             }
         }
@@ -95,7 +103,7 @@ class APIRouter extends RestController
                 $this->userRestController->updateUser($_GET['id']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->userRestController->getUser($_GET['id']);
-            }else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->userRestController->deleteUser($_GET['id']);
             }
         } else if (preg_match('#^/api/rest/users/?(?:\?.*)?$#', $path)) {
@@ -103,6 +111,31 @@ class APIRouter extends RestController
                 $this->userRestController->getAllUsers();
             } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $this->userRestController->saveUser();
+            }
+        }
+    }
+
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws ApplicationException
+     */
+    function productDetail(string $path): void
+    {
+        $this->productRestController = $this->container->get(ProductRestController::class);
+        if (preg_match('#^/api/rest/product/details\?id=\d+$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $this->productRestController->getProductDetails($_GET['id']);
+            } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                $this->productRestController->updateProductDetail($_GET['id']);
+            } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+                $this->productRestController->deleteProductDetail($_GET['id']);
+            }
+        } else if (preg_match('#^/api/rest/product/details/?(?:\?.*)?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $this->productRestController->getAllProductDetails();
+            } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $this->productRestController->saveProductDetail();
             }
         }
     }

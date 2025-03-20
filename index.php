@@ -1,8 +1,10 @@
 <?php
 
 use App\db\Database;
+use App\repository\impl\ProductRepositoryMySQLImpl;
 use App\repository\impl\RoleRepositoryMySQLImpl;
 use App\repository\impl\UserRepositoryMySQLImpl;
+use App\repository\ProductRepository;
 use App\repository\RoleRepository;
 use App\repository\UserRepository;
 use App\route\APIRouter;
@@ -35,7 +37,8 @@ if (str_contains($uri, '/api/rest')) {
     $builder->writeProxiesToFile(true, __DIR__ . '\tmp\proxies');
     $builder->addDefinitions([
         RoleRepository::class => DI\autowire(RoleRepositoryMySQLImpl::class),
-        UserRepository::class => DI\autowire(UserRepositoryMySQLImpl::class)
+        UserRepository::class => DI\autowire(UserRepositoryMySQLImpl::class),
+        ProductRepository::class => DI\autowire(ProductRepositoryMySQLImpl::class)
     ]);
 
     try {

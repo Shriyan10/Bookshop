@@ -31,4 +31,13 @@ class RestController
         $requestBody = file_get_contents('php://input');
         return json_decode($requestBody, true);
     }
+
+    function getQueryParam(string $key, $default){
+
+        if (isset($_GET[$key])) {
+            return $_GET[$key];
+        }
+
+        return $default;
+    }
 }
