@@ -147,14 +147,14 @@ class ProductController extends BaseController
                 null,
                 $_POST['title'] ?? null,
                 $_POST['author'] ?? null,
-                $_POST['publisher'] ?? null,
-                $_POST['isbn'] ?? null,
+                $_POST['description'] ?? null,
+                $_POST['distributor'] ?? null,
                 $_POST['price'] ?? null,
                 $_POST['imageUrl'] ?? null
             );
 
             $result = $this->database->query(
-                "INSERT INTO product_details(title, image_url, author, publisher, isbn, price) VALUES('%s','%s','%s','%s', '%s', %d)",
+                "INSERT INTO product_details(title, image_url, author, description, distributor, price) VALUES('%s','%s','%s','%s', '%s', %d)",
                 [
                     $bookDetail->getTitle(),
                     $bookDetail->getImageUrl(),

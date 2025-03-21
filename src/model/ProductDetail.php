@@ -6,12 +6,12 @@ class ProductDetail
     public int|null $id;
     public string $title;
     public string $author;
-    public string $description;
-    public string $distributor;
-    public int $price;
+    public string|null $description;
+    public string|null $distributor;
+    public int|null $price;
     public string $imageUrl;
 
-    public function __construct(int|null $id, string $title, string $author, string $publisher, string $isbn, int $price, string $imageUrl)
+    public function __construct(int|null $id, string $title, string $author, string|null $publisher, string|null $isbn, int|null $price, string $imageUrl)
     {
         $this->id = $id;
         $this->title = $title;
@@ -52,22 +52,22 @@ class ProductDetail
         $this->author = $author;
     }
 
-    public function getDescription(): string
+    public function getDescription(): string|null
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(string|null $description): void
     {
         $this->description = $description;
     }
 
-    public function getDistributor(): string
+    public function getDistributor(): string|null
     {
         return $this->distributor;
     }
 
-    public function setDistributor(string $distributor): void
+    public function setDistributor(string|null $distributor): void
     {
         $this->distributor = $distributor;
     }
