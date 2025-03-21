@@ -26,21 +26,21 @@ class ProductController extends BaseController
             $countQuery = "";
 
             if (strlen($search) > 0) {
-                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE bd.title AND b.status='AVAILABLE' LIKE '%$search%' GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
+                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE bd.title LIKE '%$search%' AND b.status='AVAILABLE' GROUP BY bd.id";
                 $countQuery = "SELECT COUNT(*) as count FROM product_details WHERE title LIKE '%$search%'";
+
             } else {
-                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' GROUP BY bd.id LIMIT " . $limit . " OFFSET " . $offset;
+                $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' GROUP BY bd.id";
                 $countQuery = "SELECT COUNT(*) as count FROM product_details";
             }
 
-            $productDetails = $this->database->queryAll($query, new ProductDetailQuantityMapper());
-            $total = $this->database->count($countQuery);
+            $response = $this->database->queryAllPaginated($query, $countQuery,$start, $limit, new ProductDetailQuantityMapper());
 
             $params = [
-                "productDetails" => $productDetails,
+                "productDetails" =>  $response->data,
                 "start" => $start,
                 "limit" => $limit,
-                "total" => $total,
+                "total" => $response->total,
                 "search" => $search
             ];
 
