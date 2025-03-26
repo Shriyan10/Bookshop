@@ -16,6 +16,7 @@ class ProductDetailStatsMapper implements RowMapper
         $productDetailStatistics->available = $row["available"];
         $productDetailStatistics->sold = $row["sold"];
         $productDetailStatistics->damaged = $row["damaged"];
+
         return $productDetailStatistics;
     }
 }

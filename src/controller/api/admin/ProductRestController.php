@@ -84,4 +84,13 @@ class ProductRestController extends RestController
             throw new ApplicationException("Product Detail delete failed", 500);
         }
     }
+
+    /**
+     * @throws ApplicationException
+     */
+    function statistics(int $productDetailId): void
+    {
+        $serverResponse = new ServerResponse($this->productService->statistics($productDetailId));
+        $this->response(200, $serverResponse);
+    }
 }

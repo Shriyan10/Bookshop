@@ -54,6 +54,7 @@ class Database
             $row = $result->fetch_assoc();
             return $mapper->map($row);
         }
+
         return null;
     }
 

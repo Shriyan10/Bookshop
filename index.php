@@ -1,6 +1,8 @@
 <?php
 
 use App\db\Database;
+use App\repository\AuthenticationRepository;
+use App\repository\impl\AuthenticationRepositoryMySQLImpl;
 use App\repository\impl\ProductRepositoryMySQLImpl;
 use App\repository\impl\RoleRepositoryMySQLImpl;
 use App\repository\impl\UserRepositoryMySQLImpl;
@@ -38,7 +40,8 @@ if (str_contains($uri, '/api/rest')) {
     $builder->addDefinitions([
         RoleRepository::class => DI\autowire(RoleRepositoryMySQLImpl::class),
         UserRepository::class => DI\autowire(UserRepositoryMySQLImpl::class),
-        ProductRepository::class => DI\autowire(ProductRepositoryMySQLImpl::class)
+        ProductRepository::class => DI\autowire(ProductRepositoryMySQLImpl::class),
+        AuthenticationRepository::class => DI\autowire(AuthenticationRepositoryMySQLImpl::class)
     ]);
 
     try {

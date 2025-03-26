@@ -6,6 +6,7 @@ namespace App\route;
 use App\controller\api\admin\ProductRestController;
 use App\controller\api\admin\RoleRestController;
 use App\controller\api\admin\UserRestController;
+use App\controller\api\AuthenticationRestController;
 use App\controller\RestController;
 use App\exception\ApplicationException;
 use App\exception\BaseException;
@@ -23,29 +24,48 @@ class APIRouter extends RestController
     private RoleRestController $roleRestController;
     private UserRestController $userRestController;
     private ProductRestController $productRestController;
+    private AuthenticationRestController $authenticationRestController;
 
     public function __construct(Container $container)
     {
         $this->container = $container;
     }
 
+    static function isLoggedIn(): bool
+    {
+        return isset($_SESSION['user']);
+    }
+
     function route(string $path): void
     {
         try {
 
-            if (str_contains($path, '/' . self::API_REST . '/generate-password')) {
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    $this->response(200, new ServerResponse(["hashed" => password_hash($this->requestBody()['password'], PASSWORD_BCRYPT)], null));
-                    return;
-                }
+            if (str_contains($path, '/' . self::API_REST . '/auth')) {
+                $this->auth($path);
+                return;
             }
 
-            if (str_contains($path, '/' . self::API_REST . '/roles')) {
-                $this->role($path);
-            } else if (str_contains($path, '/' . self::API_REST . '/users')) {
-                $this->user($path);
-            } else if (str_contains($path, '/' . self::API_REST . '/product/details')) {
-                $this->productDetail($path);
+
+            if(APIRouter::isLoggedIn()) {
+
+
+                if (str_contains($path, '/' . self::API_REST . '/generate-password')) {
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $this->response(200, new ServerResponse(["hashed" => password_hash($this->requestBody()['password'], PASSWORD_BCRYPT)], null));
+                        return;
+                    }
+                }
+
+                if (str_contains($path, '/' . self::API_REST . '/roles')) {
+                    $this->role($path);
+                } else if (str_contains($path, '/' . self::API_REST . '/users')) {
+                    $this->user($path);
+                } else if (str_contains($path, '/' . self::API_REST . '/product/details')) {
+                    $this->productDetail($path);
+                }
+            }else{
+                self::response(401, new ServerResponse("Unauthorized"));
+                return;
             }
 
         } catch (BaseException $exception) {
@@ -61,7 +81,26 @@ class APIRouter extends RestController
             RestController::error(500, $exception->getMessage());
         }
 
-        self::response(404, "Not found");
+        self::response(404, new ServerResponse("Not found"));
+
+    }
+
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException|ApplicationException
+     */
+    function auth(string $path): void
+    {
+        $this->authenticationRestController = $this->container->get(AuthenticationRestController::class);
+        if (preg_match('#^/api/rest/auth/login/?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->authenticationRestController->login();
+            }
+        }else if (preg_match('#^/api/rest/auth/logout/?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $this->authenticationRestController->logout();
+            }
+        }
     }
 
     /**
@@ -130,6 +169,10 @@ class APIRouter extends RestController
                 $this->productRestController->updateProductDetail($_GET['id']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->productRestController->deleteProductDetail($_GET['id']);
+            }
+        } else if (preg_match('#^/api/rest/product/details/stats\?id=\d+$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $this->productRestController->statistics($_GET['id']);
             }
         } else if (preg_match('#^/api/rest/product/details/?(?:\?.*)?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {

@@ -5,6 +5,8 @@ namespace App\repository\impl;
 
 use App\db\Database;
 use App\mapper\impl\ProductDetailMapper;
+use App\mapper\impl\ProductDetailStatsMapper;
+use App\projection\ProductDetailStatistics;
 use App\repository\BaseRepository;
 use App\repository\ProductRepository;
 
@@ -32,13 +34,13 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         return $this->database->queryAllPaginated($query, $countQuery, $start, $limit, new ProductDetailMapper());
     }
 
-    public function getProductById(int $id): object
+    public function getProductDetailById(int $productDetailId): object|null
     {
-        $query = "SELECT * FROM product_details WHERE id=" . $id;
+        $query = "SELECT * FROM product_details WHERE id=" . $productDetailId;
         return $this->database->queryOne($query, new ProductDetailMapper());
     }
 
-    public function updateProductDetail(int $productId, string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool
+    public function updateProductDetail(int $productDetailId, string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool
     {
         return $this->database->query(
             "UPDATE product_details SET title='%s', image_url='%s', author='%s', description='%s', distributor='%s', price=%d where id=%d",
@@ -49,7 +51,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
                 $description,
                 $distributor,
                 $price,
-                $productId
+                $productDetailId
             ],
         );
     }
@@ -69,19 +71,39 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         );
     }
 
-    public function deleteProductDetail(int $id): bool
+    public function deleteProductDetail(int $productDetailId): bool
     {
         return $this->database->query(
             "DELETE FROM product_details where id=%d",
             [
-                $id
+                $productDetailId
             ]
         );
     }
 
-    public function productExists(int $productId): bool
+    public function productDetailStatistics(int $productDetailId): object|null
     {
-        return $this->database->countWithQuery("product_details where id=$productId") == 1;
+        $sql = "select title,
+       (select count(*) from products where product_detail_id = " . $productDetailId . " and status = 'SOLD') as sold,
+       (select count(*) from products where product_detail_id =" . $productDetailId . " and status = 'DAMAGED') as damaged,
+       (select count(*) from products where product_detail_id = " . $productDetailId . " and status = 'AVAILABLE') as available
+        from product_details
+        where id =" . $productDetailId;
+
+        $statistics = $this->database->queryOne(
+            $sql,
+            new ProductDetailStatsMapper());
+
+        $statistics->id = $productDetailId;
+
+        return $statistics;
+
+    }
+
+
+    public function productDetailExists(int $productDetailId): bool
+    {
+        return $this->database->countWithQuery("product_details where id=$productDetailId") == 1;
     }
 }
 

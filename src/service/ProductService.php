@@ -33,7 +33,7 @@ class ProductService
     public function getProductById(int $id): object|null
     {
         try {
-            $productDetail = $this->productRepository->getProductById($id);
+            $productDetail = $this->productRepository->getProductDetailById($id);
             if (!$productDetail) {
                 throw new ApplicationException("Product Detail not found", 404);
             }
@@ -52,7 +52,7 @@ class ProductService
     public function updateProductDetail(int $productId, string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool
     {
         try {
-            $productExists = $this->productRepository->productExists($productId);
+            $productExists = $this->productRepository->productDetailExists($productId);
             if (!$productExists) {
                 throw new ApplicationException("Product Detail not found", 404);
             }
@@ -79,10 +79,10 @@ class ProductService
     /**
      * @throws ApplicationException
      */
-    public function deleteProductDetail(int $id)
+    public function deleteProductDetail(int $id): bool
     {
         try {
-            $productExists = $this->productRepository->productExists($id);
+            $productExists = $this->productRepository->productDetailExists($id);
             if (!$productExists) {
                 throw new ApplicationException("Product Detail not found", 404);
             }
@@ -95,5 +95,25 @@ class ProductService
             throw new ApplicationException($e);
         }
     }
+
+    /**
+     * @throws ApplicationException
+     */
+    public function statistics(int $id): object
+    {
+        try {
+            $productDetail = $this->productRepository->productDetailStatistics($id);
+            if (!$productDetail) {
+                throw new ApplicationException("Product Detail not found", 404);
+            }
+            return $productDetail;
+        } catch (ApplicationException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            throw new ApplicationException($e);
+        }
+    }
+
 
 }
