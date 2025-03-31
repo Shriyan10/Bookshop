@@ -61,6 +61,10 @@ class RoleRepositoryMySQLImpl extends BaseRepository implements RoleRepository
         return $this->database->countWithQuery("roles where id=$id") == 1;
     }
 
+    public function getRoleByName(string $name): ?object
+    {
+        return $this->database->queryOne("SELECT * FROM roles WHERE name='$name'", new RoleMapper());
+    }
 }
 
 

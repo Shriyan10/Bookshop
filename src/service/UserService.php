@@ -3,6 +3,7 @@
 namespace App\service;
 
 
+use App\dto\UserDTO;
 use App\exception\ApplicationException;
 use App\repository\UserRepository;
 use Exception;
@@ -47,10 +48,10 @@ class UserService
     /**
      * @throws ApplicationException
      */
-    public function saveUser(string $firstName, string $lastName, string $email, string $password, string $roleId, string $address, string $contactNo): bool
+    public function saveUser(UserDTO $userDTO): bool
     {
         try {
-            return $this->userRepository->saveUser($firstName, $lastName, $email, $password, $roleId, $address, $contactNo);
+            return $this->userRepository->saveUser($userDTO);
         } catch (Exception $e) {
             throw new ApplicationException($e);
         }

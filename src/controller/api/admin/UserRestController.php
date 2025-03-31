@@ -3,6 +3,7 @@
 namespace App\controller\api\admin;
 
 use App\controller\RestController;
+use App\dto\UserDTO;
 use App\exception\ApplicationException;
 use App\response\ServerResponse;
 use App\service\UserService;
@@ -31,7 +32,16 @@ class UserRestController extends RestController
      */
     function saveUser(): void
     {
-        $success = $this->userService->saveUser($this->requestBody()['firstName'],$this->requestBody()['lastName'],$this->requestBody()['email'],$this->requestBody()['password'],$this->requestBody()['roleId'],$this->requestBody()['address'],$this->requestBody()['contactNo']);
+        $userDTO = new UserDTO(
+            $this->requestBody() ['firstName'],
+            $this->requestBody()['lastName'],
+            $this->requestBody()['email'],
+            $this->requestBody()['password'],
+            $this->requestBody()['roleId'],
+            $this->requestBody()['address'],
+            $this->requestBody()['contactNo']
+        );
+        $success = $this->userService->saveUser($userDTO);
 
         if ($success) {
             $serverResponse = new ServerResponse(null, "User has been created");

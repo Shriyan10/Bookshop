@@ -9,6 +9,7 @@ interface RoleRepository {
     public function deleteRole(int $id): bool;
     public function saveRole(string $name): bool;
     public function roleExists(int $id): bool;
+    public function getRoleByName(string $name): ?object;
 }
 
 

@@ -100,6 +100,10 @@ class APIRouter extends RestController
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $this->authenticationRestController->logout();
             }
+        }else if (preg_match('#^/api/rest/auth/register/?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->authenticationRestController->register();
+            }
         }
     }
 

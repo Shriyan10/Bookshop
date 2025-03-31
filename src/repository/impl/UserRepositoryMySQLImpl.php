@@ -5,6 +5,7 @@ namespace App\repository\impl;
 
 use App\db\Database;
 use App\db\PaginatedResponse;
+use App\dto\UserDTO;
 use App\mapper\impl\UserMapper;
 use App\repository\BaseRepository;
 use App\repository\UserRepository;
@@ -36,18 +37,18 @@ class UserRepositoryMySQLImpl extends BaseRepository implements UserRepository
 
     }
 
-    public function saveUser(string $firstName, string $lastName, string $email, string $password, string $roleId, string $address, string $contactNo): bool
+    public function saveUser(UserDTO $userDTO): bool
     {
         return $this->database->query(
             "INSERT INTO users(first_name, last_name, email, password, role_id, address, contact_no) VALUES('%s','%s','%s','%s', %d, '%s', %d)",
             [
-                $firstName,
-                $lastName,
-                $email,
-                password_hash(trim($password), PASSWORD_BCRYPT),
-                $roleId,
-                $address,
-                $contactNo
+                $userDTO->firstName,
+                $userDTO->lastName,
+                $userDTO->email,
+                password_hash(trim($userDTO->password), PASSWORD_BCRYPT),
+                $userDTO->roleId,
+                $userDTO->address,
+                $userDTO->contactNo
             ],
         );
     }
@@ -89,6 +90,12 @@ class UserRepositoryMySQLImpl extends BaseRepository implements UserRepository
         return $this->database->countWithQuery("users where id=$userId") == 1;
     }
 
+    public function getUserByEmailAndPassword(string $email, string $password): ?object
+    {
+        $sql = "SELECT u.id, u.first_name, u.last_name, u.email, u.address, u.contact_no, r.name AS role_id, u.password FROM users u JOIN roles r ON u.role_id = r.id WHERE u.email='$email'";
+
+        return $this->database->queryOne($sql, new UserMapper());
+    }
 }
 
 
