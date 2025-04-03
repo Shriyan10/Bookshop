@@ -30,6 +30,18 @@ class ProductService
     /**
      * @throws ApplicationException
      */
+    public function getAllProductDetailsDropdown(string $search): array
+    {
+        try {
+            return $this->productRepository->getAllProductDetailsForDropdown($search);
+        } catch (Exception $e) {
+            throw new ApplicationException($e);
+        }
+    }
+
+    /**
+     * @throws ApplicationException
+     */
     public function getProductById(int $id): object|null
     {
         try {
@@ -107,6 +119,37 @@ class ProductService
                 throw new ApplicationException("Product Detail not found", 404);
             }
             return $productDetail;
+        } catch (ApplicationException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            throw new ApplicationException($e);
+        }
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    public function getAllProducts(int $start, int $limit, int $productDetailId,int $productId): object
+    {
+        try {
+            return $this->productRepository->getAllProducts($start, $limit, $productDetailId, $productId);
+        } catch (Exception $e) {
+            throw new ApplicationException($e);
+        }
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    public function getProductInventoryById(int $id): object|null
+    {
+        try {
+            $products = $this->productRepository->getProductInventoryById($id);
+            if (!$products) {
+                throw new ApplicationException("Product not found", 404);
+            }
+            return $products;
         } catch (ApplicationException $e) {
             throw $e;
         } catch (Exception $e) {

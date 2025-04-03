@@ -34,6 +34,18 @@ class ProductRestController extends RestController
     /**
      * @throws ApplicationException
      */
+    function getAllProductDetailDropdown(): void
+    {
+        $data = $this->productService->getAllProductDetailsDropdown(
+            $this->getQueryParam("search", "")
+        );
+        $serverResponse = new ServerResponse($data);
+        $this->response(200, $serverResponse);
+    }
+
+    /**
+     * @throws ApplicationException
+     */
     function getProductDetails(int $id): void
     {
         $serverResponse = new ServerResponse($this->productService->getProductById($id));
@@ -91,6 +103,30 @@ class ProductRestController extends RestController
     function statistics(int $productDetailId): void
     {
         $serverResponse = new ServerResponse($this->productService->statistics($productDetailId));
+        $this->response(200, $serverResponse);
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    function getAllProducts(): void
+    {
+        $data = $this->productService->getAllProducts(
+            $this->getQueryParam("start", 1),
+            $this->getQueryParam("limit", 8),
+            $this->getQueryParam("productDetailId", 0),
+            $this->getQueryParam("productId", 0)
+        );
+        $serverResponse = new ServerResponse($data);
+        $this->response(200, $serverResponse);
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    function getProducts(int $id): void
+    {
+        $serverResponse = new ServerResponse($this->productService->getProductInventoryById($id));
         $this->response(200, $serverResponse);
     }
 }

@@ -62,6 +62,8 @@ class APIRouter extends RestController
                     $this->user($path);
                 } else if (str_contains($path, '/' . self::API_REST . '/product/details')) {
                     $this->productDetail($path);
+                }else if (str_contains($path, '/' . self::API_REST . '/products')) {
+                    $this->products($path);
                 }
             }else{
                 self::response(401, new ServerResponse("Unauthorized"));
@@ -178,11 +180,34 @@ class APIRouter extends RestController
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->statistics($_GET['id']);
             }
+        } else if (preg_match('#^/api/rest/product/details/dropdown/?(?:\?.*)?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $this->productRestController->getAllProductDetailDropdown();
+            }
         } else if (preg_match('#^/api/rest/product/details/?(?:\?.*)?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getAllProductDetails();
             } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $this->productRestController->saveProductDetail();
+            }
+        }
+    }
+
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws ApplicationException
+     */
+    function products(string $path): void
+    {
+        $this->productRestController = $this->container->get(ProductRestController::class);
+        if (preg_match('#^/api/rest/products\?id=\d+$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $this->productRestController->getProducts($_GET['id']);
+            }
+        }else if (preg_match('#^/api/rest/products/?(?:\?.*)?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $this->productRestController->getAllProducts();
             }
         }
     }

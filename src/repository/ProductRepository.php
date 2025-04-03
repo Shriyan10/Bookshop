@@ -17,6 +17,12 @@ interface ProductRepository {
     public function productDetailExists(int $productDetailId): bool;
 
     public function productDetailStatistics(int $productDetailId): object|null;
+
+    public function getAllProducts(int $start, int $limit, int $productDetailId, int $productId): object;
+
+    public function getProductInventoryById(int $id);
+
+    public function getAllProductDetailsForDropdown(string $search): array;
 }
 
 
