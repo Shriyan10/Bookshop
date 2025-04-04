@@ -130,7 +130,7 @@ class ProductService
     /**
      * @throws ApplicationException
      */
-    public function getAllProducts(int $start, int $limit, int $productDetailId,int $productId): object
+    public function getAllProducts(int $start, int $limit, int $productDetailId, int $productId): object
     {
         try {
             return $this->productRepository->getAllProducts($start, $limit, $productDetailId, $productId);
@@ -158,5 +158,42 @@ class ProductService
         }
     }
 
+    /**
+     * @throws ApplicationException
+     */
+    public function saveProduct(int $productDetailId, int $quantity):void
+    {
+        try {
+            $task = function ($connection) use ($productDetailId, $quantity) {
+                for ($i = 0; $i < $quantity; $i++) {
+                    $this->productRepository->saveProduct($connection, $productDetailId);
+                }
+            };
+
+            $this->productRepository->database->transactionalQuery($task);
+
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            throw new ApplicationException("Product save failed", 500);
+        }
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+//    public function updateProduct(int $productId): bool
+//    {
+//        try {
+//            $productExists = $this->productRepository->productDetailExists($productId);
+//            if (!$productExists) {
+//                throw new ApplicationException("Product Detail not found", 404);
+//            }
+//
+//            return $this->productRepository->updateProduct($productId, $title, $author, $description, $distributor, $price, $imageUrl);
+//
+//        } catch (Exception $e) {
+//            throw new ApplicationException($e);
+//        }
+//    }
 
 }

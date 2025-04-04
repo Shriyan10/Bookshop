@@ -124,9 +124,34 @@ class ProductRestController extends RestController
     /**
      * @throws ApplicationException
      */
-    function getProducts(int $id): void
+    function getProductsById(int $id): void
     {
         $serverResponse = new ServerResponse($this->productService->getProductInventoryById($id));
         $this->response(200, $serverResponse);
     }
+
+    /**
+     * @throws ApplicationException
+     */
+    function saveProduct(): void
+    {
+        $this->productService->saveProduct($this->mandatoryKey('productDetailId'), $this->mandatoryKey('quantity'));
+        $serverResponse = new ServerResponse(null, "Product has been saved");
+        $this->response(200, $serverResponse);
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+//    function updateProduct(): void
+//    {
+//        $success = $this->productService->updateProduct($this->requestBody()['status']);
+//
+//        if ($success) {
+//            $serverResponse = new ServerResponse(null, "Product has been updated");
+//            $this->response(200, $serverResponse);
+//        } else {
+//            throw new ApplicationException("Product update failed", 500);
+//        }
+//    }
 }

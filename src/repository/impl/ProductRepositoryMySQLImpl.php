@@ -6,10 +6,9 @@ namespace App\repository\impl;
 use App\db\Database;
 use App\mapper\impl\ProductDetailDropdownMapper;
 use App\mapper\impl\ProductDetailMapper;
-use App\mapper\impl\ProductDetailQuantityMapper;
 use App\mapper\impl\ProductDetailStatsMapper;
+use App\mapper\impl\ProductMapper;
 use App\mapper\impl\ProductReportMapper;
-use App\projection\ProductDetailStatistics;
 use App\repository\BaseRepository;
 use App\repository\ProductRepository;
 
@@ -121,18 +120,18 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
 
         if ($productDetailId > 0) {
             $condition++;
-            $searchQuery = " WHERE pd.id=".$productDetailId;
+            $searchQuery = " WHERE pd.id=" . $productDetailId;
             $query .= $searchQuery;
             $countQuery .= $searchQuery;
         }
 
         if ($productId > 0) {
-            if($condition > 0){
-                $searchQuery = " AND p.id=".$productId;
+            if ($condition > 0) {
+                $searchQuery = " AND p.id=" . $productId;
                 $query .= $searchQuery;
                 $countQuery .= $searchQuery;
-            }else{
-                $searchQuery = " WHERE p.id=".$productId;
+            } else {
+                $searchQuery = " WHERE p.id=" . $productId;
                 $query .= $searchQuery;
                 $countQuery .= $searchQuery;
             }
@@ -145,13 +144,13 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
 
     public function getProductInventoryById(int $id): object|null
     {
-        $query = "SELECT * FROM product_details WHERE id=" . $id;
-        return $this->database->queryOne($query, new ProductDetailMapper());
+        $query = "SELECT * FROM products WHERE id=" . $id;
+        return $this->database->queryOne($query, new ProductMapper());
     }
 
     public function getAllProductDetailsForDropdown(string $search): array
     {
-        $query = "SELECT id,title FROM product_details";
+        $query = "SELECT id,title FROM products";
 
         if (strlen($search) > 0) {
             $searchQuery = " WHERE title LIKE '%$search%'";
@@ -159,6 +158,12 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         }
 
         return $this->database->queryAll($query, new ProductDetailDropdownMapper());
+    }
+
+    public function saveProduct(\mysqli $connection, int $productDetailId): bool
+    {
+        $sql = "INSERT INTO products(product_detail_id) VALUES (%d)";
+        return $this->database->txnQuery($connection,$sql, [$productDetailId]);
     }
 }
 

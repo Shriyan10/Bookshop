@@ -8,10 +8,12 @@ use App\db\Database;
 
 class BaseRepository
 {
-    protected Database $database;
+    public Database $database;
 
     public function __construct(Database $database)
     {
         $this->database = $database;
     }
+
+
 }

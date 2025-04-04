@@ -2,7 +2,9 @@
 
 namespace App\db;
 
+use App\exception\ApplicationException;
 use App\mapper\RowMapper;
+use Closure;
 use Exception;
 use mysqli;
 
@@ -43,6 +45,28 @@ class Database
     {
         $query = sprintf($query, ...$params);
         $connection = $this->connect();
+        return $connection->query($query);
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    public function transactionalQuery(Closure $task): void
+    {
+        $mysqli = $this->connect();
+        $mysqli->begin_transaction();
+        try {
+            $task($mysqli);
+            $mysqli->commit();
+        } catch (Exception $e) {
+            $mysqli->rollback();
+            throw new ApplicationException("Persisting failed", 500);
+        }
+    }
+
+    public function txnQuery(mysqli $connection, string $query, array $params): bool
+    {
+        $query = sprintf($query, ...$params);
         return $connection->query($query);
     }
 

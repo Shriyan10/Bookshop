@@ -3,6 +3,7 @@
 namespace App\controller;
 
 
+use App\exception\ApplicationException;
 use App\response\ServerResponse;
 
 
@@ -35,12 +36,26 @@ class RestController
         exit();
     }
 
-    function requestBody(): array{
+    /**
+     * @throws ApplicationException
+     */
+    function mandatoryKey(string $key): mixed
+    {
+        $array = $this->requestBody();
+        if (!array_key_exists($key, $array)) {
+            throw new ApplicationException("Mandatory key '$key' not found", 400);
+        }
+        return $array[$key];
+    }
+
+    function requestBody(): array
+    {
         $requestBody = file_get_contents('php://input');
         return json_decode($requestBody, true);
     }
 
-    function getQueryParam(string $key, $default){
+    function getQueryParam(string $key, $default)
+    {
 
         if (isset($_GET[$key])) {
             return $_GET[$key];

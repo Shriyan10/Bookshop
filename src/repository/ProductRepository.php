@@ -23,6 +23,8 @@ interface ProductRepository {
     public function getProductInventoryById(int $id);
 
     public function getAllProductDetailsForDropdown(string $search): array;
+
+    public function saveProduct(\mysqli $connection, int $productDetailId):bool;
 }
 
 
