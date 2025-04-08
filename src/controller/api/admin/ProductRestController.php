@@ -6,14 +6,16 @@ use App\controller\RestController;
 use App\exception\ApplicationException;
 use App\response\ServerResponse;
 use App\service\ProductService;
+use App\util\ObjectMapper;
 
 
 class ProductRestController extends RestController
 {
     private ProductService $productService;
 
-    public function __construct(ProductService $productService)
+    public function __construct(ProductService $productService, ObjectMapper $objectMapper)
     {
+        parent::__construct($objectMapper);
         $this->productService = $productService;
     }
 

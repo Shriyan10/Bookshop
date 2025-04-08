@@ -2,12 +2,12 @@
 
 namespace App\repository;
 
-use App\dto\UserDTO;
+use App\request\CreateUserRequest;
 
 interface UserRepository {
     public function getAllUsers(int $start, int $limit, string $search): object;
 
-    public function saveUser(UserDTO $userDTO): bool;
+    public function saveUser(CreateUserRequest $userDTO): bool;
 
     public function getUserById(int $id): object|array|null;
 

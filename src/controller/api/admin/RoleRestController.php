@@ -6,14 +6,16 @@ use App\controller\RestController;
 use App\exception\ApplicationException;
 use App\response\ServerResponse;
 use App\service\RoleService;
+use App\util\ObjectMapper;
 
 
 class RoleRestController extends RestController
 {
     private RoleService $roleService;
 
-    public function __construct(RoleService $roleService)
+    public function __construct(RoleService $roleService, ObjectMapper $objectMapper)
     {
+        parent::__construct($objectMapper);
         $this->roleService = $roleService;
 //        error_log("Role rest controller ko object banyo hai");
     }

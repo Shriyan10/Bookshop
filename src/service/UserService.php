@@ -3,9 +3,9 @@
 namespace App\service;
 
 
-use App\dto\UserDTO;
 use App\exception\ApplicationException;
 use App\repository\UserRepository;
+use App\request\CreateUserRequest;
 use Exception;
 
 class UserService
@@ -48,10 +48,10 @@ class UserService
     /**
      * @throws ApplicationException
      */
-    public function saveUser(UserDTO $userDTO): bool
+    public function saveUser(CreateUserRequest $request): bool
     {
         try {
-            return $this->userRepository->saveUser($userDTO);
+            return $this->userRepository->saveUser($request);
         } catch (Exception $e) {
             throw new ApplicationException($e);
         }

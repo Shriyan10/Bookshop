@@ -3,18 +3,20 @@
 namespace App\controller\api\admin;
 
 use App\controller\RestController;
-use App\dto\UserDTO;
 use App\exception\ApplicationException;
+use App\request\CreateUserRequest;
 use App\response\ServerResponse;
 use App\service\UserService;
+use App\util\ObjectMapper;
 
 
 class UserRestController extends RestController
 {
     private UserService $userService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, ObjectMapper $objectMapper)
     {
+        parent::__construct($objectMapper);
         $this->userService = $userService;
     }
 
@@ -32,16 +34,8 @@ class UserRestController extends RestController
      */
     function saveUser(): void
     {
-        $userDTO = new UserDTO(
-            $this->requestBody() ['firstName'],
-            $this->requestBody()['lastName'],
-            $this->requestBody()['email'],
-            $this->requestBody()['password'],
-            $this->requestBody()['roleId'],
-            $this->requestBody()['address'],
-            $this->requestBody()['contactNo']
-        );
-        $success = $this->userService->saveUser($userDTO);
+        $request = $this->requestModel(CreateUserRequest::class);
+        $success = $this->userService->saveUser($request);
 
         if ($success) {
             $serverResponse = new ServerResponse(null, "User has been created");

@@ -1,14 +1,38 @@
 <?php
 
-namespace App\dto;
-class UserDTO{
+namespace App\request;
 
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+
+class CreateUserRequest{
+
+    #[SerializedName('firstName')]
+    #[Type('string')]
     public string $firstName;
+
+    #[SerializedName('lastName')]
+    #[Type('string')]
     public string $lastName;
+
+    #[SerializedName('email')]
+    #[Type('string')]
     public string $email;
+
+    #[SerializedName('password')]
+    #[Type('string')]
     public string $password;
+
+    #[SerializedName('roleId')]
+    #[Type('integer')]
     public int|null $roleId;
+
+    #[SerializedName('address')]
+    #[Type('string')]
     public string $address;
+
+    #[SerializedName('contactNo')]
+    #[Type('integer')]
     public int $contactNo;
 
     public function __construct( string $firstName, string $lastName, string $email, string $password, int|null $roleId, string $address, int $contactNo)

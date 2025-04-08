@@ -3,16 +3,18 @@
 namespace App\controller\api;
 
 use App\controller\RestController;
-use App\dto\UserDTO;
 use App\exception\ApplicationException;
+use App\request\CreateUserRequest;
 use App\response\ServerResponse;
 use App\service\AuthenticationService;
+use App\util\ObjectMapper;
 
 class AuthenticationRestController extends RestController
 {
     private AuthenticationService $authenticationService;
-    public function __construct(AuthenticationService $authenticationService)
+    public function __construct(AuthenticationService $authenticationService, ObjectMapper $objectMapper)
     {
+        parent::__construct($objectMapper);
         $this->authenticationService = $authenticationService;
     }
 
@@ -42,7 +44,7 @@ class AuthenticationRestController extends RestController
      */
     function register(): void
     {
-        $userDTO = new UserDTO(
+        $userDTO = new CreateUserRequest(
             $this->requestBody() ['firstName'],
             $this->requestBody()['lastName'],
             $this->requestBody()['email'],

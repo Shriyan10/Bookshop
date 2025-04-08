@@ -5,10 +5,22 @@ namespace App\controller;
 
 use App\exception\ApplicationException;
 use App\response\ServerResponse;
+use App\util\ObjectMapper;
 
 
 class RestController
 {
+
+    private ObjectMapper $objectMapper;
+
+    /**
+     * @param ObjectMapper $objectMapper
+     */
+    public function __construct(ObjectMapper $objectMapper)
+    {
+        $this->objectMapper = $objectMapper;
+    }
+
 
     static function error(int $httpCode, string $message): void
     {
@@ -59,7 +71,15 @@ class RestController
     function requestBody(): array
     {
         $requestBody = file_get_contents('php://input');
+
         return json_decode($requestBody, true);
+    }
+
+    function requestModel($type): mixed
+    {
+        $stringJson = file_get_contents('php://input');
+
+        return $this->objectMapper->deserialize($stringJson, $type);
     }
 
 

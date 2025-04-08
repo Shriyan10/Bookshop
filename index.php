@@ -1,8 +1,6 @@
 <?php
 
 use App\db\Database;
-use App\repository\AuthenticationRepository;
-use App\repository\impl\AuthenticationRepositoryMySQLImpl;
 use App\repository\impl\ProductRepositoryMySQLImpl;
 use App\repository\impl\RoleRepositoryMySQLImpl;
 use App\repository\impl\UserRepositoryMySQLImpl;
@@ -11,6 +9,8 @@ use App\repository\RoleRepository;
 use App\repository\UserRepository;
 use App\route\APIRouter;
 use App\route\Router;
+use App\util\impl\ObjectMapperJMSImpl;
+use App\util\ObjectMapper;
 use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Latte\Engine;
@@ -41,7 +41,7 @@ if (str_contains($uri, '/api/rest')) {
         RoleRepository::class => DI\autowire(RoleRepositoryMySQLImpl::class),
         UserRepository::class => DI\autowire(UserRepositoryMySQLImpl::class),
         ProductRepository::class => DI\autowire(ProductRepositoryMySQLImpl::class),
-        AuthenticationRepository::class => DI\autowire(AuthenticationRepositoryMySQLImpl::class)
+        ObjectMapper::class => DI\autowire(ObjectMapperJMSImpl::class),
     ]);
 
     try {

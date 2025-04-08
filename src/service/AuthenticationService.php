@@ -3,10 +3,10 @@
 namespace App\service;
 
 
-use App\dto\UserDTO;
 use App\exception\ApplicationException;
 use App\repository\RoleRepository;
 use App\repository\UserRepository;
+use App\request\CreateUserRequest;
 use App\route\APIRouter;
 use Exception;
 
@@ -66,7 +66,7 @@ class AuthenticationService
     /**
      * @throws ApplicationException
      */
-    public function register(UserDTO $userDTO): bool
+    public function register(CreateUserRequest $userDTO): bool
     {
 
         try {

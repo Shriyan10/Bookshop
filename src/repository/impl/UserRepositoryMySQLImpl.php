@@ -5,10 +5,10 @@ namespace App\repository\impl;
 
 use App\db\Database;
 use App\db\PaginatedResponse;
-use App\dto\UserDTO;
 use App\mapper\impl\UserMapper;
 use App\repository\BaseRepository;
 use App\repository\UserRepository;
+use App\request\CreateUserRequest;
 use Exception;
 
 
@@ -37,7 +37,7 @@ class UserRepositoryMySQLImpl extends BaseRepository implements UserRepository
 
     }
 
-    public function saveUser(UserDTO $userDTO): bool
+    public function saveUser(CreateUserRequest $userDTO): bool
     {
         return $this->database->query(
             "INSERT INTO users(first_name, last_name, email, password, role_id, address, contact_no) VALUES('%s','%s','%s','%s', %d, '%s', %d)",
