@@ -20,20 +20,28 @@ class RestController
         ob_start();
         ob_clean();
 
-        header("Content-Type: application/json; charset=utf-8");
-        header("Access-Control-Allow-Origin: *"); // Allow requests from any origin
-        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-        header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
         // Handle preflight request for OPTIONS method
         if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            error_log("asd");
+            header("Content-Type: application/json; charset=utf-8");
+            header("Access-Control-Allow-Origin: *"); // Allow requests from any origin
+            header("Access-Control-Allow-Headers: *"); // Allow requests from any origin
+            header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+
             http_response_code(204); // No Content
             exit;
+        }else{
+            header("Content-Type: application/json; charset=utf-8");
+            header("Access-Control-Allow-Origin: *"); // Allow requests from any origin
+            header("Access-Control-Allow-Headers: *"); // Allow requests from any origin
+            header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+
+            http_response_code($httpCode);
+            echo json_encode($data);
+            exit();
         }
 
-        http_response_code($httpCode);
-        echo json_encode($data);
-        exit();
     }
 
     /**
@@ -52,6 +60,19 @@ class RestController
     {
         $requestBody = file_get_contents('php://input');
         return json_decode($requestBody, true);
+    }
+
+
+
+    function validatedRequestBody(): array
+    {
+        $requestBody = file_get_contents('php://input');
+        return json_decode($requestBody, true);
+    }
+
+
+    function validator(){
+
     }
 
     function getQueryParam(string $key, $default)

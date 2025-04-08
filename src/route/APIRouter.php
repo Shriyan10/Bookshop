@@ -11,6 +11,7 @@ use App\controller\RestController;
 use App\exception\ApplicationException;
 use App\exception\BaseException;
 use App\response\ServerResponse;
+use App\validator\AttributeValidatorBuilder;
 use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -39,6 +40,10 @@ class APIRouter extends RestController
     function route(string $path): void
     {
         try {
+
+            if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+                self::response(100);
+            }
 
             if (str_contains($path, '/' . self::API_REST . '/auth')) {
                 $this->auth($path);
@@ -98,6 +103,7 @@ class APIRouter extends RestController
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $this->authenticationRestController->login();
             }
+
         }else if (preg_match('#^/api/rest/auth/logout/?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $this->authenticationRestController->logout();
@@ -211,6 +217,23 @@ class APIRouter extends RestController
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getAllProducts();
             } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
+            $validators = [
+
+            AttributeValidatorBuilder::create()
+                    ->withName('productDetailId')
+                    ->withType('number')
+                    ->addValidator(fn($value) => strlen($value) >= 8)
+                    ->build(),
+
+
+                AttributeValidatorBuilder::create()
+                    ->withName('quantity')
+                    ->withType('number')
+                    ->build(),
+
+            ];
                 $this->productRestController->saveProduct();
             }
         }
