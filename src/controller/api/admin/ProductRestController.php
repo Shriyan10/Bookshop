@@ -145,15 +145,30 @@ class ProductRestController extends RestController
     /**
      * @throws ApplicationException
      */
-//    function updateProduct(): void
-//    {
-//        $success = $this->productService->updateProduct($this->requestBody()['status']);
-//
-//        if ($success) {
-//            $serverResponse = new ServerResponse(null, "Product has been updated");
-//            $this->response(200, $serverResponse);
-//        } else {
-//            throw new ApplicationException("Product update failed", 500);
-//        }
-//    }
+    function updateProduct(): void
+    {
+        $success = $this->productService->updateProduct($this->mandatoryKey('productId'), $this->mandatoryKey('status'));
+
+        if ($success) {
+            $serverResponse = new ServerResponse(null, "Product has been updated");
+            $this->response(200, $serverResponse);
+        } else {
+            throw new ApplicationException("Product update failed", 500);
+        }
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    function deleteProduct(int $id): void
+    {
+        $success = $this->productService->deleteProduct($id);
+
+        if ($success) {
+            $serverResponse = new ServerResponse(null, "Product has been deleted");
+            $this->response(200, $serverResponse);
+        } else {
+            throw new ApplicationException("Product delete failed", 500);
+        }
+    }
 }

@@ -211,7 +211,9 @@ class APIRouter extends RestController
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getProductsById($_GET['id']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-//                $this->productRestController->updateProduct($_GET['id']);
+                $this->productRestController->updateProduct($_GET['id']);
+            } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+                $this->productRestController->deleteProduct($_GET['id']);
             }
         }else if (preg_match('#^/api/rest/products/?(?:\?.*)?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {

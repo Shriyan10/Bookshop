@@ -181,19 +181,38 @@ class ProductService
     /**
      * @throws ApplicationException
      */
-//    public function updateProduct(int $productId): bool
-//    {
-//        try {
-//            $productExists = $this->productRepository->productDetailExists($productId);
-//            if (!$productExists) {
-//                throw new ApplicationException("Product Detail not found", 404);
-//            }
-//
-//            return $this->productRepository->updateProduct($productId, $title, $author, $description, $distributor, $price, $imageUrl);
-//
-//        } catch (Exception $e) {
-//            throw new ApplicationException($e);
-//        }
-//    }
+    public function updateProduct(int $id, string $status): bool
+    {
+        try {
+            $productExists = $this->productRepository->productExists($id);
+            if (!$productExists) {
+                throw new ApplicationException("Product not found", 404);
+            }
 
+            return $this->productRepository->updateProduct($id, $status);
+
+        } catch (Exception $e) {
+            throw new ApplicationException($e);
+        }
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    public function deleteProduct(int $id): bool
+    {
+        try {
+            $productExists = $this->productRepository->productExists($id);
+            if (!$productExists) {
+                throw new ApplicationException("Product not found", 404);
+            }
+
+            return $this->productRepository->deleteProduct($id);
+        } catch (ApplicationException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            throw new ApplicationException($e);
+        }
+    }
 }

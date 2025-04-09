@@ -163,8 +163,35 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
     public function saveProduct(\mysqli $connection, int $productDetailId): bool
     {
         $sql = "INSERT INTO products(product_detail_id) VALUES (%d)";
-        return $this->database->txnQuery($connection,$sql, [$productDetailId]);
+        return $this->database->txnQuery($connection, $sql, [$productDetailId]);
     }
+
+    public function updateProduct(int $id, string $status): bool
+    {
+        return $this->database->query(
+            "UPDATE products SET status='%s' WHERE id=%d",
+            [
+                $status,
+                $id
+            ]
+        );
+    }
+
+    public function deleteProduct(int $id): bool
+    {
+        return $this->database->query(
+            "DELETE FROM products where id=%d",
+            [
+                $id
+            ]
+        );
+    }
+
+    public function productExists(int $productId): bool
+    {
+        return $this->database->countWithQuery("products where id=$productId") == 1;
+    }
+
 }
 
 

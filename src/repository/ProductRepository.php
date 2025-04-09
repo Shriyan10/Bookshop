@@ -25,6 +25,12 @@ interface ProductRepository {
     public function getAllProductDetailsForDropdown(string $search): array;
 
     public function saveProduct(\mysqli $connection, int $productDetailId):bool;
+
+    public function updateProduct(int $id, string $status): bool;
+
+    public function deleteProduct(int $id): bool;
+
+    public function productExists(int $productId): bool;
 }
 
 

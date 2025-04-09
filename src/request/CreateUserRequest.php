@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace App\request;
 
 use JMS\Serializer\Annotation\SerializedName;
@@ -24,7 +25,7 @@ class CreateUserRequest{
     public string $password;
 
     #[SerializedName('roleId')]
-    #[Type('integer')]
+    #[Type('int')]
     public int|null $roleId;
 
     #[SerializedName('address')]
@@ -32,7 +33,7 @@ class CreateUserRequest{
     public string $address;
 
     #[SerializedName('contactNo')]
-    #[Type('integer')]
+    #[Type('int')]
     public int $contactNo;
 
     public function __construct( string $firstName, string $lastName, string $email, string $password, int|null $roleId, string $address, int $contactNo)
