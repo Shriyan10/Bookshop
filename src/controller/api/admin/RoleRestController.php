@@ -4,6 +4,7 @@ namespace App\controller\api\admin;
 
 use App\controller\RestController;
 use App\exception\ApplicationException;
+use App\request\UpdateRoleRequest;
 use App\response\ServerResponse;
 use App\service\RoleService;
 use App\util\ObjectMapper;
@@ -42,10 +43,10 @@ class RoleRestController extends RestController
     /**
      * @throws ApplicationException
      */
-    function updateRole(int $roleId): void
+    function updateRole(): void
     {
-
-        $success = $this->roleService->updateRole($roleId, $this->requestBody()['name']);
+        $request = $this->requestModel(UpdateRoleRequest::class);
+        $success = $this->roleService->updateRole($request);
 
         if ($success) {
             $serverResponse = new ServerResponse(null, "Role has been updated");

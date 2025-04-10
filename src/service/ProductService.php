@@ -4,6 +4,8 @@ namespace App\service;
 
 use App\exception\ApplicationException;
 use App\repository\ProductRepository;
+use App\request\UpdateProductDetailRequest;
+use App\request\UpdateProductRequest;
 use Exception;
 
 class ProductService
@@ -61,15 +63,15 @@ class ProductService
     /**
      * @throws ApplicationException
      */
-    public function updateProductDetail(int $productId, string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool
+    public function updateProductDetail(UpdateProductDetailRequest $request): bool
     {
         try {
-            $productExists = $this->productRepository->productDetailExists($productId);
+            $productExists = $this->productRepository->productDetailExists($request->productDetailId);
             if (!$productExists) {
                 throw new ApplicationException("Product Detail not found", 404);
             }
 
-            return $this->productRepository->updateProductDetail($productId, $title, $author, $description, $distributor, $price, $imageUrl);
+            return $this->productRepository->updateProductDetail($request->productDetailId, $request->title, $request->author, $request->description,  $request->distributor, $request->price, $request->imageUrl);
 
         } catch (Exception $e) {
             throw new ApplicationException($e);
@@ -181,15 +183,15 @@ class ProductService
     /**
      * @throws ApplicationException
      */
-    public function updateProduct(int $id, string $status): bool
+    public function updateProduct(UpdateProductRequest $request): bool
     {
         try {
-            $productExists = $this->productRepository->productExists($id);
+            $productExists = $this->productRepository->productExists($request->productId);
             if (!$productExists) {
                 throw new ApplicationException("Product not found", 404);
             }
 
-            return $this->productRepository->updateProduct($id, $status);
+            return $this->productRepository->updateProduct($request->productId, $request->status);
 
         } catch (Exception $e) {
             throw new ApplicationException($e);

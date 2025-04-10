@@ -5,6 +5,7 @@ namespace App\controller\api\admin;
 use App\controller\RestController;
 use App\exception\ApplicationException;
 use App\request\CreateUserRequest;
+use App\request\UpdateUserRequest;
 use App\response\ServerResponse;
 use App\service\UserService;
 use App\util\ObjectMapper;
@@ -58,10 +59,11 @@ class UserRestController extends RestController
     /**
      * @throws ApplicationException
      */
-    function updateUser(int $userId): void
+    function updateUser(): void
     {
 
-        $success = $this->userService->updateUser($userId, $this->requestBody()['firstName'],$this->requestBody()['lastName'],$this->requestBody()['email'],$this->requestBody()['password'],$this->requestBody()['roleId'],$this->requestBody()['address'],$this->requestBody()['contactNo']);
+        $request = $this->requestModel(UpdateUserRequest::class);
+        $success = $this->userService->updateUser($request);
 
         if ($success) {
             $serverResponse = new ServerResponse(null, "User has been updated");

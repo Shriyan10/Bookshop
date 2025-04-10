@@ -129,11 +129,11 @@ class APIRouter extends RestController
                 $this->roleRestController->saveRole();
             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->roleRestController->getAllRoles();
+            } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                $this->roleRestController->updateRole();
             }
         } else if (preg_match('#^/api/rest/roles\?id=\d+$#', $path)) {
-            if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-                $this->roleRestController->updateRole($_GET['id']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->roleRestController->getRole($_GET['id']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->roleRestController->deleteRole($_GET['id']);
@@ -150,9 +150,7 @@ class APIRouter extends RestController
     {
         $this->userRestController = $this->container->get(UserRestController::class);
         if (preg_match('#^/api/rest/users\?id=\d+$#', $path)) {
-            if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-                $this->userRestController->updateUser($_GET['id']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->userRestController->getUser($_GET['id']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->userRestController->deleteUser($_GET['id']);
@@ -162,6 +160,8 @@ class APIRouter extends RestController
                 $this->userRestController->getAllUsers();
             } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $this->userRestController->saveUser();
+            } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                $this->userRestController->updateUser();
             }
         }
     }
@@ -177,9 +177,7 @@ class APIRouter extends RestController
         if (preg_match('#^/api/rest/product/details\?id=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getProductDetails($_GET['id']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-                $this->productRestController->updateProductDetail($_GET['id']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            }  else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->productRestController->deleteProductDetail($_GET['id']);
             }
         } else if (preg_match('#^/api/rest/product/details/stats\?id=\d+$#', $path)) {
@@ -195,6 +193,8 @@ class APIRouter extends RestController
                 $this->productRestController->getAllProductDetails();
             } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $this->productRestController->saveProductDetail();
+            } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                $this->productRestController->updateProductDetail();
             }
         }
     }
@@ -210,14 +210,14 @@ class APIRouter extends RestController
         if (preg_match('#^/api/rest/products\?id=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getProductsById($_GET['id']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-                $this->productRestController->updateProduct($_GET['id']);
-            } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            }  else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->productRestController->deleteProduct($_GET['id']);
             }
         }else if (preg_match('#^/api/rest/products/?(?:\?.*)?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getAllProducts();
+            } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                $this->productRestController->updateProduct();
             } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 

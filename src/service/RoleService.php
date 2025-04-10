@@ -5,6 +5,7 @@ namespace App\service;
 
 use App\exception\ApplicationException;
 use App\repository\RoleRepository;
+use App\request\UpdateRoleRequest;
 use Exception;
 
 class RoleService
@@ -63,15 +64,15 @@ class RoleService
     /**
      * @throws ApplicationException
      */
-    public function updateRole(int $id, string $name): bool
+    public function updateRole(UpdateRoleRequest $request): bool
     {
         try {
-            $roleExists = $this->roleRepository->roleExists($id);
+            $roleExists = $this->roleRepository->roleExists($request->roleId);
             if (!$roleExists) {
                 throw new ApplicationException("Role not found", 404);
             }
 
-            return $this->roleRepository->updateRole($id, $name);
+            return $this->roleRepository->updateRole($request->roleId, $request->name);
 
         } catch (Exception $e) {
             throw new ApplicationException($e);

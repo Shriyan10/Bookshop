@@ -4,6 +4,8 @@ namespace App\controller\api\admin;
 
 use App\controller\RestController;
 use App\exception\ApplicationException;
+use App\request\UpdateProductDetailRequest;
+use App\request\UpdateProductRequest;
 use App\response\ServerResponse;
 use App\service\ProductService;
 use App\util\ObjectMapper;
@@ -57,9 +59,10 @@ class ProductRestController extends RestController
     /**
      * @throws ApplicationException
      */
-    function updateProductDetail(int $productId): void
+    function updateProductDetail(): void
     {
-        $success = $this->productService->updateProductDetail($productId, $this->requestBody()['title'], $this->requestBody()['author'], $this->requestBody()['description'], $this->requestBody()['distributor'], $this->requestBody()['price'], $this->requestBody()['imageUrl']);
+        $request = $this->requestModel(UpdateProductDetailRequest::class);
+        $success = $this->productService->updateProductDetail($request);
 
         if ($success) {
             $serverResponse = new ServerResponse(null, "Product Detail has been updated");
@@ -147,7 +150,9 @@ class ProductRestController extends RestController
      */
     function updateProduct(): void
     {
-        $success = $this->productService->updateProduct($this->mandatoryKey('productId'), $this->mandatoryKey('status'));
+
+        $request = $this->requestModel(UpdateProductRequest::class);
+        $success = $this->productService->updateProduct($request);
 
         if ($success) {
             $serverResponse = new ServerResponse(null, "Product has been updated");

@@ -6,6 +6,7 @@ namespace App\service;
 use App\exception\ApplicationException;
 use App\repository\UserRepository;
 use App\request\CreateUserRequest;
+use App\request\UpdateUserRequest;
 use Exception;
 
 class UserService
@@ -79,15 +80,15 @@ class UserService
     /**
      * @throws ApplicationException
      */
-    public function updateUser(int $userId, string $firstName, string $lastName, string $email, string $password, int $roleId, string $address, string $contactNo): bool
+    public function updateUser(UpdateUserRequest $request): bool
     {
         try {
-            $userExists = $this->userRepository->userExists($userId);
+            $userExists = $this->userRepository->userExists($request->userId);
             if (!$userExists) {
                 throw new ApplicationException("User not found", 404);
             }
 
-            return $this->userRepository->updateUser($userId, $firstName, $lastName, $email, $password, $roleId, $address, $contactNo);
+            return $this->userRepository->updateUser($request->userId, $request->firstName, $request->lastName, $request->email, $request->password, $request->roleId, $request->address, $request->contactNo);
 
         } catch (Exception $e) {
             throw new ApplicationException($e);
