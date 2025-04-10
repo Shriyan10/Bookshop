@@ -4,6 +4,7 @@ namespace App\service;
 
 use App\exception\ApplicationException;
 use App\repository\ProductRepository;
+use App\request\CreateProductDetailRequest;
 use App\request\UpdateProductDetailRequest;
 use App\request\UpdateProductRequest;
 use Exception;
@@ -81,10 +82,10 @@ class ProductService
     /**
      * @throws ApplicationException
      */
-    public function saveProductDetail(string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool
+    public function saveProductDetail(CreateProductDetailRequest $request): bool
     {
         try {
-            return $this->productRepository->saveProductDetail($title, $author, $description, $distributor, $price, $imageUrl);
+            return $this->productRepository->saveProductDetail($request->title, $request->author, $request->description, $request->distributor, $request->price, $request->imageUrl);
         } catch (Exception $e) {
             throw new ApplicationException($e);
         }

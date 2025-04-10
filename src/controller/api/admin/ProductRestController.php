@@ -4,6 +4,8 @@ namespace App\controller\api\admin;
 
 use App\controller\RestController;
 use App\exception\ApplicationException;
+use App\request\CreateProductDetailRequest;
+use App\request\CreateProductRequest;
 use App\request\UpdateProductDetailRequest;
 use App\request\UpdateProductRequest;
 use App\response\ServerResponse;
@@ -77,7 +79,8 @@ class ProductRestController extends RestController
      */
     function saveProductDetail(): void
     {
-        $success = $this->productService->saveProductDetail($this->requestBody()['title'], $this->requestBody()['author'], $this->requestBody()['description'], $this->requestBody()['distributor'], $this->requestBody()['price'], $this->requestBody()['imageUrl']);
+        $request = $this->requestModel(CreateProductDetailRequest::class);
+        $success = $this->productService->saveProductDetail($request);
 
         if ($success) {
             $serverResponse = new ServerResponse(null, "Product Detail has been created");
@@ -140,7 +143,8 @@ class ProductRestController extends RestController
      */
     function saveProduct(): void
     {
-        $this->productService->saveProduct($this->mandatoryKey('productDetailId'), $this->mandatoryKey('quantity'));
+        $request = $this->requestModel(CreateProductRequest::class);
+        $this->productService->saveProduct($request);
         $serverResponse = new ServerResponse(null, "Product has been saved");
         $this->response(200, $serverResponse);
     }

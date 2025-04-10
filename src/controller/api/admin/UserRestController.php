@@ -36,7 +36,6 @@ class UserRestController extends RestController
     function saveUser(): void
     {
         $request = $this->requestModel(CreateUserRequest::class);
-        var_dump($request);
         $success = $this->userService->saveUser($request);
 
         if ($success) {

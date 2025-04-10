@@ -4,6 +4,7 @@ namespace App\controller\api\admin;
 
 use App\controller\RestController;
 use App\exception\ApplicationException;
+use App\request\CreateRoleRequest;
 use App\request\UpdateRoleRequest;
 use App\response\ServerResponse;
 use App\service\RoleService;
@@ -61,7 +62,8 @@ class RoleRestController extends RestController
      */
     function saveRole(): void
     {
-        $success = $this->roleService->saveRole($this->requestBody()['name']);
+        $request = $this->requestModel(CreateRoleRequest::class);
+        $success = $this->roleService->saveRole($request);
 
         if ($success) {
             $serverResponse = new ServerResponse(null, "Role has been created");

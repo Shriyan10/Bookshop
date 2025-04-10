@@ -5,6 +5,7 @@ namespace App\service;
 
 use App\exception\ApplicationException;
 use App\repository\RoleRepository;
+use App\request\CreateRoleRequest;
 use App\request\UpdateRoleRequest;
 use Exception;
 
@@ -52,10 +53,10 @@ class RoleService
     /**
      * @throws ApplicationException
      */
-    public function saveRole(string $name): bool
+    public function saveRole(CreateRoleRequest $request): bool
     {
         try {
-            return $this->roleRepository->saveRole($name);
+            return $this->roleRepository->saveRole($request->name);
         } catch (Exception $e) {
             throw new ApplicationException($e);
         }
