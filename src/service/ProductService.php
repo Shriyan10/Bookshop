@@ -5,6 +5,7 @@ namespace App\service;
 use App\exception\ApplicationException;
 use App\repository\ProductRepository;
 use App\request\CreateProductDetailRequest;
+use App\request\CreateProductRequest;
 use App\request\UpdateProductDetailRequest;
 use App\request\UpdateProductRequest;
 use Exception;
@@ -164,12 +165,12 @@ class ProductService
     /**
      * @throws ApplicationException
      */
-    public function saveProduct(int $productDetailId, int $quantity):void
+    public function saveProduct(CreateProductRequest $request):void
     {
         try {
-            $task = function ($connection) use ($productDetailId, $quantity) {
-                for ($i = 0; $i < $quantity; $i++) {
-                    $this->productRepository->saveProduct($connection, $productDetailId);
+            $task = function ($connection) use ($request) {
+                for ($i = 0; $i < $request->quantity; $i++) {
+                    $this->productRepository->saveProduct($connection, $request->productDetailId);
                 }
             };
 
