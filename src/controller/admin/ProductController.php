@@ -72,25 +72,16 @@ class ProductController extends BaseController
     function updateProductDetails(int $productId): void
     {
         try {
-            $productDetail = new ProductDetail(
-                $productId,
-                $_POST['title'] ?? null,
-                null,
-                $_POST['publisher'] ?? null,
-                $_POST['isbn'] ?? null,
-                $_POST['price'] ?? null,
-                $_POST['imageUrl'] ?? null
-            );
 
             $result = $this->database->query(
                 "UPDATE product_details SET title='%s', image_url='%s', description='%s', distributor='%s', price=%d where id=%d",
                 [
-                    $productDetail->getTitle(),
-                    $productDetail->getImageUrl(),
-                    $productDetail->getDescription(),
-                    $productDetail->getDistributor(),
-                    $productDetail->getPrice(),
-                    $productDetail->getId()
+                    $_POST['title'] ,
+                    $_POST['imageUrl'],
+                    $_POST['description'],
+                    $_POST['distributor'],
+                    $_POST['price'],
+                    $productId
                 ],
             );
             if ($result) {
@@ -142,26 +133,16 @@ class ProductController extends BaseController
     function saveProducts(): void
     {
         try {
-            $bookDetail = new ProductDetail(
-                null,
-                $_POST['title'] ?? null,
-                $_POST['author'] ?? null,
-                $_POST['publisher'] ?? null,
-                $_POST['isbn'] ?? null,
-                $_POST['price'] ?? null,
-                $_POST['imageUrl'] ?? null
-            );
 
             $result = $this->database->query(
-                "INSERT INTO product_details(title, image_url, author, publisher, isbn, price) VALUES('%s','%s','%s','%s', '%s', %d)",
+                "INSERT INTO product_details(title, description, distributor, price, image_url) VALUES('%s','%s','%s', %d,'%s')",
                 [
-                    $bookDetail->getTitle(),
-                    $bookDetail->getImageUrl(),
-                    $bookDetail->getAuthor(),
-                    $bookDetail->getDescription(),
-                    $bookDetail->getDistributor(),
-                    $bookDetail->getPrice()
-                ],
+                    $_POST['title'],
+                    $_POST['description'],
+                    $_POST['distributor'],
+                    $_POST['price'],
+                    $_POST['imageUrl']
+                ]
             );
             if ($result) {
                 $this->redirect("product-details");

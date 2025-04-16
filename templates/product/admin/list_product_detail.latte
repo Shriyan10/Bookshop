@@ -20,9 +20,6 @@
             <th>Id</th>
             <th>Image</th>
             <th>Title</th>
-            <th>Author</th>
-{*            <th>Description</th>*}
-{*            <th>Distributor</th>*}
             <th>Price</th>
             <th>Actions</th>
         </tr>
@@ -34,9 +31,6 @@
                 <td>{$bookDetail->id}</td>
                 <td><img width=50 height=50 src="{$bookDetail->imageUrl}"></td>
                 <td>{$bookDetail->title}</td>
-                <td>{$bookDetail->author}</td>
-{*                <td>{$bookDetail->description}</td>*}
-{*                <td>{$bookDetail->distributor}</td>*}
                 <td>{$bookDetail->price}</td>
                 <td>
                     <a href="/product-details/edit?productDetailId={$bookDetail->id}">Edit</a>

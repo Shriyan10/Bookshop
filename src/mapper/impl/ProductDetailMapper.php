@@ -13,7 +13,6 @@ class ProductDetailMapper implements RowMapper
         return new ProductDetail(
             $row["id"],
             $row["title"],
-            $row["author"],
             $row["description"],
             $row["distributor"],
             $row["price"],

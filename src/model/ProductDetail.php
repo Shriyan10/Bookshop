@@ -5,29 +5,35 @@ class ProductDetail
 {
     public int|null $id;
     public string $title;
-    public string|null $author;
     public string $description;
     public string $distributor;
     public int $price;
     public string $imageUrl;
 
-    public function __construct(int|null $id, string $title, string|null $author, string $publisher, string $isbn, int $price, string $imageUrl)
+    /**
+     * @param int|null $id
+     * @param string $title
+     * @param string $description
+     * @param string $distributor
+     * @param int $price
+     * @param string $imageUrl
+     */
+    public function __construct(?int $id, string $title, string $description, string $distributor, int $price, string $imageUrl)
     {
         $this->id = $id;
         $this->title = $title;
-        $this->author = $author;
-        $this->description = $publisher;
-        $this->distributor = $isbn;
+        $this->description = $description;
+        $this->distributor = $distributor;
         $this->price = $price;
         $this->imageUrl = $imageUrl;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
@@ -40,16 +46,6 @@ class ProductDetail
     public function setTitle(string $title): void
     {
         $this->title = $title;
-    }
-
-    public function getAuthor(): string|null
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string|null $author): void
-    {
-        $this->author = $author;
     }
 
     public function getDescription(): string
@@ -91,6 +87,4 @@ class ProductDetail
     {
         $this->imageUrl = $imageUrl;
     }
-
-
 }
