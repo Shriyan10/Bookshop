@@ -32,8 +32,7 @@ class ProductController extends BaseController
                 $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' GROUP BY bd.id LIMIT $limit OFFSET $offset";
                 $countQuery = "SELECT count(*) as count FROM (SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' GROUP BY bd.id) t";
             }
-            error_log($query);
-            error_log($countQuery);
+
             $productDetails = $this->database->queryAll($query, new ProductDetailQuantityMapper());
             $total = $this->database->count($countQuery);
 

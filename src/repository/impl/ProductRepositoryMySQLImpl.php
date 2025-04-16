@@ -6,6 +6,7 @@ namespace App\repository\impl;
 use App\db\Database;
 use App\mapper\impl\ProductDetailDropdownMapper;
 use App\mapper\impl\ProductDetailMapper;
+use App\mapper\impl\ProductDetailQuantityMapper;
 use App\mapper\impl\ProductDetailStatsMapper;
 use App\mapper\impl\ProductMapper;
 use App\mapper\impl\ProductReportMapper;
@@ -111,7 +112,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
     /**
      * @throws \Exception
      */
-    public function getAllProducts(int $start, int $limit, int $productDetailId, int $productId): object
+    public function getAllProducts(int $start, int $limit, int $productDetailId, int $productId, string $createdDate): object
     {
         $query = "SELECT p.id,  pd.title, p.status, p.created_date, p.updated_date FROM products p INNER JOIN product_details pd ON p.product_detail_id=pd.id";
         $countQuery = "SELECT COUNT(*) as count FROM products p INNER JOIN product_details pd ON p.product_detail_id=pd.id";
@@ -138,7 +139,18 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         }
 
 
-        var_dump($query);
+        if (strlen($createdDate) > 0) {
+            if ($condition > 0) {
+                $searchQuery = " AND DATE(p.created_date) = DATE('" . $createdDate . "')";
+                $query .= $searchQuery;
+                $countQuery .= $searchQuery;
+            } else {
+                $searchQuery = " WHERE DATE(p.created_date) = DATE('" . $createdDate . "')";
+                $query .= $searchQuery;
+                $countQuery .= $searchQuery;
+            }
+        }
+
         return $this->database->queryAllPaginated($query, $countQuery, $start, $limit, new ProductReportMapper());
     }
 
@@ -150,7 +162,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
 
     public function getAllProductDetailsForDropdown(string $search): array
     {
-        $query = "SELECT id,title FROM products";
+        $query = "SELECT id,title FROM product_details";
 
         if (strlen($search) > 0) {
             $searchQuery = " WHERE title LIKE '%$search%'";
@@ -192,6 +204,36 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         return $this->database->countWithQuery("products where id=$productId") == 1;
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function getAllProductDetailsQuantityByStatus(int $start, int $limit, string $search): object
+    {
+        if (strlen($search) > 0) {
+            return $this->database->queryAllPaginated(
+                "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.title LIKE '%$search%' GROUP BY pd.id",
+                "SELECT count(*) as count FROM (SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.title = '$search'GROUP BY pd.id) t",
+                $start,
+                $limit,
+                new ProductDetailQuantityMapper()
+            );
+        } else {
+            return $this->database->queryAllPaginated(
+                "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' GROUP BY pd.id",
+                "SELECT count(*) as count FROM (SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' GROUP BY pd.id) t",
+                $start,
+                $limit,
+                new ProductDetailQuantityMapper()
+            );
+        }
+    }
+
+    public function getProductDetail(int $id): object
+    {
+        $query = "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.id = $id GROUP BY pd.id";
+        return $this->database->queryOne($query, new ProductDetailQuantityMapper());
+
+    }
 }
 
 

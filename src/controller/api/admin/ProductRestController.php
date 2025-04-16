@@ -123,7 +123,8 @@ class ProductRestController extends RestController
             $this->getQueryParam("start", 1),
             $this->getQueryParam("limit", 8),
             $this->getQueryParam("productDetailId", 0),
-            $this->getQueryParam("productId", 0)
+            $this->getQueryParam("productId", 0),
+            $this->getQueryParam("createdDate", "")
         );
         $serverResponse = new ServerResponse($data);
         $this->response(200, $serverResponse);

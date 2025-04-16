@@ -134,10 +134,10 @@ class ProductService
     /**
      * @throws ApplicationException
      */
-    public function getAllProducts(int $start, int $limit, int $productDetailId, int $productId): object
+    public function getAllProducts(int $start, int $limit, int $productDetailId, int $productId, string $createdDate): object
     {
         try {
-            return $this->productRepository->getAllProducts($start, $limit, $productDetailId, $productId);
+            return $this->productRepository->getAllProducts($start, $limit, $productDetailId, $productId, $createdDate);
         } catch (Exception $e) {
             throw new ApplicationException($e);
         }

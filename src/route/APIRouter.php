@@ -7,6 +7,7 @@ use App\controller\api\admin\ProductRestController;
 use App\controller\api\admin\RoleRestController;
 use App\controller\api\admin\UserRestController;
 use App\controller\api\AuthenticationRestController;
+use App\controller\api\customer\CustomerProductRestController;
 use App\controller\RestController;
 use App\exception\ApplicationException;
 use App\exception\BaseException;
@@ -25,7 +26,9 @@ class APIRouter extends RestController
     private RoleRestController $roleRestController;
     private UserRestController $userRestController;
     private ProductRestController $productRestController;
+    private CustomerProductRestController $customerProductRestController;
     private AuthenticationRestController $authenticationRestController;
+
 
     public function __construct(Container $container)
     {
@@ -61,14 +64,16 @@ class APIRouter extends RestController
                     }
                 }
 
-                if (str_contains($path, '/' . self::API_REST . '/roles')) {
+                if (str_contains($path, '/' . self::API_REST . '/admin/roles')) {
                     $this->role($path);
-                } else if (str_contains($path, '/' . self::API_REST . '/users')) {
+                } else if (str_contains($path, '/' . self::API_REST . '/admin/users')) {
                     $this->user($path);
-                } else if (str_contains($path, '/' . self::API_REST . '/product/details')) {
+                } else if (str_contains($path, '/' . self::API_REST . '/admin/product/details')) {
                     $this->productDetail($path);
-                }else if (str_contains($path, '/' . self::API_REST . '/products')) {
+                } else if (str_contains($path, '/' . self::API_REST . '/admin/products')) {
                     $this->products($path);
+                } else if (str_contains($path, '/' . self::API_REST . '/product/details')) {
+                    $this->customerProductDetail($path);
                 }
             }else{
                 self::response(401, new ServerResponse("Unauthorized"));
@@ -123,7 +128,7 @@ class APIRouter extends RestController
     function role(string $path): void
     {
         $this->roleRestController = $this->container->get(RoleRestController::class);
-        if (preg_match('#^/' . self::API_REST . '/roles/?$#', $path)) {
+        if (preg_match('#^/' . self::API_REST . '/admin/roles/?$#', $path)) {
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $this->roleRestController->saveRole();
@@ -132,7 +137,7 @@ class APIRouter extends RestController
             } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                 $this->roleRestController->updateRole();
             }
-        } else if (preg_match('#^/api/rest/roles\?id=\d+$#', $path)) {
+        } else if (preg_match('#^/api/rest/admin/roles\?id=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->roleRestController->getRole($_GET['id']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
@@ -149,13 +154,13 @@ class APIRouter extends RestController
     function user(string $path): void
     {
         $this->userRestController = $this->container->get(UserRestController::class);
-        if (preg_match('#^/api/rest/users\?id=\d+$#', $path)) {
+        if (preg_match('#^/api/rest/admin/users\?id=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->userRestController->getUser($_GET['id']);
             } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->userRestController->deleteUser($_GET['id']);
             }
-        } else if (preg_match('#^/api/rest/users/?(?:\?.*)?$#', $path)) {
+        } else if (preg_match('#^/api/rest/admin/users/?(?:\?.*)?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->userRestController->getAllUsers();
             } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -174,21 +179,21 @@ class APIRouter extends RestController
     function productDetail(string $path): void
     {
         $this->productRestController = $this->container->get(ProductRestController::class);
-        if (preg_match('#^/api/rest/product/details\?id=\d+$#', $path)) {
+        if (preg_match('#^/api/rest/admin/product/details\?id=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getProductDetails($_GET['id']);
             }  else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->productRestController->deleteProductDetail($_GET['id']);
             }
-        } else if (preg_match('#^/api/rest/product/details/stats\?id=\d+$#', $path)) {
+        } else if (preg_match('#^/api/rest/admin/product/details/stats\?id=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->statistics($_GET['id']);
             }
-        } else if (preg_match('#^/api/rest/product/details/dropdown/?(?:\?.*)?$#', $path)) {
+        } else if (preg_match('#^/api/rest/admin/product/details/dropdown/?(?:\?.*)?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getAllProductDetailDropdown();
             }
-        } else if (preg_match('#^/api/rest/product/details/?(?:\?.*)?$#', $path)) {
+        } else if (preg_match('#^/api/rest/admin/product/details/?(?:\?.*)?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getAllProductDetails();
             } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -207,13 +212,13 @@ class APIRouter extends RestController
     function products(string $path): void
     {
         $this->productRestController = $this->container->get(ProductRestController::class);
-        if (preg_match('#^/api/rest/products\?id=\d+$#', $path)) {
+        if (preg_match('#^/api/rest/admin/products\?id=\d+$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getProductsById($_GET['id']);
             }  else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $this->productRestController->deleteProduct($_GET['id']);
             }
-        }else if (preg_match('#^/api/rest/products/?(?:\?.*)?$#', $path)) {
+        }else if (preg_match('#^/api/rest/admin/products/?(?:\?.*)?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->productRestController->getAllProducts();
             } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
@@ -237,6 +242,26 @@ class APIRouter extends RestController
 
             ];
                 $this->productRestController->saveProduct();
+            }
+        }
+    }
+
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws ApplicationException
+     */
+    function customerProductDetail(string $path): void
+    {
+        $this->customerProductRestController = $this->container->get(CustomerProductRestController::class);
+        if (preg_match('#^/api/rest/product/details\?id=\d+$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $this->customerProductRestController->getProductDetail($_GET['id']);
+            }
+        }
+        else if (preg_match('#^/api/rest/product/details/?(?:\?.*)?$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $this->customerProductRestController->getAllProductDetails();
             }
         }
     }

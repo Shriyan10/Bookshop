@@ -6,6 +6,8 @@ interface ProductRepository {
 
     public function getAllProductDetails(int $start, int $limit, string $search): object;
 
+    public function getAllProductDetailsQuantityByStatus(int $start, int $limit, string $search): object;
+
     public function getProductDetailById(int $productDetailId): object|null;
 
     public function updateProductDetail(int $productDetailId, string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool;
@@ -18,7 +20,7 @@ interface ProductRepository {
 
     public function productDetailStatistics(int $productDetailId): object|null;
 
-    public function getAllProducts(int $start, int $limit, int $productDetailId, int $productId): object;
+    public function getAllProducts(int $start, int $limit, int $productDetailId, int $productId, string $createdDate): object;
 
     public function getProductInventoryById(int $id);
 
@@ -31,6 +33,8 @@ interface ProductRepository {
     public function deleteProduct(int $id): bool;
 
     public function productExists(int $productId): bool;
+
+    public function getProductDetail(int $id);
 }
 
 

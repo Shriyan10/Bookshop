@@ -1,6 +1,8 @@
 <?php
 
 use App\db\Database;
+use App\repository\CustomerProductRepository;
+use App\repository\impl\CustomerProductRepositoryMySQLImpl;
 use App\repository\impl\ProductRepositoryMySQLImpl;
 use App\repository\impl\RoleRepositoryMySQLImpl;
 use App\repository\impl\UserRepositoryMySQLImpl;
@@ -41,6 +43,7 @@ if (str_contains($uri, '/api/rest')) {
         RoleRepository::class => DI\autowire(RoleRepositoryMySQLImpl::class),
         UserRepository::class => DI\autowire(UserRepositoryMySQLImpl::class),
         ProductRepository::class => DI\autowire(ProductRepositoryMySQLImpl::class),
+        CustomerProductRepository::class => DI\autowire(CustomerProductRepositoryMySQLImpl::class),
         ObjectMapper::class => DI\autowire(ObjectMapperJMSImpl::class),
     ]);
 
