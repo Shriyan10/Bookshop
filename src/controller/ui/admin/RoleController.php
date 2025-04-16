@@ -1,8 +1,8 @@
 <?php
 
-namespace App\controller\admin;
+namespace App\controller\ui\admin;
 
-use App\controller\BaseController;
+use App\controller\ui\UIController;
 use App\db\Database;
 use App\mapper\impl\RoleMapper;
 use App\model\Role;
@@ -11,7 +11,7 @@ use Exception;
 use Latte\Engine;
 
 
-class RoleController extends BaseController
+class RoleController extends UIController
 {
     private RoleService $roleService;
 

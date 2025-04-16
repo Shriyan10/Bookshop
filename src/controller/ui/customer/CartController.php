@@ -1,15 +1,15 @@
 <?php
 
-namespace App\controller\customer;
+namespace App\controller\ui\customer;
 
-use App\controller\BaseController;
+use App\controller\ui\UIController;
 use App\db\Database;
 use App\dto\CartDetail;
 use App\mapper\impl\ProductDetailMapper;
 use Exception;
 use Latte\Engine;
 
-class CartController extends BaseController
+class CartController extends UIController
 {
     public function __construct(Engine $latte, Database $database)
     {
@@ -77,7 +77,7 @@ class CartController extends BaseController
                 $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=$productDetailId", new ProductDetailMapper());
                 $title = $bookDetail->title;
                 $cartDetail->setTitle($title);
-                $totalAmount = $bookDetail->price*$quantity;
+                $totalAmount = $bookDetail->price * $quantity;
                 $grandTotal += $totalAmount;
                 $cartDetail->setTotalAmount($totalAmount);
                 array_push($cartDetails, $cartDetail);

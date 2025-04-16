@@ -45,7 +45,7 @@ class UserRepositoryMySQLImpl extends BaseRepository implements UserRepository
                 $userDTO->firstName,
                 $userDTO->lastName,
                 $userDTO->email,
-                password_hash(trim($userDTO->password), PASSWORD_BCRYPT),
+                $userDTO->password,
                 $userDTO->roleId,
                 $userDTO->address,
                 $userDTO->contactNo

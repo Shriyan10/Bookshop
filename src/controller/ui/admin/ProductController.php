@@ -1,9 +1,9 @@
 <?php
 
-namespace App\controller\admin;
+namespace App\controller\ui\admin;
 
 
-use App\controller\BaseController;
+use App\controller\ui\UIController;
 use App\db\Database;
 use App\mapper\impl\ProductDetailMapper;
 use App\mapper\impl\ProductDetailStatsMapper;
@@ -13,7 +13,7 @@ use App\model\ProductDetail;
 use Exception;
 use Latte\Engine;
 
-class ProductController extends BaseController
+class ProductController extends UIController
 {
     public function __construct(Engine $latte, Database $database)
     {

@@ -2,7 +2,7 @@
 
 namespace App\controller\api\admin;
 
-use App\controller\RestController;
+use App\controller\api\RestController;
 use App\exception\ApplicationException;
 use App\request\CreateProductDetailRequest;
 use App\request\CreateProductRequest;
@@ -11,16 +11,19 @@ use App\request\UpdateProductRequest;
 use App\response\ServerResponse;
 use App\service\ProductService;
 use App\util\ObjectMapper;
+use App\validator\Validator;
 
 
 class ProductRestController extends RestController
 {
     private ProductService $productService;
+    private Validator $validator;
 
     public function __construct(ProductService $productService, ObjectMapper $objectMapper)
     {
         parent::__construct($objectMapper);
         $this->productService = $productService;
+        $this->validator = new Validator();
     }
 
     /**
@@ -29,12 +32,17 @@ class ProductRestController extends RestController
     function getAllProductDetails(): void
     {
         $data = $this->productService->getAllProductDetails(
-            $this->getQueryParam("start", 1),
-            $this->getQueryParam("limit", 8),
+            $this->getQueryParamValidated("start", 1, $this->numberValidator("Start")),
+            $this->getQueryParamValidated("limit", 8, $this->numberValidator("Limit")),
             $this->getQueryParam("search", "")
         );
         $serverResponse = new ServerResponse($data);
         $this->response(200, $serverResponse);
+    }
+
+    function numberValidator(string $type): \Closure
+    {
+        return $this->validator->numberValidator($type);
     }
 
     /**

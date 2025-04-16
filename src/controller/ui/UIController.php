@@ -1,13 +1,13 @@
 <?php
 
-namespace App\controller;
+namespace App\controller\ui;
 
 
 use App\db\Database;
 use Latte\Engine;
 
 
-class BaseController
+class UIController
 {
 
     protected Engine $latte;

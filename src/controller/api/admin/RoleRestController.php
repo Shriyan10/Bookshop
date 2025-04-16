@@ -2,7 +2,7 @@
 
 namespace App\controller\api\admin;
 
-use App\controller\RestController;
+use App\controller\api\RestController;
 use App\exception\ApplicationException;
 use App\request\CreateRoleRequest;
 use App\request\UpdateRoleRequest;

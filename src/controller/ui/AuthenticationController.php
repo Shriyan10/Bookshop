@@ -1,6 +1,6 @@
 <?php
 
-namespace App\controller;
+namespace App\controller\ui;
 
 use App\db\Database;
 use App\mapper\impl\RoleMapper;
@@ -9,7 +9,7 @@ use App\model\User;
 use Exception;
 use Latte\Engine;
 
-class AuthenticationController extends BaseController
+class AuthenticationController extends UIController
 {
     public function __construct(Engine $latte, Database $database)
     {

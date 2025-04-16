@@ -3,19 +3,19 @@
 namespace App\route;
 
 
-use App\controller\admin\ProductController as AdminProductController;
-use App\controller\admin\RoleController;
-use App\controller\admin\UserController;
-use App\controller\AuthenticationController;
-use App\controller\BaseController;
-use App\controller\customer\CartController;
-use App\controller\customer\CheckoutController;
-use App\controller\customer\PaymentController;
-use App\controller\customer\ProductController as CustomerProductController;
+use App\controller\ui\admin\ProductController as AdminProductController;
+use App\controller\ui\admin\RoleController;
+use App\controller\ui\admin\UserController;
+use App\controller\ui\AuthenticationController;
+use App\controller\ui\UIController;
+use App\controller\ui\customer\CartController;
+use App\controller\ui\customer\CheckoutController;
+use App\controller\ui\customer\PaymentController;
+use App\controller\ui\customer\ProductController as CustomerProductController;
 use App\db\Database;
 use Latte\Engine;
 
-class Router extends BaseController
+class Router extends UIController
 {
     public function __construct(Engine $latte, Database $database)
     {

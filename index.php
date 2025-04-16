@@ -3,9 +3,11 @@
 use App\db\Database;
 use App\repository\CustomerProductRepository;
 use App\repository\impl\CustomerProductRepositoryMySQLImpl;
+use App\repository\impl\PaymentRepositoryMySQLImpl;
 use App\repository\impl\ProductRepositoryMySQLImpl;
 use App\repository\impl\RoleRepositoryMySQLImpl;
 use App\repository\impl\UserRepositoryMySQLImpl;
+use App\repository\PaymentRepository;
 use App\repository\ProductRepository;
 use App\repository\RoleRepository;
 use App\repository\UserRepository;
@@ -21,6 +23,8 @@ require 'vendor/autoload.php';
 
 $latte = new Engine();
 $database = new Database();
+
+error_log(password_hash("password1",PASSWORD_BCRYPT));
 
 $uri = $_SERVER['REQUEST_URI'];
 // Check if the .env file exists before loading
@@ -43,7 +47,7 @@ if (str_contains($uri, '/api/rest')) {
         RoleRepository::class => DI\autowire(RoleRepositoryMySQLImpl::class),
         UserRepository::class => DI\autowire(UserRepositoryMySQLImpl::class),
         ProductRepository::class => DI\autowire(ProductRepositoryMySQLImpl::class),
-        CustomerProductRepository::class => DI\autowire(CustomerProductRepositoryMySQLImpl::class),
+        PaymentRepository::class => DI\autowire(PaymentRepositoryMySQLImpl::class),
         ObjectMapper::class => DI\autowire(ObjectMapperJMSImpl::class),
     ]);
 

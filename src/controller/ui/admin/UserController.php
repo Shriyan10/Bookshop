@@ -1,8 +1,8 @@
 <?php
 
-namespace App\controller\admin;
+namespace App\controller\ui\admin;
 
-use App\controller\BaseController;
+use App\controller\ui\UIController;
 use App\db\Database;
 use App\mapper\impl\RoleMapper;
 use App\mapper\impl\UserMapper;
@@ -11,7 +11,7 @@ use Exception;
 use Latte\Engine;
 
 
-class UserController extends BaseController
+class UserController extends UIController
 {
 
     public function __construct(Engine $latte, Database $database)
@@ -35,7 +35,7 @@ class UserController extends BaseController
             $response = $this->database->queryAllPaginated($query, $countQuery, $start, $limit, new UserMapper());
 
             $params = [
-                'users' => $response->data,
+                'users' => $response->items,
                 'start' => $start,
                 'limit' => $limit,
                 'total' => $response->total,

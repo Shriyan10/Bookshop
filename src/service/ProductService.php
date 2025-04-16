@@ -73,7 +73,7 @@ class ProductService
                 throw new ApplicationException("Product Detail not found", 404);
             }
 
-            return $this->productRepository->updateProductDetail($request->productDetailId, $request->title, $request->author, $request->description,  $request->distributor, $request->price, $request->imageUrl);
+            return $this->productRepository->updateProductDetail($request->productDetailId, $request->title, $request->author, $request->description, $request->distributor, $request->price, $request->imageUrl);
 
         } catch (Exception $e) {
             throw new ApplicationException($e);
@@ -86,7 +86,12 @@ class ProductService
     public function saveProductDetail(CreateProductDetailRequest $request): bool
     {
         try {
-            return $this->productRepository->saveProductDetail($request->title, $request->author, $request->description, $request->distributor, $request->price, $request->imageUrl);
+            return $this->productRepository->saveProductDetail(
+                $request->title,
+                $request->description,
+                $request->price,
+                $request->imageUrl
+            );
         } catch (Exception $e) {
             throw new ApplicationException($e);
         }
@@ -165,7 +170,7 @@ class ProductService
     /**
      * @throws ApplicationException
      */
-    public function saveProduct(CreateProductRequest $request):void
+    public function saveProduct(CreateProductRequest $request): void
     {
         try {
             $task = function ($connection) use ($request) {

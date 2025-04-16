@@ -7,12 +7,13 @@ use App\controller\api\admin\ProductRestController;
 use App\controller\api\admin\RoleRestController;
 use App\controller\api\admin\UserRestController;
 use App\controller\api\AuthenticationRestController;
+use App\controller\api\customer\CartRestController;
 use App\controller\api\customer\CustomerProductRestController;
-use App\controller\RestController;
+use App\controller\api\customer\PaymentRestController;
+use App\controller\api\RestController;
 use App\exception\ApplicationException;
 use App\exception\BaseException;
 use App\response\ServerResponse;
-use App\validator\AttributeValidatorBuilder;
 use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -27,7 +28,9 @@ class APIRouter extends RestController
     private UserRestController $userRestController;
     private ProductRestController $productRestController;
     private CustomerProductRestController $customerProductRestController;
+    private CartRestController $cartRestController;
     private AuthenticationRestController $authenticationRestController;
+
 
 
     public function __construct(Container $container)
@@ -74,8 +77,18 @@ class APIRouter extends RestController
                     $this->products($path);
                 } else if (str_contains($path, '/' . self::API_REST . '/product/details')) {
                     $this->customerProductDetail($path);
+                } elseif (str_contains($path, '/' . self::API_REST . '/cart')) {
+                    $cartRestController = $this->container->get(CartRestController::class);
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        $cartRestController->add([$_POST['productDetailId'] => $_POST['quantity']]);
+                    }
+                } elseif (str_contains($path, '/' . self::API_REST . '/payments')) {
+                    $paymentRestController = $this->container->get(PaymentRestController::class);
+                    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                        $paymentRestController->viewPayments();
+                    }
                 }
-            }else{
+                }else{
                 self::response(401, new ServerResponse("Unauthorized"));
                 return;
             }
@@ -224,23 +237,6 @@ class APIRouter extends RestController
             } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                 $this->productRestController->updateProduct();
             } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-
-            $validators = [
-
-            AttributeValidatorBuilder::create()
-                    ->withName('productDetailId')
-                    ->withType('number')
-                    ->addValidator(fn($value) => strlen($value) >= 8)
-                    ->build(),
-
-
-                AttributeValidatorBuilder::create()
-                    ->withName('quantity')
-                    ->withType('number')
-                    ->build(),
-
-            ];
                 $this->productRestController->saveProduct();
             }
         }

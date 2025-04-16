@@ -12,17 +12,9 @@ class CreateProductDetailRequest{
     #[Type('string')]
     public string $title;
 
-    #[SerializedName('author')]
-    #[Type('string')]
-    public string $author;
-
     #[SerializedName('description')]
     #[Type('string')]
     public string $description;
-
-    #[SerializedName('distributor')]
-    #[Type('string')]
-    public string $distributor;
 
     #[SerializedName('price')]
     #[Type('int')]
@@ -32,16 +24,6 @@ class CreateProductDetailRequest{
     #[Type('string')]
     public string $imageUrl;
 
-    public function getAuthor(): string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): void
-    {
-        $this->author = $author;
-    }
-
     public function getDescription(): string
     {
         return $this->description;
@@ -50,16 +32,6 @@ class CreateProductDetailRequest{
     public function setDescription(string $description): void
     {
         $this->description = $description;
-    }
-
-    public function getDistributor(): string
-    {
-        return $this->distributor;
-    }
-
-    public function setDistributor(string $distributor): void
-    {
-        $this->distributor = $distributor;
     }
 
     public function getImageUrl(): string
@@ -91,7 +63,5 @@ class CreateProductDetailRequest{
     {
         $this->title = $title;
     }
-
-
 
 }

@@ -1,16 +1,15 @@
 <?php
 
-namespace App\controller\customer;
+namespace App\controller\ui\customer;
 
 
-use App\controller\BaseController;
+use App\controller\ui\UIController;
 use App\db\Database;
 use App\mapper\impl\PaymentMapper;
-
 use Exception;
 use Latte\Engine;
 
-class PaymentController extends BaseController
+class PaymentController extends UIController
 {
     public function __construct(Engine $latte, Database $database)
     {

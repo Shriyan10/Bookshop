@@ -71,6 +71,7 @@ class AuthenticationService
 
         try {
             $userDTO->setRoleId($this->roleRepository->getRoleByName(self::CUSTOMER_ROLE)->getId());
+            $userDTO->setPassword(password_hash(trim($userDTO->getPassword()), PASSWORD_BCRYPT));
             return $this->userRepository->saveUser($userDTO);
         } catch (Exception $e) {
             throw new ApplicationException($e);

@@ -2,7 +2,7 @@
 
 namespace App\controller\api\customer;
 
-use App\controller\RestController;
+use App\controller\api\RestController;
 use App\exception\ApplicationException;
 use App\response\ServerResponse;
 use App\service\CustomerProductService;

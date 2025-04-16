@@ -1,9 +1,9 @@
 <?php
 
-namespace App\controller\customer;
+namespace App\controller\ui\customer;
 
-use App\controller\AuthenticationController;
-use App\controller\BaseController;
+use App\controller\ui\AuthenticationController;
+use App\controller\ui\UIController;
 use App\db\Database;
 use App\dto\CartDetail;
 use App\mapper\impl\ProductDetailMapper;
@@ -11,7 +11,7 @@ use App\mapper\impl\ProductMapper;
 use Exception;
 use Latte\Engine;
 
-class CheckoutController extends BaseController
+class CheckoutController extends UIController
 {
     public function __construct(Engine $latte, Database $database)
     {

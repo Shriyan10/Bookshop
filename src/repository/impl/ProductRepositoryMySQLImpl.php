@@ -59,16 +59,14 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         );
     }
 
-    public function saveProductDetail(string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool
+    public function saveProductDetail(string $title, string $description, int $price, string $imageUrl): bool
     {
         return $this->database->query(
-            "INSERT INTO product_details(title, image_url, author, description, distributor, price) VALUES('%s','%s','%s','%s', '%s', %d)",
+            "INSERT INTO product_details(title, image_url, description, price) VALUES('%s','%s','%s', %d)",
             [
                 $title,
                 $imageUrl,
-                $author,
                 $description,
-                $distributor,
                 $price,
             ],
         );
@@ -210,6 +208,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
     public function getAllProductDetailsQuantityByStatus(int $start, int $limit, string $search): object
     {
         if (strlen($search) > 0) {
+
             return $this->database->queryAllPaginated(
                 "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.title LIKE '%$search%' GROUP BY pd.id",
                 "SELECT count(*) as count FROM (SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.title = '$search'GROUP BY pd.id) t",
@@ -218,6 +217,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
                 new ProductDetailQuantityMapper()
             );
         } else {
+
             return $this->database->queryAllPaginated(
                 "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' GROUP BY pd.id",
                 "SELECT count(*) as count FROM (SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' GROUP BY pd.id) t",
@@ -228,11 +228,12 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         }
     }
 
-    public function getProductDetail(int $id): object
+    public function getProductDetail(int $id): object|null
     {
-        $query = "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.id = $id GROUP BY pd.id";
-        return $this->database->queryOne($query, new ProductDetailQuantityMapper());
-
+        return $this->database->queryOne(
+            "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.id = $id GROUP BY pd.id",
+            new ProductDetailQuantityMapper()
+        );
     }
 }
 

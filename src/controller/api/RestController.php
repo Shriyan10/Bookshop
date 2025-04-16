@@ -1,6 +1,6 @@
 <?php
 
-namespace App\controller;
+namespace App\controller\api;
 
 
 use App\exception\ApplicationException;
@@ -99,6 +99,17 @@ class RestController
     {
 
         if (isset($_GET[$key])) {
+            return $_GET[$key];
+        }
+
+        return $default;
+    }
+
+    function getQueryParamValidated(string $key, $default, \Closure $callback)
+    {
+
+        if (isset($_GET[$key])) {
+            $callback($_GET[$key]);
             return $_GET[$key];
         }
 

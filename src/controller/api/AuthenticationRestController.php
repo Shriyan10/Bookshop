@@ -2,7 +2,6 @@
 
 namespace App\controller\api;
 
-use App\controller\RestController;
 use App\exception\ApplicationException;
 use App\request\CreateUserRequest;
 use App\response\ServerResponse;

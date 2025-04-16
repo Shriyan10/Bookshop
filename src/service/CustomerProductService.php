@@ -31,7 +31,7 @@ class CustomerProductService
     /**
      * @throws ApplicationException
      */
-    public function getProductDetail(int $id): object
+    public function getProductDetail(int $id): object|null
     {
         try {
             $productDetail = $this->productRepository->getProductDetail($id);

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\controller\customer;
+namespace App\controller\ui\customer;
 
-use App\controller\BaseController;
+use App\controller\ui\UIController;
 use App\db\Database;
 use App\mapper\impl\ProductDetailMapper;
 use App\mapper\impl\ProductDetailQuantityMapper;
 use Exception;
 use Latte\Engine;
 
-class ProductController extends BaseController
+class ProductController extends UIController
 {
 
     public function __construct(Engine $latte, Database $database)
