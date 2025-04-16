@@ -17,23 +17,18 @@
                     <td><input type="text" id="file" name="imageUrl" value="{$bookDetail->imageUrl}"></td>
                 </tr>
 
-{*                <tr>*}
-{*                    <td><label for="author">Author</label></td>*}
-{*                    <td><input type="text" id="author" name="author" value="{$bookDetail->author}"></td>*}
-{*                </tr>*}
-
                 <tr>
                     <td><label for="publisher">Description</label></td>
                     <td>
                         <!-- Quill Editor -->
                         <div id="editor-container">{$bookDetail->description | noescape}</div>
-                        <input type="hidden" id="publisher" name="publisher">
+                        <input type="hidden" id="publisher" name="description">
                     </td>
                 </tr>
 
                 <tr>
                     <td><label for="isbn">Distributor</label></td>
-                    <td><input type="text" id="isbn" name="isbn" value="{$bookDetail->distributor}"></td>
+                    <td><input type="text" id="isbn" name="distributor" value="{$bookDetail->distributor}"></td>
                 </tr>
 
                 <tr>

@@ -1069,7 +1069,7 @@ iframe {
 /*//useradd*/
 /* Styling for the main container */
 .dibba {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
     background-color: #f9f9f9;
@@ -1982,6 +1982,36 @@ addrole-name input[type="text"] {
     outline: none;
 }
 
+/* Edit Button - Yellow */
+.btn-edit {
+    background-color: #ffc107;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+}
+
+/* Delete Button - Red */
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
 .btn {
     background-color: #e27b00;
     color: white;
@@ -2016,12 +2046,12 @@ addrole-name input[type="text"] {
 }
 
 .list_prodtable th {
-    background-color: #f8f8f8;
+    background-color: #007BFF;
+    color: white;
 }
 
 .list_prodtable td a {
     text-decoration: none;
-    color: #007bff;
     margin-right: 10px;
 }
 
