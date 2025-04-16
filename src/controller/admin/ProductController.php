@@ -75,7 +75,7 @@ class ProductController extends BaseController
             $productDetail = new ProductDetail(
                 $productId,
                 $_POST['title'] ?? null,
-                $_POST['author'] ?? null,
+                null,
                 $_POST['publisher'] ?? null,
                 $_POST['isbn'] ?? null,
                 $_POST['price'] ?? null,
@@ -83,11 +83,10 @@ class ProductController extends BaseController
             );
 
             $result = $this->database->query(
-                "UPDATE product_details SET title='%s', image_url='%s', author='%s', description='%s', distributor='%s', price=%d where id=%d",
+                "UPDATE product_details SET title='%s', image_url='%s', description='%s', distributor='%s', price=%d where id=%d",
                 [
                     $productDetail->getTitle(),
                     $productDetail->getImageUrl(),
-                    $productDetail->getAuthor(),
                     $productDetail->getDescription(),
                     $productDetail->getDistributor(),
                     $productDetail->getPrice(),

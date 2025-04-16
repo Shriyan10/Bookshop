@@ -18,13 +18,14 @@ body {
 
 }
 
-a {
-    text-decoration: none;
+.navbar-logo .logo {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
 }
 
-body.login {
-    display: flex;
-    align-items: center;
+a {
+    text-decoration: none;
 }
 
 header {
@@ -66,11 +67,6 @@ header {
     display: flex;
     align-items: center;
     text-decoration: none;
-}
-
-.navbar-logo .logo {
-    height: 40px;
-    margin-right: 10px;
 }
 
 .brand-name {
@@ -124,35 +120,78 @@ header {
     background-color: #dfd0c4;
 }
 
-.site-footer {
-    background: #333;
+.footer {
+    background-image: url('/assets/footer-pic.png');
+    background-size: 100% 100%; /* This ensures the image covers the full width and height */
+    background-repeat: no-repeat;
     color: white;
-    padding: 20px;
     text-align: center;
+    padding-top: 160px; /* Increased padding at top to accommodate larger wave */
+    padding-bottom: 60px; /* Increased bottom padding as well */
+    position: relative;
+    margin-top: 20px;
+    min-height: 280px; /* Added minimum height to make the footer taller */
 }
 
-.site-footer a {
-    color: #ffcc00;
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer a {
+    color: white;
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 5px;
+    font-weight: bold;
 }
 
-.site-footer a:hover {
+.footer a:hover {
     text-decoration: underline;
 }
 
 .contact-info p, .socials p {
     margin: 5px 0;
 }
+/* Add these styles to your existing CSS */
 
+body.auth.login {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5; /* Fallback background color */
+    padding: 2rem 0;
+}
+
+/* Background image with reduced opacity */
+body.auth.login::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/hero-background.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.4; /* Adjust opacity as needed */
+    z-index: -1;
+}
+
+/* Your existing styles with slight modifications */
 .loginbox {
     margin: auto;
     display: flex;
-    background: white;
+    background: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     width: min(90%, 1000px);
+    position: relative; /* Ensures box appears above background */
+    z-index: 1;
 }
 
 .loginimg {
@@ -220,10 +259,11 @@ header {
 .loginform-section form {
     flex-direction: column;
 }
+
 .loginform-section button {
     padding: 0.8rem;
     width: 100%;
-    background: #6e4c3c;
+    background: #FDB515;
     color: white;
     font-size: 1rem;
     font-weight: bold;
@@ -234,7 +274,41 @@ header {
 }
 
 .loginform-section button:hover {
-    background: #55382b;
+    background: #93742e;
+}
+
+.error-message {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.loginregister {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: #555;
+}
+
+.loginregister a {
+    color: #FDB515;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.loginregister a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .loginbox {
+        flex-direction: column;
+        width: min(95%, 500px);
+    }
+
+    .loginimg {
+        max-height: 200px;
+    }
 }
 
 .loginregister {
@@ -242,55 +316,146 @@ header {
     font-size: 0.9rem;
     text-align: center;
 }
-
-.loginregister a {
-    color: #007bff;
-    text-decoration: none;
+body.auth.regis {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    padding: 2rem 0;
 }
 
-.loginregister a:hover {
-    text-decoration: underline;
+/* Background image with reduced opacssity */
+body.auth.regis::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/regis-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.4;
+    z-index: -1;
 }
 
-/*//about*/
-    .about {
-        padding: 20px;
-        background-color: white;
-        text-align: center;
-    }
+/*about*/
+.egg-page-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
 
-    .about h1,
-    .about h2 {
-        color: #2a2a72;
-        margin: 20px 0;
-        font-size: 2rem;
-        font-weight: bold;
-    }
+.egg-page-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-    .about p {
-        margin: 20px 0;
-        font-size: 1rem;
-        line-height: 1.8;
-    }
+.egg-page-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
 
-    .about img {
-        max-width: 100%;
-        height: auto;
-        margin: 20px 0;
-        border-radius: 10px;
-    }
+.egg-page-intro {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    text-align: center;
+}
 
-    /* Individual About Sections */
-    .about-content {
-        margin-bottom: 40px;
-        border-bottom: 2px solid #ddd;
-        padding-bottom: 20px;
-    }
+.egg-process-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align: center;
+}
 
-    .about-section {
-        margin-bottom: 40px;
-    }
+.egg-process-container {
+    background-color: #FF7F27;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
 
+.egg-process-step {
+    background-color: #FFC184;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.egg-process-step:last-child {
+    margin-bottom: 0;
+}
+
+.egg-step-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.egg-step-icon img {
+    max-width: 60px;
+    max-height: 60px;
+}
+
+.egg-step-content {
+    flex: 1;
+}
+
+.egg-step-title {
+    font-weight: bold;
+    color: #8B4513;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.egg-step-description {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.egg-fun-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 30px 0 20px;
+    text-align: center;
+}
+
+.egg-birds-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.egg-bird-img {
+    width: 100%;
+    border-radius: 8px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+
+.egg-text-highlight {
+    color: #FF6600;
+    font-weight: bold;
+}
+
+.egg-hindi-text {
+    font-style: italic;
+}
     /*//contactus*/
 .contact-container {
     display: flex;
@@ -307,7 +472,7 @@ header {
     padding: 20px;
 }
 
-.map-container {
+.map-container {g1
     flex: 1;
     min-width: 300px;
 }
@@ -337,7 +502,7 @@ iframe {
 /*//listbook*/
 /* Hero Section */
 .hero {
-    background-image: url('/assets/hero-background.png');
+    background-image: url('/assets/hero-background.jpg');
     background-size: cover;
     background-position: center;
     text-align: center;
@@ -1517,7 +1682,7 @@ adduserbtn:hover {
 .regisform button {
     padding: 0.8rem;
     width: 100%;
-    background: #6e4c3c;
+    background: #FDB515;
     color: white;
     font-size: 1rem;
     font-weight: bold;
@@ -1527,8 +1692,12 @@ adduserbtn:hover {
     transition: background 0.3s ease;
 }
 
+img{
+    max-width: 100%;
+}
+
 .regisform button:hover {
-    background: #55382b;
+    background: #6a5525;
 }
 .regisform form {
     flex-direction: column;
@@ -2063,3 +2232,55 @@ body {
           padding: 20px;
       }
   }
+.paymentcon {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+.paymentcon h1 {
+    margin-bottom: 20px;
+}
+
+/* Table styling */
+.paymentcos_form {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.paymentcos_form thead tr {
+    background-color: #FF9800;
+    color: white;
+}
+
+.paymentcos_form th,
+.paymentcos_form td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #f1f1f1;
+}
+
+.paymentcos_form tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.paymentcos_form tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* For the grand total row styling */
+.paymentcos_form tfoot tr {
+    background-color: #fff2e6;
+}
+
+.paymentcos_form tfoot td:first-child {
+    text-align: right;
+    font-weight: bold;
+    color: #FF9800;
+}
+
+.paymentcos_form tfoot td:last-child {
+    font-weight: bold;
+    color: #FF9800;
+}
