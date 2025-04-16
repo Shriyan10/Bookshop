@@ -1,4 +1,3 @@
-/* General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -122,15 +121,15 @@ header {
 
 .footer {
     background-image: url('/assets/footer-pic.png');
-    background-size: 100% 100%; /* This ensures the image covers the full width and height */
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     color: white;
     text-align: center;
-    padding-top: 160px; /* Increased padding at top to accommodate larger wave */
-    padding-bottom: 60px; /* Increased bottom padding as well */
+    padding-top: 160px;
+    padding-bottom: 60px;
     position: relative;
     margin-top: 20px;
-    min-height: 280px; /* Added minimum height to make the footer taller */
+    min-height: 280px;
 }
 
 .footer-content {
@@ -560,80 +559,140 @@ iframe {
     font-weight: bold;
 }
 
-/* Main Content */
 .detail-batta {
     max-width: 1200px;
-    margin: 20px auto;
+    margin: 40px auto;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centering the content */
-    text-align: center;
 }
 
-/* Product Section */
 .product {
     display: flex;
-    flex-direction: column; /* Stack elements on small screens */
-    align-items: center;
-    gap: 30px;
-    width: 100%;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
 }
 
-/* Product Image */
 .product-image img {
-    max-width: 350px;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #eee;
 }
 
-/* Product Details */
 .product-details {
-    max-width: 600px;
-    text-align: center;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .product-details h1 {
     font-size: 2rem;
+    margin-bottom: 0;
+}
+
+.price-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
     margin-bottom: 10px;
 }
 
+.old-price {
+    text-decoration: line-through;
+    color: gray;
+}
+
 .price {
-    font-size: 1.8rem;
-    color: #e27b00;
     font-weight: bold;
-    margin-bottom: 20px;
+    color: #28a745;
 }
 
-.buy {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #e27b00;
+.discount {
+    background-color: #28a745;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    text-align: center;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9rem;
 }
 
-.details {
-    margin-top: 20px;
+.shipping {
+    font-size: 0.9rem;
+    color: #888;
+}
+.size-select label,
+.quantitybtn label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.size-options button {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    margin-right: 10px;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.size-options button:hover {
+    background-color: #f3f3f3;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-control button {
+    padding: 6px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.quantity-control input {
+    width: 60px;
+    text-align: center;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.add-to-cart {
+    background-color: #111;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.add-to-cart:hover {
+    background-color: #333;
 }
 
 .details h3 {
     font-size: 1.2rem;
-    color: #333;
+    margin-top: 20px;
+    color: #111;
 }
 
-.details p {
-    font-size: 1rem;
-    line-height: 1.6;
+.materials {
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #444;
     margin-top: 10px;
-    color: #555;
 }
-
 /*//homebatta*/
 /* General styling for product section */
 .featured-saman {
@@ -1553,7 +1612,6 @@ adduserbtn:hover {
 }
 
 /*//addprod*/
-/* Main wrapper */
 .addprodadd {
     max-width: 800px;
     margin: 30px auto;
@@ -2059,7 +2117,6 @@ addrole-name input[type="text"] {
     text-decoration: underline;
 }
 /*//addprodinv*/
-/* General styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
