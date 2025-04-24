@@ -80,7 +80,9 @@ class APIRouter extends RestController
                 } elseif (str_contains($path, '/' . self::API_REST . '/cart')) {
                     $cartRestController = $this->container->get(CartRestController::class);
                     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                        $cartRestController->add([$_POST['productDetailId'] => $_POST['quantity']]);
+                        $cartRestController->updateCart();
+                    }else if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                        $cartRestController->getCart();
                     }
                 } elseif (str_contains($path, '/' . self::API_REST . '/payments')) {
                     $paymentRestController = $this->container->get(PaymentRestController::class);
