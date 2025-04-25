@@ -69,12 +69,64 @@ class CheckoutController extends BaseController
                 $_SESSION['cart'] = [];
             }
 
-            $this->redirect("payments");
+            $this->callKhalti();
 
         } catch (Exception $e) {
             error_log($e->getMessage());
             $this->redirect("500");
         }
+    }
+
+
+    public function callKhalti(): void
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://dev.khalti.com/api/v2/epayment/initiate/',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+    "return_url": "http://127.0.0.1:9900/",
+    "website_url": "http://127.0.0.1:9900/",
+    "amount": 1300,
+    "purchase_order_id": "test12",
+    "purchase_order_name": "test",
+    "customer_info": {
+        "name": "Khalti Bahadur",
+        "email": "example@gmail.com",
+        "phone": "9800000123"
+    },
+    "product_details": [
+        {
+            "identity": "12313",
+            "name": "Khalti logo",
+            "total_price": 1300,
+            "quantity": 1,
+            "unit_price": 1300
+        }
+    ],
+    "merchant_username": "merchant_name",
+    "merchant_extra": "merchant_extra"
+}',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Key 859abd9677844443beea1cde201adaa7',
+                'Content-Type: application/json',
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        $responseArray = json_decode($response,true);
+
+        header("Location: ".$responseArray["payment_url"]);
+
+        curl_close($curl);
     }
 
     public function updateProductInventory(array $products, float|int $grandTotal): void

@@ -59,14 +59,21 @@ class CartController extends BaseController
             $grandTotal = 0;
 
             if (!isset($_SESSION['cart'])) {
+
+
                 $params = [
                     "cartDetails" => $cartDetails,
-                    "grandTotal" => $grandTotal
+                    "grandTotal" => $grandTotal,
                 ];
+
+
+
+
 
                 $this->render('product/customer/cart_detail', $params);
                 return;
             }
+
 
             $cart = $_SESSION['cart'];
             foreach ($cart as $productDetailId => $quantity) {
