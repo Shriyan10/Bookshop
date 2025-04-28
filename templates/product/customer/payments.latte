@@ -5,14 +5,14 @@
     <table class="paymentcos_form">
         <thead>
         <tr>
-            <th>Id</th>
+            <th>Transaction Id</th>
             <th>Total Cost</th>
         </tr>
         </thead>
         <tbody>
         {foreach $payments as $payment}
             <tr>
-                <td>{$payment->id}</td>
+                <td>TXN-{$payment->id}</td>
                 <td>Rs. {$payment->totalCost}</td>
             </tr>
         {/foreach}

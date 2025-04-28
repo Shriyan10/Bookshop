@@ -6,6 +6,7 @@ class CartDetail
     public int $id;
     public string $title;
     public int $quantity;
+    public int $totalQuantity;
     public int $totalAmount;
 
     public function getId(): int

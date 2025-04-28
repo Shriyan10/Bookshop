@@ -2354,3 +2354,38 @@ body {
     font-weight: bold;
     color: #FF9800;
 }
+.payment-success-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 400px;
+}
+.payment-success-card h1 {
+    color: #4CAF50;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.payment-success-card p {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+.payment-success-card .icon {
+    font-size: 60px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+.payment-success-card a {
+    text-decoration: none;
+    color: white;
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+.payment-success-card a:hover {
+    background-color: #45a049;
+}

@@ -21,22 +21,6 @@
         <button class="glide__arrow glide__arrow--right" data-glide-dir=">">›</button>
     </div>
 </div>
-<!-- Hero Section -->
-{*<section class="hero">*}
-{*    <div class="hero-content">*}
-{*        <h1>Crack Into Something Special.</h1>*}
-{*        <p>*}
-{*            Farm-fresh eggs to nourish your day. Taste the difference. Shop now."*}
-{*        </p>*}
-{*        <div class="search-bar">*}
-{*            <form method="post">*}
-{*            <input type="text" name="search" placeholder="Search for products">*}
-{*                <button>Search</button>*}
-{*            </form>*}
-{*        </div>*}
-{*    </div>*}
-{*</section>*}
-<!-- Products Section -->
 <section class="featured-saman" >
     <h2 data-lang-en="Featured saman" data-lang-np="विशेष उत्पादनहरू">Products</h2>
     <div class="saman-grid">
@@ -71,32 +55,6 @@
     </div>
 </section>
 
-{*<div class="container-fluid">*}
-{*<form method="post">*}
-{*    <input type="text" name="search">*}
-{*    <button>Search</button>*}
-{*</form>*}
-{*<div class="row">*}
-{*{foreach $productDetails as $productDetail}*}
-{*    <div class="col-6 col-sm-3">*}
-{*        <a href="/books/detail?id={$productDetail->id}">*}
-{*            <img alt={$productDetail->title} src="{$productDetail->imageUrl}">*}
-{*            <span>{$productDetail->title}</span>*}
-{*        </a>*}
-{*        <p class="item-price">Price: Rs.{$productDetail->price}</p>*}
-{*        <div class="item-button">*}
-{*            <form action="/cart" method="post">*}
-{*                <input type="hidden" value="{$productDetail->id}" name="productDetailId">*}
-{*                <label for="">Quantity</label>*}
-{*                <input type="number" value="1" name="quantity">*}
-{*                <button type="submit">Add to Cart</button>*}
-{*            </form>*}
-{*            <a href="javascript:void(0)" class="buy">Buy</a>*}
-{*        </div>*}
-{*    </div>*}
-{*{/foreach}*}
-{*</div>*}
-{*</div>*}
 <form>
     <ul class="pagination">
         {for $i = 1; $i <= round($total / $limit); $i++}

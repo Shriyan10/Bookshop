@@ -44,6 +44,16 @@ class Router extends BaseController
             }else{
                 $cartController->cart();
             }
+        } elseif (preg_match('#^/cart-update?$#', $path)) {
+            $cartController = new CartController($this->latte, $this->database);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $cartController->updateCart($_POST['productDetailId'], $_POST['quantity']);
+            }
+        } elseif (preg_match('#^/cart-delete?$#', $path)) {
+            $cartController = new CartController($this->latte, $this->database);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $cartController->deleteCart($_POST['productDetailId']);
+            }
         }
         elseif (preg_match('#^/checkout?$#', $path)) {
             $checkoutController = new CheckoutController($this->latte, $this->database);
