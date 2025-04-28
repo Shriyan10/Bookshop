@@ -63,13 +63,15 @@ class CheckoutController extends BaseController
                 }
             }
 
-            $this->updateProductInventory($products, $grandTotal);
+            $paymentId = $this->updateProductInventory($products, $grandTotal);
+
+
+
+            $this->callKhalti($paymentId);
 
             if (isset($_SESSION['cart'])) {
                 $_SESSION['cart'] = [];
             }
-
-            $this->callKhalti();
 
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -78,9 +80,65 @@ class CheckoutController extends BaseController
     }
 
 
-    public function callKhalti(): void
+    public function callKhalti($paymentId): void
     {
         $curl = curl_init();
+        $user = $_SESSION['user'];
+
+        $cart = $_SESSION['cart'];
+
+        $cartDetails = [];
+        $grandTotal = 0;
+
+        foreach ($cart as $productDetailId => $quantity) {
+
+            $cartDetail = new CartDetail();
+            $cartDetail->setQuantity($quantity);
+            $cartDetail->setId($productDetailId);
+
+            $bookDetail = $this->database->queryOne("SELECT * FROM product_details WHERE id=$productDetailId", new ProductDetailMapper());
+            $title = $bookDetail->title;
+            $cartDetail->setTitle($title);
+            $totalAmount = $bookDetail->price * $quantity;
+            $grandTotal += $totalAmount;
+            $cartDetail->setTotalAmount($totalAmount);
+            array_push($cartDetails, $cartDetail);
+        }
+
+        $customerDetail = [
+            "name" => $user->firstName . ' ' . $user->lastName,
+            "email" => $user->email,
+            "phone" => "",
+        ];
+
+        $products = [];
+
+        foreach ($cartDetails as $product) {
+
+            $salesProduct = [
+                'identity' => $product->id,
+                'name' => $product->title,
+                'total_price' => $product->totalAmount*100,
+                'unit_price' => $product->totalAmount*100,
+                'quantity' => $product->quantity
+            ];
+            array_push($products, $salesProduct);
+        }
+
+
+        $request = [
+            "return_url" => "http://127.0.0.1:9900/success",
+            "website_url" => "http://127.0.0.1:9900",
+            "amount" => $grandTotal*100,
+            "purchase_order_id" => "TXN-" . $paymentId,
+            "purchase_order_name" => "PRODUCT_SALES",
+            "customer_info" => $customerDetail,
+            "product_details" => $products,
+            "merchant_username" => "asd",
+            "merchant_extra" => ""
+        ];
+
+        error_log(json_encode($request));
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://dev.khalti.com/api/v2/epayment/initiate/',
@@ -91,29 +149,7 @@ class CheckoutController extends BaseController
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-    "return_url": "http://127.0.0.1:9900/",
-    "website_url": "http://127.0.0.1:9900/",
-    "amount": 1300,
-    "purchase_order_id": "test12",
-    "purchase_order_name": "test",
-    "customer_info": {
-        "name": "Khalti Bahadur",
-        "email": "example@gmail.com",
-        "phone": "9800000123"
-    },
-    "product_details": [
-        {
-            "identity": "12313",
-            "name": "Khalti logo",
-            "total_price": 1300,
-            "quantity": 1,
-            "unit_price": 1300
-        }
-    ],
-    "merchant_username": "merchant_name",
-    "merchant_extra": "merchant_extra"
-}',
+            CURLOPT_POSTFIELDS => json_encode($request),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Key 859abd9677844443beea1cde201adaa7',
                 'Content-Type: application/json',
@@ -122,14 +158,14 @@ class CheckoutController extends BaseController
 
         $response = curl_exec($curl);
 
-        $responseArray = json_decode($response,true);
+        $responseArray = json_decode($response, true);
 
-        header("Location: ".$responseArray["payment_url"]);
+        header("Location: " . $responseArray["payment_url"]);
 
         curl_close($curl);
     }
 
-    public function updateProductInventory(array $products, float|int $grandTotal): void
+    public function updateProductInventory(array $products, float|int $grandTotal): int
     {
         foreach ($products as $product) {
             $this->database->query("UPDATE products SET status='SOLD' WHERE id=%d", [$product->getId()]);
@@ -140,5 +176,7 @@ class CheckoutController extends BaseController
         foreach ($products as $product) {
             $this->database->query("INSERT INTO payment_details(product_id, payment_id) VALUES(%d,%d)", [$product->getId(), $paymentId]);
         }
+
+        return $paymentId;
     }
 }

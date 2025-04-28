@@ -37,7 +37,11 @@ class Router extends BaseController
         } elseif (preg_match('#^/logout/?$#', $path)) {
             $authenticationController = new AuthenticationController($this->latte, $this->database);
             $authenticationController->logOut();
-        } elseif (preg_match('#^/cart?$#', $path)) {
+        } elseif (preg_match('#^/success/?(?:\?.*)?$#', $path)) {
+            $this->render('success');
+        }
+
+        elseif (preg_match('#^/cart?$#', $path)) {
             $cartController = new CartController($this->latte, $this->database);
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $cartController->add([$_POST['productDetailId'] => $_POST['quantity']]);
