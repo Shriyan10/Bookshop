@@ -8,6 +8,7 @@ use App\controller\api\admin\RoleRestController;
 use App\controller\api\admin\UserRestController;
 use App\controller\api\AuthenticationRestController;
 use App\controller\api\customer\CartRestController;
+use App\controller\api\customer\CheckoutRestController;
 use App\controller\api\customer\CustomerProductRestController;
 use App\controller\api\customer\PaymentRestController;
 use App\controller\api\RestController;
@@ -83,6 +84,11 @@ class APIRouter extends RestController
                         $cartRestController->updateCart();
                     }else if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         $cartRestController->getCart();
+                    }
+                } elseif (str_contains($path, '/' . self::API_REST . '/checkout')) {
+                    $checkoutRestController = $this->container->get(CheckoutRestController::class);
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        $checkoutRestController->checkout();
                     }
                 } elseif (str_contains($path, '/' . self::API_REST . '/payments')) {
                     $paymentRestController = $this->container->get(PaymentRestController::class);

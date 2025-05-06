@@ -170,15 +170,15 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         return $this->database->queryAll($query, new ProductDetailDropdownMapper());
     }
 
-    public function saveProduct(\mysqli $connection, int $productDetailId): bool
+    public function saveProduct(\mysqli $connection, int $productDetailId): int
     {
         $sql = "INSERT INTO products(product_detail_id) VALUES (%d)";
         return $this->database->txnQuery($connection, $sql, [$productDetailId]);
     }
 
-    public function updateProduct(int $id, string $status): bool
+    public function updateProduct(\mysqli $connection, int $id, string $status): int
     {
-        return $this->database->query(
+        return $this->database->txnQuery($connection,
             "UPDATE products SET status='%s' WHERE id=%d",
             [
                 $status,
@@ -233,6 +233,17 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         return $this->database->queryOne(
             "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.id = $id GROUP BY pd.id",
             new ProductDetailQuantityMapper()
+        );
+    }
+
+    public function getAvailableProductByProductDetailIdAndQuantity(int $productDetailId, int $quantity): array{
+        return $this->database->queryAllWithParams(
+            "SELECT * FROM products WHERE product_detail_id=%d AND status='AVAILABLE' LIMIT %d",
+            new ProductMapper(),
+            [
+                $productDetailId,
+                $quantity
+            ]
         );
     }
 }

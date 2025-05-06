@@ -48,6 +48,21 @@ class Database
         return $connection->query($query);
     }
 
+    public function queryAllWithParams(string $query, RowMapper $mapper, array $params): array
+    {
+        $connection = $this->connect();
+        $query = sprintf($query, ...$params);
+        $result = $connection->query($query);
+        $objects = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $object = $mapper->map($row);
+                array_push($objects, $object);
+            }
+        }
+        return $objects;
+    }
+
     /**
      * @throws ApplicationException
      */
@@ -64,10 +79,11 @@ class Database
         }
     }
 
-    public function txnQuery(mysqli $connection, string $query, array $params): bool
+    public function txnQuery(mysqli $connection, string $query, array $params): int
     {
         $query = sprintf($query, ...$params);
-        return $connection->query($query);
+        $connection->query($query);
+        return $connection->insert_id;
     }
 
     public function queryOne(string $query, RowMapper $mapper): object|null

@@ -12,7 +12,7 @@ use App\repository\ProductRepository;
 use App\repository\RoleRepository;
 use App\repository\UserRepository;
 use App\route\APIRouter;
-use App\route\Router;
+use App\route\UIRouter;
 use App\util\impl\ObjectMapperJMSImpl;
 use App\util\ObjectMapper;
 use DI\ContainerBuilder;
@@ -60,7 +60,7 @@ if (str_contains($uri, '/api/rest')) {
     }
 
 } else {
-    $router = new Router($latte, $database);
+    $router = new UIRouter($latte, $database);
     $router->route($uri);
 }
 

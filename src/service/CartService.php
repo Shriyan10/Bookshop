@@ -12,7 +12,7 @@ class CartService
     private ProductRepository $productRepository;
 
     /**
-     * @param ProductRepository $productRepository
+     * @param ProductRepository CheckoutService
      */
     public function __construct(ProductRepository $productRepository)
     {
@@ -39,11 +39,24 @@ class CartService
         foreach ($cart as $item) {
             if ($item->productDetailId == $request->productDetailId) {
                 $alreadyExists = true;
-                $item->quantity = $item->quantity + $request->quantity;
+                $specificProducts = $this->productRepository->getAvailableProductByProductDetailIdAndQuantity($request->productDetailId, $request->quantity);
+                $foundProducts = count($specificProducts);
+
+                if ($foundProducts < $request->quantity) {
+                    throw new ApplicationException("Product stock unavailable", 400);
+                }
+
+                $item->quantity =  $request->quantity;
             }
         }
 
         if (!$alreadyExists) {
+            $specificProducts = $this->productRepository->getAvailableProductByProductDetailIdAndQuantity($request->productDetailId, $request->quantity);
+            $foundProducts = count($specificProducts);
+            if ($foundProducts < $request->quantity) {
+                throw new ApplicationException("Product stock unavailable", 400);
+            }
+
             array_push($cart, $request);
         }
 

@@ -4,12 +4,11 @@ namespace App\controller\api\customer;
 
 use App\controller\api\RestController;
 use App\exception\ApplicationException;
-use App\request\CreateProductDetailRequest;
 use App\request\UpdateCartRequest;
 use App\response\ServerResponse;
 use App\service\CartService;
 use App\util\ObjectMapper;
-use MongoDB\Driver\Server;
+
 
 
 class CartRestController extends RestController
@@ -22,6 +21,9 @@ class CartRestController extends RestController
         $this->cartService = $cartService;
     }
 
+    /**
+     * @throws ApplicationException
+     */
     public function updateCart(): void{
         $request = $this->requestModel(UpdateCartRequest::class);
         $this->cartService->updateCart($request);

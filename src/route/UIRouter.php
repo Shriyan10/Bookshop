@@ -15,7 +15,7 @@ use App\controller\ui\customer\ProductController as CustomerProductController;
 use App\db\Database;
 use Latte\Engine;
 
-class Router extends UIController
+class UIRouter extends UIController
 {
     public function __construct(Engine $latte, Database $database)
     {

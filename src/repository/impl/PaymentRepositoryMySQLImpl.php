@@ -25,6 +25,23 @@ class PaymentRepositoryMySQLImpl extends BaseRepository implements PaymentReposi
             new PaymentMapper()
         );
     }
+
+    public function savePayment(\mysqli $connection, int $grandTotal, int $userId): int
+    {
+        return $this->database->txnQuery($connection,
+            "INSERT into payments(total_cost,user_id) VALUES(%d,%d)",
+            [$grandTotal, $userId]
+        );
+    }
+
+    public function savePaymentDetail(\mysqli $connection, int $productId, int $paymentId): int
+    {
+        return $this->database->txnQuery(
+            $connection,
+            "INSERT INTO payment_details(product_id, payment_id) VALUES(%d,%d)",
+            [$productId, $paymentId]
+        );
+    }
 }
 
 
