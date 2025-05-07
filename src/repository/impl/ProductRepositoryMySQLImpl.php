@@ -25,11 +25,11 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
      */
     public function getAllProductDetails(int $start, int $limit, string $search): object
     {
-        $query = "SELECT * FROM product_details";
-        $countQuery = "SELECT COUNT(*) as count FROM product_details";
+        $query = "SELECT * FROM product_details WHERE is_active=1";
+        $countQuery = "SELECT COUNT(*) as count FROM product_details WHERE is_active=1";
 
         if (strlen($search) > 0) {
-            $searchQuery = " WHERE title LIKE '%$search%'";
+            $searchQuery = " AND title LIKE '%$search%'";
             $query .= $searchQuery;
             $countQuery .= $searchQuery;
         }
@@ -39,14 +39,14 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
 
     public function getProductDetailById(int $productDetailId): object|null
     {
-        $query = "SELECT * FROM product_details WHERE id=" . $productDetailId;
+        $query = "SELECT * FROM product_details WHERE id=$productDetailId AND is_active=1"; ;
         return $this->database->queryOne($query, new ProductDetailMapper());
     }
 
     public function updateProductDetail(int $productDetailId, string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool
     {
         return $this->database->query(
-            "UPDATE product_details SET title='%s', image_url='%s', author='%s', description='%s', distributor='%s', price=%d where id=%d",
+            "UPDATE product_details SET title='%s', image_url='%s', author='%s', description='%s', distributor='%s', price=%d where id=%d AND is_active=1",
             [
                 $title,
                 $imageUrl,
@@ -75,7 +75,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
     public function deleteProductDetail(int $productDetailId): bool
     {
         return $this->database->query(
-            "DELETE FROM product_details where id=%d",
+            "UPDATE product_details SET is_active=0 where id=%d AND is_active=1",
             [
                 $productDetailId
             ]
@@ -85,11 +85,11 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
     public function productDetailStatistics(int $productDetailId): object|null
     {
         $sql = "select title,
-       (select count(*) from products where product_detail_id = " . $productDetailId . " and status = 'SOLD') as sold,
-       (select count(*) from products where product_detail_id =" . $productDetailId . " and status = 'DAMAGED') as damaged,
-       (select count(*) from products where product_detail_id = " . $productDetailId . " and status = 'AVAILABLE') as available
+       (select count(*) from products where product_detail_id = " . $productDetailId . " and status = 'SOLD' AND is_active=1) as sold,
+       (select count(*) from products where product_detail_id =" . $productDetailId . " and status = 'DAMAGED' AND is_active=1) as damaged,
+       (select count(*) from products where product_detail_id = " . $productDetailId . " and status = 'AVAILABLE' AND is_active=1) as available
         from product_details
-        where id =" . $productDetailId;
+        where id =$productDetailId AND is_active=1";
 
         $statistics = $this->database->queryOne(
             $sql,
@@ -104,7 +104,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
 
     public function productDetailExists(int $productDetailId): bool
     {
-        return $this->database->countWithQuery("product_details where id=$productDetailId") == 1;
+        return $this->database->countWithQuery("product_details where id=$productDetailId AND is_active=1") == 1;
     }
 
     /**
@@ -112,14 +112,14 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
      */
     public function getAllProducts(int $start, int $limit, int $productDetailId, int $productId, string $createdDate): object
     {
-        $query = "SELECT p.id,  pd.title, p.status, p.created_date, p.updated_date FROM products p INNER JOIN product_details pd ON p.product_detail_id=pd.id";
+        $query = "SELECT p.id,  pd.title, p.status, p.created_date, p.updated_date FROM products p INNER JOIN product_details pd ON p.product_detail_id=pd.id WHERE p.is_active=1 AND pd.is_active=1";
         $countQuery = "SELECT COUNT(*) as count FROM products p INNER JOIN product_details pd ON p.product_detail_id=pd.id";
 
         $condition = 0;
 
         if ($productDetailId > 0) {
             $condition++;
-            $searchQuery = " WHERE pd.id=" . $productDetailId;
+            $searchQuery = " AND pd.id=" . $productDetailId;
             $query .= $searchQuery;
             $countQuery .= $searchQuery;
         }
@@ -130,7 +130,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
                 $query .= $searchQuery;
                 $countQuery .= $searchQuery;
             } else {
-                $searchQuery = " WHERE p.id=" . $productId;
+                $searchQuery = " AND p.id=" . $productId;
                 $query .= $searchQuery;
                 $countQuery .= $searchQuery;
             }
@@ -143,7 +143,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
                 $query .= $searchQuery;
                 $countQuery .= $searchQuery;
             } else {
-                $searchQuery = " WHERE DATE(p.created_date) = DATE('" . $createdDate . "')";
+                $searchQuery = " AND DATE(p.created_date) = DATE('" . $createdDate . "')";
                 $query .= $searchQuery;
                 $countQuery .= $searchQuery;
             }
@@ -154,16 +154,16 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
 
     public function getProductInventoryById(int $id): object|null
     {
-        $query = "SELECT * FROM products WHERE id=" . $id;
+        $query = "SELECT * FROM products WHERE id=$id AND is_active=1";
         return $this->database->queryOne($query, new ProductMapper());
     }
 
     public function getAllProductDetailsForDropdown(string $search): array
     {
-        $query = "SELECT id,title FROM product_details";
+        $query = "SELECT id,title FROM product_details WHERE is_active=1";
 
         if (strlen($search) > 0) {
-            $searchQuery = " WHERE title LIKE '%$search%'";
+            $searchQuery = " AND title LIKE '%$search%'";
             $query .= $searchQuery;
         }
 
@@ -179,7 +179,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
     public function updateProduct(\mysqli $connection, int $id, string $status): int
     {
         return $this->database->txnQuery($connection,
-            "UPDATE products SET status='%s' WHERE id=%d",
+            "UPDATE products SET status='%s' WHERE id=%d AND is_active=1",
             [
                 $status,
                 $id
@@ -190,7 +190,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
     public function deleteProduct(int $id): bool
     {
         return $this->database->query(
-            "DELETE FROM products where id=%d",
+            "UPDATE products SET is_active=0 where id=%d AND is_active=1",
             [
                 $id
             ]
@@ -199,7 +199,7 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
 
     public function productExists(int $productId): bool
     {
-        return $this->database->countWithQuery("products where id=$productId") == 1;
+        return $this->database->countWithQuery("products where id=$productId AND is_active=1") == 1;
     }
 
     /**
@@ -210,8 +210,8 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         if (strlen($search) > 0) {
 
             return $this->database->queryAllPaginated(
-                "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.title LIKE '%$search%' GROUP BY pd.id",
-                "SELECT count(*) as count FROM (SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.title = '$search'GROUP BY pd.id) t",
+                "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.title LIKE '%$search%' AND pd.is_active=1 AND p.is_active=1 GROUP BY pd.id",
+                "SELECT count(*) as count FROM (SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.title = '$search' AND pd.is_active=1 AND p.is_active=1 GROUP BY pd.id) t",
                 $start,
                 $limit,
                 new ProductDetailQuantityMapper()
@@ -219,8 +219,8 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         } else {
 
             return $this->database->queryAllPaginated(
-                "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' GROUP BY pd.id",
-                "SELECT count(*) as count FROM (SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' GROUP BY pd.id) t",
+                "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.is_active=1 AND p.is_active=1 GROUP BY pd.id",
+                "SELECT count(*) as count FROM (SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.is_active=1 AND p.is_active=1 GROUP BY pd.id) t",
                 $start,
                 $limit,
                 new ProductDetailQuantityMapper()
@@ -231,14 +231,14 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
     public function getProductDetail(int $id): object|null
     {
         return $this->database->queryOne(
-            "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.id = $id GROUP BY pd.id",
+            "SELECT COUNT(*) as quantity, pd.* from products p JOIN product_details pd ON pd.id=p.product_detail_id WHERE p.status='AVAILABLE' AND pd.id = $id AND pd.is_active=1 AND p.is_active=1 GROUP BY pd.id",
             new ProductDetailQuantityMapper()
         );
     }
 
     public function getAvailableProductByProductDetailIdAndQuantity(int $productDetailId, int $quantity): array{
         return $this->database->queryAllWithParams(
-            "SELECT * FROM products WHERE product_detail_id=%d AND status='AVAILABLE' LIMIT %d",
+            "SELECT * FROM products WHERE product_detail_id=%d AND status='AVAILABLE' AND is_active=1 LIMIT %d",
             new ProductMapper(),
             [
                 $productDetailId,

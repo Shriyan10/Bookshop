@@ -17,18 +17,18 @@ class RoleRepositoryMySQLImpl extends BaseRepository implements RoleRepository
 
     public function getAllRoles(): array
     {
-        return $this->database->queryAll("SELECT * FROM roles", new RoleMapper());
+        return $this->database->queryAll("SELECT * FROM roles where is_active=1", new RoleMapper());
     }
 
     public function getRoleById(int $id): object|null
     {
-        return $this->database->queryOne("SELECT * FROM roles WHERE id=" . $id, new RoleMapper());
+        return $this->database->queryOne("SELECT * FROM roles WHERE id=$id AND is_active=1", new RoleMapper());
     }
 
     public function updateRole(int $id, string $name): bool
     {
         return $this->database->query(
-            "UPDATE roles SET name='%s' where id=%d",
+            "UPDATE roles SET name='%s' where id=%d AND is_active=1",
             [
                 $name,
                 $id
@@ -39,7 +39,7 @@ class RoleRepositoryMySQLImpl extends BaseRepository implements RoleRepository
     public function deleteRole(int $id): bool
     {
         return $this->database->query(
-            "DELETE FROM roles where id=%d",
+            "UPDATE roles SET is_active=0 where id=%d",
             [
                 $id
             ]
@@ -58,12 +58,12 @@ class RoleRepositoryMySQLImpl extends BaseRepository implements RoleRepository
 
     public function roleExists(int $id): bool
     {
-        return $this->database->countWithQuery("roles where id=$id") == 1;
+        return $this->database->countWithQuery("roles where id=$id and is_active=1") == 1;
     }
 
     public function getRoleByName(string $name): ?object
     {
-        return $this->database->queryOne("SELECT * FROM roles WHERE name='$name'", new RoleMapper());
+        return $this->database->queryOne("SELECT * FROM roles WHERE name='$name' and is_active=1", new RoleMapper());
     }
 }
 

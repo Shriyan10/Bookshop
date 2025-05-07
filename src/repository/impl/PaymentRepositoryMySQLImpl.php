@@ -19,9 +19,9 @@ class PaymentRepositoryMySQLImpl extends BaseRepository implements PaymentReposi
 
     public function viewPayments(): array
     {
-
+        $id = $_SESSION['user']->getId();
         return $this->database->queryAll(
-            "SELECT * FROM payments WHERE user_id =" . $_SESSION['user']->getId(),
+            "SELECT * FROM payments WHERE user_id =$id AND is_active = 1",
             new PaymentMapper()
         );
     }
