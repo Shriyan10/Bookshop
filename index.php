@@ -1,8 +1,6 @@
 <?php
 
 use App\db\Database;
-use App\repository\CustomerProductRepository;
-use App\repository\impl\CustomerProductRepositoryMySQLImpl;
 use App\repository\impl\PaymentRepositoryMySQLImpl;
 use App\repository\impl\ProductRepositoryMySQLImpl;
 use App\repository\impl\RoleRepositoryMySQLImpl;
@@ -12,7 +10,6 @@ use App\repository\ProductRepository;
 use App\repository\RoleRepository;
 use App\repository\UserRepository;
 use App\route\APIRouter;
-use App\route\UIRouter;
 use App\util\impl\ObjectMapperJMSImpl;
 use App\util\ObjectMapper;
 use DI\ContainerBuilder;
@@ -34,6 +31,7 @@ if (file_exists(__DIR__ . '/.env')) {
 } else {
     error_log("WARNING .env file not found");
 }
+
 session_start();
 
 if (str_contains($uri, '/api/rest')) {
@@ -58,14 +56,4 @@ if (str_contains($uri, '/api/rest')) {
     } catch (Exception $e) {
         error_log($e->getMessage());
     }
-
-} else {
-    $router = new UIRouter($latte, $database);
-    $router->route($uri);
 }
-
-
-
-
-
-
