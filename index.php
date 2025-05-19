@@ -2,10 +2,12 @@
 
 use App\db\Database;
 use App\repository\impl\PaymentRepositoryMySQLImpl;
+use App\repository\impl\ProductOptionRepositoryMySQLImpl;
 use App\repository\impl\ProductRepositoryMySQLImpl;
 use App\repository\impl\RoleRepositoryMySQLImpl;
 use App\repository\impl\UserRepositoryMySQLImpl;
 use App\repository\PaymentRepository;
+use App\repository\ProductOptionRepository;
 use App\repository\ProductRepository;
 use App\repository\RoleRepository;
 use App\repository\UserRepository;
@@ -46,6 +48,7 @@ if (str_contains($uri, '/api/rest')) {
         UserRepository::class => DI\autowire(UserRepositoryMySQLImpl::class),
         ProductRepository::class => DI\autowire(ProductRepositoryMySQLImpl::class),
         PaymentRepository::class => DI\autowire(PaymentRepositoryMySQLImpl::class),
+        ProductOptionRepository::class => DI\autowire(ProductOptionRepositoryMySQLImpl::class),
         ObjectMapper::class => DI\autowire(ObjectMapperJMSImpl::class),
     ]);
 

@@ -6,7 +6,7 @@ class ProductDetail
     public int|null $id;
     public string $title;
     public string $description;
-    public int $price;
+    public int|null $price;
     public string $imageUrl;
 
     /**

@@ -25,8 +25,8 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
      */
     public function getAllProductDetails(int $start, int $limit, string $search): object
     {
-        $query = "SELECT * FROM product_details WHERE is_active=1";
-        $countQuery = "SELECT COUNT(*) as count FROM product_details WHERE is_active=1";
+        $query = "SELECT * FROM product_details WHERE is_active=1 AND parent_id IS NULL";
+        $countQuery = "SELECT COUNT(*) as count FROM product_details WHERE is_active=1 AND parent_id IS NULL";
 
         if (strlen($search) > 0) {
             $searchQuery = " AND title LIKE '%$search%'";

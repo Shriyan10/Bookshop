@@ -3,6 +3,7 @@
 namespace App\route;
 
 
+use App\controller\api\admin\ProductOptionRestController;
 use App\controller\api\admin\ProductRestController;
 use App\controller\api\admin\RoleRestController;
 use App\controller\api\admin\UserRestController;
@@ -30,6 +31,7 @@ class APIRouter extends RestController
     private ProductRestController $productRestController;
     private CustomerProductRestController $customerProductRestController;
     private CartRestController $cartRestController;
+    private ProductOptionRestController $productOptionRestController;
     private AuthenticationRestController $authenticationRestController;
 
 
@@ -74,11 +76,13 @@ class APIRouter extends RestController
                     $this->user($path);
                 } else if (str_contains($path, '/' . self::API_REST . '/admin/product/details')) {
                     $this->productDetail($path);
+                } else if (str_contains($path, '/' . self::API_REST . '/admin/products/options')) {
+                    $this->productOptions($path);
                 } else if (str_contains($path, '/' . self::API_REST . '/admin/products')) {
                     $this->products($path);
                 } else if (str_contains($path, '/' . self::API_REST . '/product/details')) {
                     $this->customerProductDetail($path);
-                } elseif (str_contains($path, '/' . self::API_REST . '/cart')) {
+                }  elseif (str_contains($path, '/' . self::API_REST . '/cart')) {
                     $cartRestController = $this->container->get(CartRestController::class);
                     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $cartRestController->updateCart();
@@ -266,6 +270,22 @@ class APIRouter extends RestController
         else if (preg_match('#^/api/rest/product/details/?(?:\?.*)?$#', $path)) {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $this->customerProductRestController->getAllProductDetails();
+            }
+        }
+    }
+
+
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws ApplicationException
+     */
+    function productOptions(string $path): void
+    {
+        $this->productOptionRestController = $this->container->get(ProductOptionRestController::class);
+        if (preg_match('#^/api/rest/admin/products/options\?id=\d+$#', $path)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $this->productOptionRestController->getProductOptions($_GET['id']);
             }
         }
     }
