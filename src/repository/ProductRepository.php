@@ -11,9 +11,9 @@ interface ProductRepository
 
     public function getProductDetailById(int $productDetailId): object|null;
 
-    public function updateProductDetail(int $productDetailId, string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool;
+    public function updateProductDetail(int $productDetailId, string $title, string $description, int $price, string $imageUrl, int $parentId, bool $isItem, int $superId): bool;
 
-    public function saveProductDetail(string $title, string $description, int $price, string $imageUrl): bool;
+    public function saveProductDetail(string $title, string $description, int $price, string $imageUrl,  int $parentId, bool $isItem, int $superId): bool;
 
     public function deleteProductDetail(int $productDetailId): bool;
 

@@ -43,31 +43,35 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         return $this->database->queryOne($query, new ProductDetailMapper());
     }
 
-    public function updateProductDetail(int $productDetailId, string $title, string $author, string $description, string $distributor, int $price, string $imageUrl): bool
+    public function updateProductDetail(int $productDetailId, string $title, string $description, int $price, string $imageUrl, int $parentId, bool $isItem, int $superId): bool
     {
         return $this->database->query(
-            "UPDATE product_details SET title='%s', image_url='%s', author='%s', description='%s', distributor='%s', price=%d where id=%d AND is_active=1",
+            "UPDATE product_details SET title='%s', image_url='%s', description='%s', price=%d, parent_id=%d, is_item=%d, super_id=%d where id=%d AND is_active=1",
             [
                 $title,
                 $imageUrl,
-                $author,
                 $description,
-                $distributor,
                 $price,
+                $parentId,
+                $isItem,
+                $superId,
                 $productDetailId
             ],
         );
     }
 
-    public function saveProductDetail(string $title, string $description, int $price, string $imageUrl): bool
+    public function saveProductDetail(string $title, string $description, int $price, string $imageUrl, int $parentId, bool $isItem, int $superId): bool
     {
         return $this->database->query(
-            "INSERT INTO product_details(title, image_url, description, price) VALUES('%s','%s','%s', %d)",
+            "INSERT INTO product_details(title, image_url, description, price,  parent_id, is_item, super_id) VALUES('%s','%s','%s', %d, %d, %d, %d)",
             [
                 $title,
                 $imageUrl,
                 $description,
                 $price,
+                $parentId,
+                $isItem,
+                $superId
             ],
         );
     }

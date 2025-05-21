@@ -24,6 +24,18 @@ class CreateProductDetailRequest{
     #[Type('string')]
     public string $imageUrl;
 
+    #[SerializedName('parentId')]
+    #[Type('integer')]
+    public int $parentId;
+
+    #[SerializedName('isItem')]
+    #[Type('boolean')]
+    public bool $isItem;
+
+    #[SerializedName('superId')]
+    #[Type('integer')]
+    public int $superId;
+
     public function getDescription(): string
     {
         return $this->description;
@@ -62,6 +74,36 @@ class CreateProductDetailRequest{
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    public function getIsItem(): bool
+    {
+        return $this->isItem;
+    }
+
+    public function setIsItem(bool $isItem): void
+    {
+        $this->isItem = $isItem;
+    }
+
+    public function getParentId(): int
+    {
+        return $this->parentId;
+    }
+
+    public function setParentId(int $parentId): void
+    {
+        $this->parentId = $parentId;
+    }
+
+    public function getSuperId(): int
+    {
+        return $this->superId;
+    }
+
+    public function setSuperId(int $superId): void
+    {
+        $this->superId = $superId;
     }
 
 }

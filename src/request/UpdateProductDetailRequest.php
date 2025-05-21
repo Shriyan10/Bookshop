@@ -16,17 +16,9 @@ class UpdateProductDetailRequest{
     #[Type('string')]
     public string $title;
 
-    #[SerializedName('author')]
-    #[Type('string')]
-    public string $author;
-
     #[SerializedName('description')]
     #[Type('string')]
     public string $description;
-
-    #[SerializedName('distributor')]
-    #[Type('string')]
-    public string $distributor;
 
     #[SerializedName('price')]
     #[Type('int')]
@@ -36,15 +28,19 @@ class UpdateProductDetailRequest{
     #[Type('string')]
     public string $imageUrl;
 
-    public function getAuthor(): string
-    {
-        return $this->author;
-    }
+    #[SerializedName('parentId')]
+    #[Type('int')]
+    public int $parentId;
 
-    public function setAuthor(string $author): void
-    {
-        $this->author = $author;
-    }
+    #[SerializedName('isItem')]
+    #[Type('boolean')]
+    public bool $isItem;
+
+    #[SerializedName('superId')]
+    #[Type('int')]
+    public int $superId;
+
+
 
     public function getDescription(): string
     {
@@ -56,16 +52,6 @@ class UpdateProductDetailRequest{
         $this->description = $description;
     }
 
-    public function getDistributor(): string
-    {
-        return $this->distributor;
-    }
-
-    public function setDistributor(string $distributor): void
-    {
-        $this->distributor = $distributor;
-    }
-
     public function getImageUrl(): string
     {
         return $this->imageUrl;
@@ -74,6 +60,26 @@ class UpdateProductDetailRequest{
     public function setImageUrl(string $imageUrl): void
     {
         $this->imageUrl = $imageUrl;
+    }
+
+    public function isItem(): bool
+    {
+        return $this->isItem;
+    }
+
+    public function setIsItem(bool $isItem): void
+    {
+        $this->isItem = $isItem;
+    }
+
+    public function getParentId(): int
+    {
+        return $this->parentId;
+    }
+
+    public function setParentId(int $parentId): void
+    {
+        $this->parentId = $parentId;
     }
 
     public function getPrice(): int
@@ -96,6 +102,16 @@ class UpdateProductDetailRequest{
         $this->productDetailId = $productDetailId;
     }
 
+    public function getSuperId(): int
+    {
+        return $this->superId;
+    }
+
+    public function setSuperId(int $superId): void
+    {
+        $this->superId = $superId;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
@@ -105,7 +121,5 @@ class UpdateProductDetailRequest{
     {
         $this->title = $title;
     }
-
-
 
 }
