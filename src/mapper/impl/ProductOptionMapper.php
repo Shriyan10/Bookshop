@@ -3,23 +3,20 @@
 namespace App\mapper\impl;
 
 use App\mapper\RowMapper;
-use App\model\ProductOption;
+use App\response\OptionResponse;
 
 class ProductOptionMapper implements RowMapper
 {
 
-    public function map($row): ProductOption
+    public function map($row): OptionResponse
     {
-        return new ProductOption(
-            $row["description"],
+        return new OptionResponse(
             $row["id"],
-            $row["image_url"],
-            $row["is_active"],
-            $row["is_item"],
-            $row["parent_id"],
-            $row["price"],
-            $row["super_id"],
             $row["title"],
+            $row["parent_id"],
+            $row["is_item"],
+            $row["super_id"],
+            []
         );
     }
 }

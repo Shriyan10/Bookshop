@@ -23,7 +23,29 @@ class ProductOptionRepositoryMySQLImpl extends BaseRepository implements Product
     {
         $query = "SELECT * FROM product_details WHERE super_id = $id";
 
-        return $this->database->queryAll($query, new ProductOptionMapper());
+        $options = $this->database->queryAll($query, new ProductOptionMapper());
+
+        for ($i = 0; $i < count($options); $i++) {
+            if (!$options[$i]->isItem) {
+                for ($j = 0; $j < count($options); $j++) {
+                    if ($options[$i]->id == $options[$j]->id) {
+                        continue;
+                    }
+                    if ($options[$j]->parentId == $options[$i]->id) {
+                        array_push($options[$i]->children, $options[$j]);
+                    }
+                }
+            }
+        }
+
+        $response = [];
+        foreach ($options as $option) {
+            if ($option->parentId == $option->superId) {
+                array_push($response, $option);
+            }
+        }
+
+        return $response;
     }
 
 }
