@@ -79,7 +79,7 @@ class CheckoutService
         $task = function ($connection) use ($products, $grandTotal) {
             try {
                 foreach ($products as $product) {
-                    $this->productRepository->updateProduct($connection, $product->id, "SOLD");
+                    $this->productRepository->txnUpdateProduct($connection, $product->id, "SOLD");
                 }
 
                 $paymentId = $this->paymentRepository->savePayment($connection, $grandTotal, $_SESSION['user']->id);

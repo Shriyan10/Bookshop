@@ -29,7 +29,7 @@ interface ProductRepository
 
     public function saveProduct(\mysqli $connection, int $productDetailId): int;
 
-    public function updateProduct(\mysqli $connection, int $id, string $status): int;
+    public function updateProduct(int $productId, string $status): bool;
 
     public function deleteProduct(int $id): bool;
 

@@ -180,13 +180,24 @@ class ProductRepositoryMySQLImpl extends BaseRepository implements ProductReposi
         return $this->database->txnQuery($connection, $sql, [$productDetailId]);
     }
 
-    public function updateProduct(\mysqli $connection, int $id, string $status): int
+    public function updateProduct(int $productId, string $status): bool
+    {
+        return $this->database->query(
+            "UPDATE products SET status='%s' WHERE id=%d AND is_active=1",
+            [
+                $status,
+                $productId
+            ]
+        );
+    }
+
+    public function txnUpdateProduct(\mysqli $connection, int $productId, string $status): bool
     {
         return $this->database->txnQuery($connection,
             "UPDATE products SET status='%s' WHERE id=%d AND is_active=1",
             [
                 $status,
-                $id
+                $productId
             ]
         );
     }
