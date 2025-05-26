@@ -80,7 +80,7 @@ class CartController extends BaseController
 
 
                 $query = "SELECT COUNT(*) as quantity, bd.* from products b JOIN product_details bd ON bd.id=b.product_detail_id WHERE b.status='AVAILABLE' AND bd.id=$productDetailId";
-                error_log($query);
+
                 $productDetail = $this->database->queryOne($query, new ProductDetailQuantityMapper());
 
                 $title = $productDetail->title;
@@ -145,13 +145,12 @@ class CartController extends BaseController
                 $this->redirect();
             }
 
-
             $cart = $_SESSION['cart'];
+
             $newCart = [];
             foreach ($cart as $productDetailId => $quantity) {
-
-                if($requestProductDetailId !== $productDetailId) {
-                    $cart[$productDetailId] = $quantity;
+                if($requestProductDetailId != $productDetailId) {
+                    $newCart[$productDetailId] = $quantity;
                 }
             }
 

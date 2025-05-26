@@ -58,14 +58,11 @@ class ProductController extends BaseController
 
         try {
 
-            $query = "SELECT * FROM product_details WHERE id=" . $productDetailId;
-            $bookDetail = $this->database->queryOne($query, new ProductDetailMapper());
-            $count = "SELECT count(*) as count FROM products WHERE product_detail_id=" . $productDetailId;
-            $totalBooks = $this->database->count($count);
+            $query = "select count(*) as quantity, pd.* from product_details pd INNER JOIN products p ON p.product_detail_id = pd.id WHERE pd.id =" . $productDetailId . " AND p.status = 'AVAILABLE' GROUP BY pd.id";
+            $bookDetail = $this->database->queryOne($query, new ProductDetailQuantityMapper());
 
             $params = [
-                'bookDetail' => $bookDetail,
-                'totalBooks' => $totalBooks
+                'bookDetail' => $bookDetail
             ];
 
             $this->render('product/customer/product_details', $params);

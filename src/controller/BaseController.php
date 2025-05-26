@@ -41,6 +41,8 @@ class BaseController
                 $quantity += $value;
             }
 
+        }else{
+            $_SESSION["cart"] = [];
         }
 
         $params["quantity"] =$quantity;

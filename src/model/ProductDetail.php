@@ -10,6 +10,7 @@ class ProductDetail
     public int $price;
     public string $imageUrl;
 
+
     /**
      * @param int|null $id
      * @param string $title
@@ -17,6 +18,7 @@ class ProductDetail
      * @param string $distributor
      * @param int $price
      * @param string $imageUrl
+     *
      */
     public function __construct(?int $id, string $title, string $description, string $distributor, int $price, string $imageUrl)
     {
@@ -26,6 +28,7 @@ class ProductDetail
         $this->distributor = $distributor;
         $this->price = $price;
         $this->imageUrl = $imageUrl;
+
     }
 
     public function getId(): ?int
@@ -82,6 +85,9 @@ class ProductDetail
     {
         return $this->imageUrl;
     }
+
+
+
 
     public function setImageUrl(string $imageUrl): void
     {

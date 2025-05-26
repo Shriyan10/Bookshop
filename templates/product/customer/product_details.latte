@@ -26,11 +26,12 @@
                 <div class="quantitybtn">
                     <label>Quantity</label>
                     <div class="quantity-control">
-                        <button type="button">-</button>
-                        <input type="number" name="quantity" value="1">
-                        <button type="button">+</button>
+                        <button type="button" class="decrease">-</button>
+                        <input type="number" value="1" name="quantity" min="1" max="{$bookDetail->quantity}">
+                        <button type="button" class="increase">+</button>
                     </div>
                 </div>
+
                 <button type="submit" class="add-to-cart">ADD TO CART</button>
             </form>
 
@@ -41,4 +42,28 @@
         </div>
     </div>
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const decreaseBtn = document.querySelector('.decrease');
+        const increaseBtn = document.querySelector('.increase');
+        const quantityInput = document.querySelector('input[name="quantity"]');
+
+        decreaseBtn.addEventListener('click', function () {
+            let current = parseInt(quantityInput.value);
+            const min = parseInt(quantityInput.min) || 1;
+            if (current > min) {
+                quantityInput.value = current - 1;
+            }
+        });
+
+        increaseBtn.addEventListener('click', function () {
+            let current = parseInt(quantityInput.value);
+            const max = parseInt(quantityInput.max) || Infinity;
+            if (current < max) {
+                quantityInput.value = current + 1;
+            }
+        });
+    });
+</script>
+
 {include '../../common/footers.latte'}

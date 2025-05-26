@@ -16,7 +16,8 @@ class ProductDetailMapper implements RowMapper
             $row["description"],
             $row["distributor"],
             $row["price"],
-            $row["image_url"]
+            $row["image_url"],
+
         );
     }
 }
